@@ -1,4 +1,4 @@
-package br.com.smartstock.api;
+package br.com.smartstock.api.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
