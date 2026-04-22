@@ -1,6 +1,7 @@
 package br.com.smartstock.api.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,14 @@ public class FuncionarioService {
 		return repository.findAll();
 	}
 	
-	public Funcionario salvar(Funcionario funcionario) {
-		return repository.save(funcionario);
+	public Funcionario salvar(Funcionario cadastrarFuncionario) {
+		return repository.save(cadastrarFuncionario);
 	}
-	
-	public void deletar(Long id) {
-		repository.deleteById(id);
-	}
+
+	public Optional<Funcionario> buscarPorId(Long id) {
+        return repository.findById(id);
+    }
+
+
 	
 }
