@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.senai.smartfila.entities.Turma;
-
 import br.com.smartstock.api.entities.Funcionario;
 import br.com.smartstock.api.services.FuncionarioService;
 import jakarta.validation.Valid;
@@ -40,9 +38,15 @@ public class FuncionarioController {
 		return ResponseEntity.ok(service.listarTodos());
 	}
 
-	@GetMapping
-	public ResponseEntity<Funcionario> buscarPorId(@PathVariable Long id) {
-		return Optional<Funcionario> Funcionario = service.buscarPorId(id);
-	}
+	@GetMapping("/{id}")
+	public ResponseEntity<Funcionario> buscar(@PathVariable Long id) {
+		Optional<Funcionario> funcionario = service.buscarPorId(id);
+    	
+    	if(funcionario != null) {
+    		return ResponseEntity.ok(funcionario.get());
+    	}
+    					
+    	return ResponseEntity.notFound().build();
+    }
 	
 }

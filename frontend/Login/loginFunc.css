@@ -1,0 +1,144 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #eee;
+}
+
+/* TOPO */
+.topo {
+  background: #0c2d6b;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+}
+
+.logo {
+  background: linear-gradient(45deg, red, yellow, green, blue);
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.topo h1 {
+  font-size: 22px;
+}
+
+/* CONTAINER */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 70px);
+}
+
+/* LOGIN */
+.login-box {
+  background: #f5f5f5;
+  padding: 40px;
+  width: 350px;
+  text-align: center;
+}
+
+.login-box h2 {
+  font-size: 32px;
+  margin-bottom: 5px;
+}
+
+.login-box p {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.login-box label {
+  display: block;
+  text-align: left;
+  margin-top: 10px;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+}
+
+.erro {
+  color: red;
+  font-size: 12px;
+  display: block;
+  text-align: left;
+  margin-top: 5px;
+}
+
+.btn-entrar {
+  margin-top: 20px;
+  padding: 10px;
+  width: 60%;
+  border-radius: 10px;
+  border: 1px solid #aaa;
+  background: white;
+  cursor: pointer;
+}
+
+.login-box button {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.login-box img {
+  width: 20px;
+}
+
+/* CADASTRO */
+.cadastro-box {
+  background: #0c2d6b;
+  color: white;
+  padding: 40px;
+  width: 300px;
+  text-align: center;
+  border-radius: 10px;
+  margin-left: 30px;
+}
+
+.emoji {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+.cadastro-box h2 {
+  margin-bottom: 10px;
+}
+
+.cadastro-box p {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.cadastro-box button {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  background: white;
+  cursor: pointer;
+}
