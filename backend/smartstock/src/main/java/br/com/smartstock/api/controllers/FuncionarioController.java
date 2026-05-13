@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.senai.smartfila.entities.Documentos;
-
 import br.com.smartstock.api.entities.Funcionario;
 import br.com.smartstock.api.services.FuncionarioService;
 import jakarta.validation.Valid;
