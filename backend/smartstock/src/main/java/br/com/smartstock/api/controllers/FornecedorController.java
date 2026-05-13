@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.smartstock.api.entities.Fornecedor;
 import br.com.smartstock.api.services.FornecedorService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/fornecedores")
@@ -38,14 +39,14 @@ public class FornecedorController {
     }
 
     @PostMapping
-    public ResponseEntity<Fornecedor> criar(@RequestBody Fornecedor fornecedor) {
+    public ResponseEntity<Fornecedor> criar(@Valid @RequestBody Fornecedor fornecedor) {
         Fornecedor novoFornecedor = service.salvar(fornecedor);
         
         return ResponseEntity.status(HttpStatus.CREATED).body(novoFornecedor);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Fornecedor> atualizar(@PathVariable Long id, @RequestBody Fornecedor fornecedor) {
+    public ResponseEntity<Fornecedor> atualizar(@PathVariable Long id, @Valid @RequestBody Fornecedor fornecedor) {
         Fornecedor fornecedorAtualizado = service.atualizar(id, fornecedor);
         
         if(fornecedorAtualizado != null) {

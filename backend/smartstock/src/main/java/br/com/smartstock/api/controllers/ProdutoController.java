@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.smartstock.api.entities.Produto;
 import br.com.smartstock.api.services.ProdutoService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("api/produto")
@@ -27,6 +28,7 @@ public class ProdutoController {
 	@Autowired
 	private ProdutoService service;
 	
+	@GetMapping
 	public ResponseEntity<List<Produto>> listar() {
         return ResponseEntity.ok(service.listarTodos());
     }
@@ -43,17 +45,18 @@ public class ProdutoController {
 	    }
 	 
 	 @PostMapping
-	    public ResponseEntity<Produto> criar(@RequestBody Produto produto) {
+	    public ResponseEntity<Produto> criar(@Valid @RequestBody Produto produto) {
 	    	Produto novoProduto = service.salvar(produto);
 	    	
 	        return ResponseEntity.status(HttpStatus.CREATED).body(novoProduto);
 	    }
 	 
 	 @PutMapping("/{id}")
-	    public ResponseEntity<Produto> atualizar(@PathVariable Long id, @RequestBody Produto prod) {
+	    public ResponseEntity<Produto> atualizar(@PathVariable Long id, @Valid @RequestBody Produto prod) {
 	    	Produto produtoAtualizado = service.atualizar(id, prod);
 	    	
 	    	if(produtoAtualizado != null) {
+	    		return ResponseEntity.ok(produtoAtualizado);
 	    	}
 	    	
 	    	return ResponseEntity.notFound().build();

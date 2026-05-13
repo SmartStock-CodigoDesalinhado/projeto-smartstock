@@ -53,10 +53,11 @@ public class FuncionarioController {
 	
 	
 	@PutMapping("/{id}")
-    public ResponseEntity<Funcionario> atualizar(@PathVariable Long id, @RequestBody Funcionario func) {
+    public ResponseEntity<Funcionario> atualizar(@PathVariable Long id, @Valid @RequestBody Funcionario func) {
     	Funcionario funcionarioAtualizado = service.atualizar(id, func);
     	
     	if(funcionarioAtualizado != null) {
+    		return ResponseEntity.ok(funcionarioAtualizado);
     	}
     	
     	return ResponseEntity.notFound().build();

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.smartstock.api.entities.Cliente;
 import br.com.smartstock.api.services.ClienteService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("api/cliente")
@@ -34,28 +35,28 @@ public class ClienteController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Cliente> buscarPorId(@PathVariable Long id) {
-		Optional<Cliente> cl = service.buscarPorId(id);
-		
-		if(cl != null) {
-			return ResponseEntity.ok(cl.get());
-		}
-		
-		return ResponseEntity.notFound().build();	
+	    Optional<Cliente> cl = service.buscarPorId(id);
+	    
+	    if(cl.isPresent()) {
+	        return ResponseEntity.ok(cl.get());
+	    }
+	    
+	    return ResponseEntity.notFound().build();	
 	}
 	
 	@PostMapping
-		public ResponseEntity<Cliente> criar(@RequestBody Cliente cliente) {
+		public ResponseEntity<Cliente> criar(@Valid @RequestBody Cliente cliente) {
 			Cliente novoCliente = service.salvar(cliente);
 			
 			return ResponseEntity.status(HttpStatus.CREATED).body(novoCliente);
 	}
 	
 	@PutMapping("/{id}")
-		public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @RequestBody Cliente cl) {
+		public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @Valid @RequestBody Cliente cl) {
 			Cliente clienteAtualizado = service.atualizar(id, cl);
 			
 			if(clienteAtualizado != null) {
-				return ResponseEntity.notFound().build();
+				return ResponseEntity.ok(clienteAtualizado);
 			}
 			
 			return ResponseEntity.notFound().build();
