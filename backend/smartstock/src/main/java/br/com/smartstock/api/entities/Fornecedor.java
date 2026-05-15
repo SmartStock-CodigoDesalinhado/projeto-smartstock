@@ -25,7 +25,7 @@ public class Fornecedor {
 	private Long id;
 	
 	@NotBlank(message = "O nome é obrigatório")
-	@Pattern(regexp = "^[\\p{L}] + ([\\p{L}]+)*$", message = "O nome do fornecedor deve conter apenas letras e espaços.")
+	@Pattern(regexp = "^[\\p{L} ]+$", message = "O nome deve conter apenas letras e espaços.")
 	private String nome;
 	
 	@Email(message = "E-mail inválido.")
