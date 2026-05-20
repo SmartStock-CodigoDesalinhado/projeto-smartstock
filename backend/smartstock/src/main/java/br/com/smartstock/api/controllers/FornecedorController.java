@@ -1,5 +1,6 @@
 package br.com.smartstock.api.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,11 @@ public class FornecedorController {
 
 	@Autowired
     private FornecedorService service;
+	
+	@GetMapping
+	public ResponseEntity<List<Fornecedor>> listar() {
+	    return ResponseEntity.ok(service.listarTodos());
+	}
     
     @GetMapping("/{id}")
     public ResponseEntity<Fornecedor> buscar(@PathVariable Long id) {

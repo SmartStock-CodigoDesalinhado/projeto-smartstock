@@ -1,5 +1,6 @@
 package br.com.smartstock.api.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,10 @@ public class FornecedorService {
 
 	@Autowired
 	public FornecedorRepository repository;
+	
+	public List<Fornecedor> listarTodos() {
+	    return repository.findAll();
+	}
 	
 	public Optional<Fornecedor> buscarPorId(Long id) {
 		return repository.findById(id);
