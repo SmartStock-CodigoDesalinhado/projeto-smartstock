@@ -4,8 +4,9 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,15 +27,19 @@ public class MovimentacaoEstoque {
 	@CreationTimestamp
 	private LocalDateTime dataHora;
 	
-	@NotBlank
-    @Column(length = 10) 
-    private String tipo;
+	public enum TipoMovimentacao {
+	    ENTRADA,
+	    SAIDA
+	}
+	
+	@Enumerated(EnumType.STRING)
+	private TipoMovimentacao tipo;
 	
 	@NotBlank(message = "Este campo não pode estar vazio.")
 	private String notaFiscal; 
 	
 	@Positive
-	private Integer quantidade;
+	private Integer quantidadeEstoque;
 	
 	@ManyToOne
     @JoinColumn(name = "produto_id", nullable = false)
@@ -47,10 +52,10 @@ public class MovimentacaoEstoque {
     
     public MovimentacaoEstoque() {}
     
-    public MovimentacaoEstoque(LocalDateTime dataHora, String tipo, Integer quantidade, String notaFiscal) {
+    public MovimentacaoEstoque(LocalDateTime dataHora, TipoMovimentacao tipo, Integer quantidade, String notaFiscal) {
     	this.dataHora = dataHora;
     	this.tipo = tipo;
-    	this.quantidade = quantidade;
+    	this.quantidadeEstoque = quantidade;
     	this.notaFiscal = notaFiscal;
     }
 
@@ -69,21 +74,22 @@ public class MovimentacaoEstoque {
 	public void setDataHora(LocalDateTime dataHora) {
 		this.dataHora = dataHora;
 	}
+	
 
-	public String getTipo() {
+	public TipoMovimentacao getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(String tipo) {
+	public void setTipo(TipoMovimentacao tipo) {
 		this.tipo = tipo;
 	}
 
-	public Integer getQuantidade() {
-		return quantidade;
+	public Integer getQuantidadeEstoque() {
+		return quantidadeEstoque;
 	}
 
-	public void setQuantidade(Integer quantidade) {
-		this.quantidade = quantidade;
+	public void setQuantidadeEstoque(Integer quantidadeEstoque) {
+		this.quantidadeEstoque = quantidadeEstoque;
 	}
 
 	public Produto getProduto() {
