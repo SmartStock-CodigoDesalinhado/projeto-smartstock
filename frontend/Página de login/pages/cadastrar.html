@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartStock - Cadastro</title>
+    <link rel="stylesheet" href="cadastrar.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="left-panel">
+            <div class="header-text">
+                <h1>Integração</h1>
+                <h2 class="highlight">Gerenciamento<br>de Stock</h2>
+            </div>
+            
+            <div class="carousel-container">
+                <button class="carousel-btn" id="prevBtn">&#10094;</button>
+                <div class="image-wrapper">
+                    <img id="carouselImage" src="https://images.unsplash.com/photo-1586528116311-ad8ed7c1590f?q=80&w=600&auto=format&fit=crop" alt="Armazém de Estoque">
+                </div>
+                <button class="carousel-btn" id="nextBtn">&#10095;</button>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="logo">
+                <span class="smart">Smart</span><span class="stock">Stock</span>
+            </div>
+
+            <form action="" id="registerForm">
+                <div class="input-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email">
+                </div>
+
+                <div class="input-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha">
+                </div>
+
+                <div class="input-group">
+                    <label for="telefone">Telefone</label>
+                    <input type="tel" id="telefone" name="telefone">
+                </div>
+
+                <div class="input-group">
+                    <label for="empresa">Nome da empresa</label>
+                    <input type="text" id="empresa" name="empresa">
+                </div>
+
+                <button type="submit" class="btn-primary">Cadastrar</button>
+
+                <button type="button" class="btn-google">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo" class="google-icon">
+                    Cadastrar com Google
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
