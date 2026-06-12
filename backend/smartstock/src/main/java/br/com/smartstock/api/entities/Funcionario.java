@@ -21,37 +21,38 @@ public class Funcionario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Pattern(regexp = "^[\\p{L}] + ([\\p{L}]+)*$", message = "O nome do funcionário deve conter apenas letras e espaços.")
+	@Pattern(regexp = "^[\\p{L}\\s]+$", message = "O nome do funcionário deve conter apenas letras e espaços.")
 	@NotBlank(message ="O nome é obrigatório.")
-	private String nome;
+	@Column(name = "nome_funcionario")
+	private String nomeFuncionario;
 	
 	@NotBlank(message = "O CPF é obrigatório")
     @CPF(message = "CPF inválido") 
     @Size(min = 11, max = 14) 
-    @Column(name = "cpf", unique = true, nullable = false)
-	private String cpf;
+    @Column(name = "cpf_funcionario", unique = true, nullable = false)
+	private String cpfFuncionario;
 	
 	@NotBlank(message = "O RG não pode estar em branco")
     @Pattern(regexp = "^[0-9.a-zA-Z-]*$", message = "RG com formato inválido")
-    @Column(name = "rg", length = 20)
-	private String rg;
+    @Column(name = "rg_funcionario", length = 20)
+	private String rgFuncionario;
 		
     @Email(message = "E-mail inválido.")
     @Size(max = 120, message = "E-mail deve ter no máximo 100 caracteres.")
-    @Column(unique = true, length = 100)
-    private String email;
+    @Column(unique = true, length = 100, name = "email_funcionario")
+    private String emailFuncionario;
     
     @Column(nullable = false)
     private String cargo;
     
 	public Funcionario() {}
 	
-	public Funcionario (String email, String nome, String cargo, String rg, String cpf) {
-		this.email = email;
-		this.nome = nome;
+	public Funcionario (String emailFuncionario, String nomeFuncionario, String cargo, String rgFuncionario, String cpfFuncionario) {
+		this.emailFuncionario = emailFuncionario;
+		this.nomeFuncionario = nomeFuncionario;
 		this.cargo = cargo;
-		this.rg = rg;
-		this.cpf = cpf;
+		this.rgFuncionario = rgFuncionario;
+		this.cpfFuncionario = cpfFuncionario;
 	}
 
 	public Long getId() {
@@ -70,37 +71,39 @@ public class Funcionario {
 		this.cargo = cargo;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getNomeFuncionario() {
+		return nomeFuncionario;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setNomeFuncionario(String nomeFuncionario) {
+		this.nomeFuncionario = nomeFuncionario;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getCpfFuncionario() {
+		return cpfFuncionario;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setCpfFuncionario(String cpfFuncionario) {
+		this.cpfFuncionario = cpfFuncionario;
 	}
 
-	public String getCpf() {
-		return cpf;
+	public String getRgFuncionario() {
+		return rgFuncionario;
 	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setRgFuncionario(String rgFuncionario) {
+		this.rgFuncionario = rgFuncionario;
 	}
 
-	public String getRg() {
-		return rg;
+	public String getEmailFuncionario() {
+		return emailFuncionario;
 	}
 
-	public void setRg(String rg) {
-		this.rg = rg;
+	public void setEmailFuncionario(String emailFuncionario) {
+		this.emailFuncionario = emailFuncionario;
 	}
+
+
 
 
 	

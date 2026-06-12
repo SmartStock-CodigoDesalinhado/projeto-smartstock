@@ -34,9 +34,8 @@ public class ClienteService {
 			Cliente atualizado = clienteExistente.get();
 		
 			atualizado.setNomeCliente(clienteAtualizado.getNomeCliente());		
-			atualizado.setEmail(clienteAtualizado.getEmail());
+			atualizado.setEmailCliente(clienteAtualizado.getEmailCliente());
 			atualizado.setTelefoneCelular(clienteAtualizado.getTelefoneCelular());
-			atualizado.setEndereco(clienteAtualizado.getEndereco());
 			
 			return repository.save(atualizado);
 		}

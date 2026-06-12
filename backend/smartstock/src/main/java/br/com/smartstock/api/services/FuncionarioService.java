@@ -33,10 +33,10 @@ public class FuncionarioService {
     		Funcionario atualizado = funcExistente.get();
     		
     		atualizado.setCargo(funcAtualizado.getCargo());
-    		atualizado.setEmail(funcAtualizado.getEmail());
-    		atualizado.setNome(funcAtualizado.getNome());
-    		atualizado.setCpf(funcAtualizado.getCpf());
-    		atualizado.setRg(funcAtualizado.getRg());
+    		atualizado.setEmailFuncionario(funcAtualizado.getEmailFuncionario());
+    		atualizado.setNomeFuncionario(funcAtualizado.getNomeFuncionario());
+    		atualizado.setCpfFuncionario(funcAtualizado.getCpfFuncionario());
+    		atualizado.setRgFuncionario(funcAtualizado.getRgFuncionario());
     		
     		return repository.save(atualizado);
     	}

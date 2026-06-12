@@ -17,7 +17,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
 @Entity
-@Table(name = "tb_movimentacaoEstoque")
+@Table(name = "tb_movimentacao_estoque")
 public class MovimentacaoEstoque {
 	
 	@Id

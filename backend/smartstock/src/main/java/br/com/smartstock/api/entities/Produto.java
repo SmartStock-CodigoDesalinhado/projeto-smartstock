@@ -3,6 +3,7 @@ package br.com.smartstock.api.entities;
 import java.math.BigDecimal;
 import java.sql.Date;
 
+import br.com.smartstock.api.enums.Categoria;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -49,9 +50,9 @@ public class Produto {
     @JoinColumn(name = "fornecedor_id") 
     private Fornecedor fornecedor;
 	
-	@ManyToOne
-	@JoinColumn(name = "id_categoria")
-	private Categoria categoria;
+	
+	
+	public Categoria categoria;
 
 	public Produto() {}
 	

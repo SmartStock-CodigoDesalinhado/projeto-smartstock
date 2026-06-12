@@ -33,8 +33,8 @@ public class FornecedorService {
 		if(fornecedorExistente.isPresent()) {
 			Fornecedor atualizado = fornecedorExistente.get();
 		
-			atualizado.setNome(fornecedorAtualizado.getNome());
-			atualizado.setEmail(fornecedorAtualizado.getEmail());
+			atualizado.setNomeFornecedor(fornecedorAtualizado.getNomeFornecedor());
+			atualizado.setEmailFornecedor(fornecedorAtualizado.getEmailFornecedor());
 			atualizado.setTelefoneComercial(fornecedorAtualizado.getTelefoneComercial());
 			atualizado.setLogradouroComercio(fornecedorAtualizado.getLogradouroComercio());
 			atualizado.setCnpj(fornecedorAtualizado.getCnpj());
