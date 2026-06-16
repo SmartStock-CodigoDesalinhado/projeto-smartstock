@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartStock - Dashboard</title>
+    <link rel="stylesheet" href="/css/painel.css">
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="topbar-brand">SmartStock</div>
+        <div class="topbar-user">
+            <span class="notification-icon">🔔</span>
+            <div class="user-avatar"></div>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        
+        <aside class="sidebar">
+            <div class="company-logo-placeholder">
+                <div class="image-icon">🖼️</div>
+                <span>Logo da sua empresa</span>
+            </div>
+
+            <nav class="sidebar-menu">
+                <div class="menu-item">
+                    <span>Cadastro</span>
+                    <span class="arrow-icon">&lt;</span>
+                </div>
+                <div class="menu-item">
+                    <span>Estoque</span>
+                    <span class="arrow-icon">&lt;</span>
+                </div>
+                <div class="menu-item">
+                    <span>Notas fiscais</span>
+                    <span class="arrow-icon">&lt;</span>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            
+            <section class="upper-section">
+                
+                <div class="value-card">
+                    <div class="card-info">
+                        <p class="card-title">Valor total de produtos no estoque</p>
+                        <h2 class="card-value">R$ 0,00</h2>
+                    </div>
+                    <div class="card-icon-box">
+                        <span class="trending-arrow">↗</span>
+                        <div class="currency-badge">$</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Grafico de vendas</h3>
+                    <div class="chart-area">
+                        <div class="chart-line"></div>
+                        <div class="chart-dots">
+                            <span class="dot" data-month="Dez 2025"></span>
+                            <span class="dot" data-month="Jan 2026"></span>
+                            <span class="dot" data-month="Fev 2026"></span>
+                            <span class="dot" data-month="Mar 2026"></span>
+                            <span class="dot" data-month="Abr 2026"></span>
+                        </div>
+                    </div>
+                    <div class="chart-labels">
+                        <span>Dez 2025</span>
+                        <span>Jan 2026</span>
+                        <span>Fev 2026</span>
+                        <span>Mar 2026</span>
+                        <span>Abr 2026</span>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="calendar-section">
+                <table class="calendar-table">
+                    <thead>
+                        <tr>
+                            <th>Dom.</th>
+                            <th>Seg.</th>
+                            <th>Ter.</th>
+                            <th>Qua.</th>
+                            <th>Qui.</th>
+                            <th>Sex.</th>
+                            <th>Sáb.</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendar-body">
+                        </tbody>
+                </table>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
