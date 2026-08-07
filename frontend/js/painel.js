@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             console.log("Tentativa de login com:", email);
 
-            // Redireciona para a página visual do seu painel/dashboard
+            // Redireciona pra pagina painel
             // Altere "dashboard.html" para o nome do arquivo HTML do seu painel se for diferente
             window.location.href = "dashboard.html"; 
         });
