@@ -1,0 +1,55 @@
+
+/* =========================================
+   SMARTSTOCK - ESTILOS GLOBAIS
+========================================= */
+
+:root {
+    --cor-primaria: #142F50;
+    --cor-primaria-clara: #E9F0FB;
+    --cor-fundo: #F5F6FA;
+    --cor-branco: #FFFFFF;
+    --cor-texto: #182A43;
+    --cor-texto-secundario: #6C7788;
+    --cor-borda: #E1E6ED;
+    --cor-sucesso: #16845B;
+    --cor-erro: #B92D42;
+
+    --raio-borda: 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    min-height: 100vh;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+input:focus,
+button:focus-visible {
+    outline: 2px solid #3679C4;
+    outline-offset: 2px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
