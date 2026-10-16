@@ -256,11 +256,11 @@ O SmartStock é desenvolvido pelos estudantes:
 
 | Integrante | Participação |
 |---|---|
-| **Paulo Rogério** | Integrante da equipe de desenvolvimento |
-| **Renan Pereira Agantes** | Integrante da equipe de desenvolvimento |
-| **Murillo Henrique** | Integrante da equipe de desenvolvimento |
-| **Marcelo Henrique** | Integrante da equipe de desenvolvimento |
-| **Matheus de Souza** | Integrante da equipe de desenvolvimento |
+| **Paulo Rogério** | Desenvolvedor Front-end |
+| **Renan Pereira Agantes** | Desenvolvedor Front-end |
+| **Murillo Henrique** | Desenvolvedor Full-Stack |
+| **Marcelo Henrique** | Desenvolvedor Back-end |
+| **Matheus de Souza** | Desenvolvedor Front-end |
 
 O projeto é resultado de um trabalho colaborativo que envolve planejamento, pesquisa, análise de requisitos, desenvolvimento de software, integração de tecnologias, realização de testes e documentação.
 
