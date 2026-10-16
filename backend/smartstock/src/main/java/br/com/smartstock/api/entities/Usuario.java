@@ -1,5 +1,7 @@
 package br.com.smartstock.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import br.com.smartstock.api.enums.TipoUsuario;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,8 +11,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_usuario")
@@ -25,11 +30,15 @@ public class Usuario {
     @Column(name = "nome_usuario", nullable = false, length = 100)
     private String nome;
     
-    @NotBlank(message = "O login é obrigatório.")
-    @Column(nullable = false, unique = true, length = 50)
+    @NotBlank(message = "O e-mail é obrigatório.")
+    @Email(message = "Informe um e-mail válido.")
+    @Pattern(regexp = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$", message = "Informe um e-mail válido.")
+    @Size(max = 50, message = "O e-mail deve ter até 50 caracteres.")
+    @Column(name = "login", nullable = false, unique = true,length = 50)
     private String login;
     
     @NotBlank(message = "A senha é obrigatória.")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String senha;
     
