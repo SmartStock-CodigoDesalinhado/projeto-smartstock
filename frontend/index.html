@@ -1,94 +1,392 @@
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#142F50">
 
-    <title>Login | SmartStock</title>
+    <title>Entrar — SmartStock</title>
 
-    <link rel="stylesheet" href="style/style.css">
-    <link rel="stylesheet" href="style/login.css">
+    <meta
+        name="description"
+        content="Acesso interno ao SmartStock — sistema de gerenciamento de estoque."
+    >
 
-    <script src="Js/login.js" defer></script>
+    <!-- CSS PRINCIPAL -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- JAVASCRIPT PRINCIPAL -->
+    <script src="script.js" defer></script>
 </head>
+
 <body>
 
-    <main class="login-container">
+    <main class="login-layout">
 
-        <header class="login-header">
-            <div class="logo-icon" aria-hidden="true">▱ ▱ ▱</div>
+        <!-- ====================================
+             PAINEL ESQUERDO — SMARTSTOCK
+        ===================================== -->
 
-            <h1>SmartStock</h1>
-            <p>Gerenciamento de Estoque</p>
-        </header>
+        <section
+            class="brand-panel"
+            aria-label="Apresentação do SmartStock"
+        >
 
-        <section class="login-content">
+            <div class="brand-content">
 
-            <div class="login-intro">
-                <h2>Bem-vindo de volta</h2>
-                <p>Entre com suas credenciais para continuar.</p>
-            </div>
+                <!-- LOGOTIPO -->
 
-            <form id="loginForm" novalidate>
+                <div class="brand" aria-label="SmartStock">
 
-                <div class="form-group">
-                    <label for="usuario">Usuário</label>
+                    <span class="brand-mark" aria-hidden="true">
 
-                    <input
-                        type="text"
-                        id="usuario"
-                        name="usuario"
-                        placeholder="Digite seu usuário"
-                        autocomplete="username"
-                        required
-                    >
+                        <svg
+                            viewBox="0 0 32 32"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.75"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M16 3 22 6.5v7L16 17l-6-3.5v-7L16 3Z"/>
+                            <path d="M9 14.3 15 17.8v7L9 28l-6-3.2v-7L9 14.3Z"/>
+                            <path d="M23 14.3 29 17.8v7L23 28l-6-3.2v-7L23 14.3Z"/>
+                            <path d="m10 6.5 6 3.5 6-3.5M16 10v7M3 17.8l6 3.5 6-3.5M9 21.3V28m8-10.2 6 3.5 6-3.5M23 21.3V28"/>
+                        </svg>
+
+                    </span>
+
+                    <span class="brand-name">
+                        SmartStock
+                    </span>
+
                 </div>
 
-                <div class="form-group">
-                    <label for="senha">Senha</label>
+                <!-- APRESENTAÇÃO -->
 
-                    <div class="password-wrapper">
-                        <input
-                            type="password"
-                            id="senha"
-                            name="senha"
-                            placeholder="Digite sua senha"
-                            autocomplete="current-password"
-                            required
-                        >
+                <div class="brand-intro">
 
-                        <button
-                            type="button"
-                            id="toggleSenha"
-                            class="toggle-password"
-                            aria-label="Mostrar senha"
-                            aria-pressed="false"
+                    <p class="eyebrow">
+                        GERENCIAMENTO DE ESTOQUE
+                    </p>
+
+                    <h1>
+                        Seu estoque, sob<br>
+                        controle.
+                    </h1>
+
+                    <p class="brand-description">
+                        Produtos organizados. Movimentações claras.
+                        Mais confiança na rotina da sua equipe.
+                    </p>
+
+                </div>
+
+                <!-- ESTOQUE DEMONSTRATIVO -->
+
+                <div
+                    class="inventory-card"
+                    aria-label="Visão demonstrativa do estoque"
+                >
+
+                    <div class="inventory-heading">
+
+                        <h2>Visão do estoque</h2>
+
+                        <svg
+                            aria-hidden="true"
+                            width="23"
+                            height="23"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            stroke-linejoin="round"
                         >
-                            Mostrar
-                        </button>
+                            <path d="m12 2 4 2.3v4.5L12 11 8 8.8V4.3L12 2ZM6 9l4 2.3v4.5L6 18l-4-2.2v-4.5L6 9Zm12 0 4 2.3v4.5L18 18l-4-2.2v-4.5L18 9Z"/>
+                            <path d="m8 4.3 4 2.2 4-2.2m-4 2.2V11M2 11.3l4 2.2 4-2.2m-4 2.2V18m8-6.7 4 2.2 4-2.2m-4 2.2V18"/>
+                        </svg>
+
                     </div>
+
+                    <!-- PRODUTO 1: ARROZ -->
+
+                    <div class="inventory-item">
+
+                        <div class="inventory-item-label">
+                            <span>Arroz integral 1 kg</span>
+                            <strong>120 UN</strong>
+                        </div>
+
+                        <div class="stock-track">
+                            <span style="width: 78.125%"></span>
+                        </div>
+
+                    </div>
+
+                    <!-- PRODUTO 2: FEIJÃO -->
+
+                    <div class="inventory-item">
+
+                        <div class="inventory-item-label">
+                            <span>Feijão carioca 1 kg</span>
+                            <strong>48 UN</strong>
+                        </div>
+
+                        <div class="stock-track">
+                            <span style="width: 31.25%"></span>
+                        </div>
+
+                    </div>
+
+                    <!-- PRODUTO 3: ÓLEO -->
+
+                    <div class="inventory-item">
+
+                        <div class="inventory-item-label">
+                            <span>Óleo de soja 900 ml</span>
+                            <strong>32 UN</strong>
+                        </div>
+
+                        <div class="stock-track">
+                            <span style="width: 21.1%"></span>
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <p
-                    id="mensagemLogin"
-                    class="login-message"
-                    role="status"
-                    aria-live="polite"
-                ></p>
+                <!-- RODAPÉ -->
 
-                <button type="submit" class="btn-login" id="btnEntrar">
-                    Entrar
-                </button>
+                <p class="brand-footer">
+                    SmartStock · Sistema web de gerenciamento de estoque
+                </p>
 
-            </form>
+            </div>
 
         </section>
 
-        <footer class="login-footer">
-            <p>SmartStock · Controle simples, estoque em dia.</p>
-        </footer>
+        <!-- ====================================
+             PAINEL DIREITO — LOGIN
+        ===================================== -->
+
+        <section
+            class="form-panel"
+            aria-labelledby="login-title"
+        >
+
+            <div class="form-content">
+
+                <!-- CABEÇALHO -->
+
+                <header class="form-heading">
+
+                    <h2 id="login-title">
+                        Bem-vindo de volta
+                    </h2>
+
+                    <p>
+                        Entre com seu e-mail para acessar o SmartStock.
+                    </p>
+
+                </header>
+
+                <!-- FORMULÁRIO -->
+
+                <form
+                    id="login-form"
+                    autocomplete="on"
+                    novalidate
+                >
+
+                    <!-- CAMPO E-MAIL -->
+
+                    <div class="field">
+
+                        <label for="email">
+                            E-mail
+                        </label>
+
+                        <div class="input-shell">
+
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                placeholder="Digite seu e-mail"
+                                autocomplete="email"
+                                inputmode="email"
+                                maxlength="254"
+                                aria-describedby="email-error"
+                                required
+                            >
+
+                            <!-- ÍCONE DO CAMPO -->
+
+                            <svg
+                                aria-hidden="true"
+                                class="field-icon"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <circle cx="12" cy="7.5" r="3.1"/>
+                                <path d="M5.5 20v-2.1a6.5 6.5 0 0 1 13 0V20"/>
+                            </svg>
+
+                        </div>
+
+                        <!-- ERRO DO E-MAIL -->
+
+                        <p
+                            class="field-error"
+                            id="email-error"
+                            aria-live="polite"
+                        ></p>
+
+                    </div>
+
+                    <!-- CAMPO SENHA -->
+
+                    <div class="field password-field">
+
+                        <label for="password">
+                            Senha
+                        </label>
+
+                        <div class="input-shell">
+
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                placeholder="Digite sua senha"
+                                autocomplete="current-password"
+                                aria-describedby="password-hint password-error"
+                                required
+                            >
+
+                            <!-- BOTÃO MOSTRAR/OCULTAR SENHA -->
+
+                            <button
+                                class="password-toggle"
+                                id="toggle-password"
+                                type="button"
+                                aria-label="Mostrar senha"
+                                aria-pressed="false"
+                                title="Mostrar senha"
+                            >
+
+                                <!-- ÍCONE: SENHA OCULTA -->
+
+                                <svg
+                                    class="eye-hidden"
+                                    aria-hidden="true"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path d="M3 3 21 21"/>
+                                    <path d="M10.6 6.2a9.6 9.6 0 0 1 1.4-.1c4.8 0 8.3 4.4 9 5.9a11.5 11.5 0 0 1-3.2 3.9M6.1 7.6A12.2 12.2 0 0 0 3 12c.7 1.6 4.2 5.9 9 5.9 1.1 0 2.2-.2 3.2-.6"/>
+                                    <path d="M10 10a3 3 0 0 0 4 4"/>
+                                </svg>
+
+                                <!-- ÍCONE: SENHA VISÍVEL -->
+
+                                <svg
+                                    class="eye-visible"
+                                    aria-hidden="true"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+
+                            </button>
+
+                        </div>
+
+                        <!-- INSTRUÇÃO DA SENHA -->
+
+                        <p
+                            class="field-hint"
+                            id="password-hint"
+                        >
+                            Use o ícone para mostrar ou ocultar a senha.
+                        </p>
+
+                        <!-- ERRO DA SENHA -->
+
+                        <p
+                            class="field-error"
+                            id="password-error"
+                            aria-live="polite"
+                        ></p>
+
+                    </div>
+
+                    <!-- BOTÃO ENTRAR -->
+
+                    <button
+                        class="submit-button"
+                        id="submit-login"
+                        type="submit"
+                    >
+                        Entrar
+                    </button>
+
+                    <!-- MENSAGEM DO SISTEMA -->
+
+                    <div
+                        id="form-message"
+                        class="form-message"
+                        role="status"
+                        aria-live="polite"
+                        hidden
+                    ></div>
+
+                </form>
+
+                <!-- AVISO DE SEGURANÇA -->
+
+                <p class="security-note">
+
+                    <svg
+                        aria-hidden="true"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <rect x="4.5" y="10" width="15" height="11" rx="2"/>
+                        <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+                        <circle cx="12" cy="15.4" r="1"/>
+                    </svg>
+
+                    <span>
+                        Acesso interno. Utilize as credenciais
+                        fornecidas pela sua organização.
+                    </span>
+
+                </p>
+
+            </div>
+
+        </section>
 
     </main>
 

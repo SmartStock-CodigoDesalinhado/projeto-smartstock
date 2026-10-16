@@ -1,0 +1,711 @@
+
+/* ==========================================
+   SMARTSTOCK — ESTILOS GLOBAIS
+   FIGMA DESKTOP
+========================================== */
+
+:root {
+    color-scheme: light;
+
+    --navy: #142f50;
+    --navy-deep: #142f50;
+
+    --white: #ffffff;
+    --background: #f5f6fa;
+
+    --success: #17805c;
+    --danger: #c53e42;
+
+    --text: #142f50;
+    --text-muted: #6b7f98;
+
+    --outline: #dce4ed;
+    --focus: #4179b8;
+
+    --radius-control: 6px;
+    --radius-panel: 10px;
+
+    --shadow-focus: 0 0 0 3px rgb(65 121 184 / 17%);
+
+    font-family: Inter, 'Segoe UI', Arial, sans-serif;
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* RESET */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    min-width: 320px;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+
+/* ==========================================
+   LOGIN DESKTOP
+========================================== */
+
+/* LAYOUT PRINCIPAL */
+
+.login-layout {
+    display: grid;
+    grid-template-columns: 45.84% minmax(0, 1fr);
+
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+
+/* ==========================================
+   PAINEL ESQUERDO
+========================================== */
+
+.brand-panel {
+    background: var(--navy);
+    color: var(--white);
+}
+
+.brand-content {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    padding: 64px 64px 110px;
+}
+
+
+/* LOGOTIPO */
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 35px;
+    height: 35px;
+
+    border-radius: 7px;
+
+    background: var(--white);
+    color: var(--navy);
+
+    flex-shrink: 0;
+}
+
+.brand-mark svg {
+    width: 26px;
+    height: 26px;
+}
+
+.brand-name {
+    font-size: 24px;
+    font-weight: 750;
+    letter-spacing: -0.6px;
+}
+
+
+/* APRESENTAÇÃO */
+
+.brand-intro {
+    margin-top: 67px;
+}
+
+.eyebrow {
+    margin: 0 0 25px;
+
+    color: #a8c3df;
+
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.brand-intro h1 {
+    margin: 0;
+
+    color: var(--white);
+
+    font-size: clamp(39px, 3.45vw, 52px);
+    font-weight: 400;
+    letter-spacing: -0.8px;
+    line-height: 1.12;
+}
+
+.brand-description {
+    margin: 26px 0 0;
+
+    max-width: 540px;
+
+    color: #aec5df;
+    font-size: 17px;
+    line-height: 1.56;
+}
+
+
+/* ==========================================
+   ESTOQUE DEMONSTRATIVO
+========================================== */
+
+.inventory-card {
+    margin-top: 63px;
+    padding: 26px 24px 24px;
+
+    border-radius: 10px;
+    background: #214163;
+}
+
+.inventory-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 17px;
+}
+
+.inventory-heading h2 {
+    margin: 0;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.inventory-heading svg {
+    color: #a8c3df;
+}
+
+.inventory-item + .inventory-item {
+    margin-top: 15px;
+}
+
+.inventory-item-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+
+    color: #bfd1e5;
+    font-size: 12px;
+}
+
+.inventory-item-label strong {
+    color: #ffffff;
+    font-size: 12px;
+    white-space: nowrap;
+    font-weight: 700;
+}
+
+
+/* BARRAS DE ESTOQUE */
+
+.stock-track {
+    width: 100%;
+    height: 5px;
+
+    border-radius: 999px;
+    background: #355473;
+
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+.stock-track span {
+    display: block;
+
+    height: 100%;
+    border-radius: inherit;
+    background: #90b3d7;
+}
+
+
+/* RODAPÉ */
+
+.brand-footer {
+    color: #87a6c6;
+    font-size: 11px;
+
+    margin: auto 0 0;
+    padding-top: 60px;
+}
+
+
+/* ==========================================
+   PAINEL DIREITO — FORMULÁRIO
+========================================== */
+
+.form-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 0;
+
+    background: #ffffff;
+
+    padding: 64px 52px;
+}
+
+.form-content {
+    width: min(100%, 560px);
+}
+
+
+/* CABEÇALHO */
+
+.form-heading {
+    margin-bottom: 31px;
+}
+
+.form-heading h2 {
+    margin: 0;
+
+    font-size: 30px;
+    font-weight: 760;
+    letter-spacing: -0.7px;
+    line-height: 1.3;
+
+    color: var(--navy);
+}
+
+.form-heading p {
+    color: var(--text-muted);
+
+    font-size: 14px;
+    margin: 10px 0 0;
+
+    line-height: 1.45;
+}
+
+
+/* ==========================================
+   CAMPOS DO FORMULÁRIO
+========================================== */
+
+.field {
+    margin-bottom: 24px;
+}
+
+.field label {
+    display: inline-block;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    color: var(--navy);
+
+    margin-bottom: 8px;
+}
+
+.input-shell {
+    position: relative;
+    width: 100%;
+}
+
+.input-shell input {
+    width: 100%;
+    height: 44px;
+
+    border: 1px solid var(--outline);
+    border-radius: var(--radius-control);
+
+    padding: 0 47px 0 12px;
+
+    background: #ffffff;
+    color: var(--navy);
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.15s,
+        box-shadow 0.15s;
+}
+
+.input-shell input::placeholder {
+    color: #97a8bc;
+    opacity: 1;
+}
+
+.input-shell input:hover {
+    border-color: #afc1d6;
+}
+
+.input-shell input:focus {
+    border-color: var(--focus);
+    outline: none;
+
+    box-shadow: var(--shadow-focus);
+}
+
+
+/* ==========================================
+   VALIDAÇÕES
+========================================== */
+
+.input-shell input[aria-invalid="true"] {
+    border-color: var(--danger);
+}
+
+.input-shell input[aria-invalid="true"]:focus {
+    box-shadow: 0 0 0 3px rgb(197 62 66 / 15%);
+}
+
+.field-error {
+    margin: 6px 0 0;
+
+    font-size: 12px;
+    line-height: 1.5;
+
+    color: var(--danger);
+}
+
+.field-error:empty {
+    display: none;
+}
+
+
+/* ==========================================
+   ÍCONE DO CAMPO
+========================================== */
+
+.field-icon {
+    position: absolute;
+
+    right: 13px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #6c839e;
+
+    height: 19px;
+    width: 19px;
+
+    pointer-events: none;
+}
+
+
+/* ==========================================
+   CAMPO DE SENHA
+========================================== */
+
+.password-field {
+    margin-bottom: 23px;
+}
+
+.password-toggle {
+    display: grid;
+    place-items: center;
+
+    position: absolute;
+
+    top: 50%;
+    right: 5px;
+
+    transform: translateY(-50%);
+
+    width: 35px;
+    height: 35px;
+
+    border: 0;
+    background: transparent;
+
+    border-radius: 5px;
+
+    color: #6c839e;
+}
+
+.password-toggle:hover {
+    color: var(--navy);
+    background: #edf2f7;
+}
+
+.password-toggle svg {
+    width: 19px;
+    height: 19px;
+}
+
+.password-toggle .eye-visible {
+    display: none;
+}
+
+.password-toggle[aria-pressed="true"] .eye-hidden {
+    display: none;
+}
+
+.password-toggle[aria-pressed="true"] .eye-visible {
+    display: block;
+}
+
+.field-hint {
+    margin: 8px 0 0;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+
+/* ==========================================
+   BOTÃO ENTRAR
+========================================== */
+
+.submit-button {
+    display: block;
+
+    width: 100%;
+    height: 47px;
+
+    border: 0;
+    border-radius: 6px;
+
+    color: #ffffff;
+    background: var(--navy);
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition: background 0.15s;
+}
+
+.submit-button:hover {
+    background: #214569;
+}
+
+.submit-button:active {
+    background: #0e233c;
+}
+
+.submit-button:focus-visible {
+    outline-offset: 3px;
+}
+
+
+/* ==========================================
+   MENSAGENS DO SISTEMA
+========================================== */
+
+.form-message {
+    margin-top: 14px;
+    padding: 12px 14px;
+
+    border-radius: 6px;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.form-message[data-kind="error"] {
+    background: #fdf0f0;
+    color: #9d252a;
+
+    border: 1px solid #f1c1c3;
+}
+
+.form-message[data-kind="info"] {
+    background: #edf4fc;
+    color: #244a75;
+
+    border: 1px solid #cfe0f3;
+}
+
+
+/* ==========================================
+   AVISO DE SEGURANÇA
+========================================== */
+
+.security-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+
+    color: var(--text-muted);
+
+    margin: 29px 0 0;
+
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.security-note svg {
+    width: 15px;
+    height: 15px;
+
+    flex-shrink: 0;
+
+    margin-top: 1px;
+}
+
+
+/* ==========================================
+   RESPONSIVIDADE
+========================================== */
+
+/* MONITORES GRANDES */
+
+@media (min-width: 1600px) {
+
+    .brand-content {
+        padding-left: max(
+            64px,
+            calc((100vw - 1500px) / 3)
+        );
+    }
+
+}
+
+
+/* NOTEBOOKS */
+
+@media (max-width: 1100px) {
+
+    .brand-content {
+        padding: 48px 40px 70px;
+    }
+
+    .form-panel {
+        padding: 44px 38px;
+    }
+
+    .brand-intro {
+        margin-top: 64px;
+    }
+
+    .brand-description {
+        font-size: 15px;
+    }
+
+    .inventory-card {
+        margin-top: 45px;
+    }
+
+}
+
+
+/* TABLETS */
+
+@media (max-width: 800px) {
+
+    .login-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .brand-content {
+        min-height: auto;
+        padding: 24px 28px 28px;
+    }
+
+    .brand-name {
+        font-size: 21px;
+    }
+
+    .brand-intro {
+        margin-top: 20px;
+    }
+
+    .eyebrow {
+        font-size: 10px;
+        margin-bottom: 12px;
+    }
+
+    .brand-intro h1 {
+        font-size: 32px;
+    }
+
+    .brand-description {
+        max-width: 580px;
+        font-size: 13px;
+        margin-top: 13px;
+    }
+
+    .inventory-card {
+        display: none;
+    }
+
+    .brand-footer {
+        display: none;
+    }
+
+    .form-panel {
+        align-items: flex-start;
+        padding: 42px 28px 64px;
+    }
+
+    .form-content {
+        width: min(100%, 560px);
+    }
+
+}
+
+
+/* CELULARES PEQUENOS */
+
+@media (max-width: 400px) {
+
+    .brand-content {
+        padding: 20px 20px 23px;
+    }
+
+    .form-panel {
+        padding: 32px 20px 48px;
+    }
+
+    .form-heading h2 {
+        font-size: 26px;
+    }
+
+    .form-heading {
+        margin-bottom: 27px;
+    }
+
+}
+
+
+/* ACESSIBILIDADE */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .input-shell input,
+    .submit-button {
+        transition: none;
+    }
+
+}
