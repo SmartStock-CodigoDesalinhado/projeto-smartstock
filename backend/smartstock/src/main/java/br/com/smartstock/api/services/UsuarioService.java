@@ -26,6 +26,10 @@ public class UsuarioService {
     public Optional<Usuario> buscarPorId(Long id) {
         return repository.findById(id);
     }
+    
+    public Optional<Usuario> buscarPorEmail(String email) {
+        return repository.findByLoginIgnoreCase(email);
+    }
 
     public Usuario salvar(Usuario usuario) {
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
