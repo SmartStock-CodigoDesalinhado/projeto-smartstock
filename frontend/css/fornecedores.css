@@ -1,0 +1,226 @@
+.fornecedores-content {
+    max-width: 1600px;
+}
+
+.fornecedores-heading {
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.forn-primary {
+    background: #ff690c;
+    border: 1px solid #ff690c;
+    color: #fff;
+    border-radius: 7px;
+    padding: 11px 17px;
+    font-weight: 700;
+    min-height: 43px;
+    white-space: nowrap;
+}
+
+.forn-primary:hover {
+    background: #e95d00;
+    border-color: #e95d00;
+}
+
+.forn-primary:disabled,
+.forn-action:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+.fornecedores-panel {
+    padding: 22px;
+}
+
+.fornecedores-tools {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.fornecedores-tools h2 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    color: #1d3554;
+}
+
+.fornecedores-tools p {
+    margin: 0;
+    font-size: 13px;
+    color: #8190a5;
+}
+
+.forn-count {
+    display: inline-block;
+    min-width: 28px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    background: #fff1e7;
+    color: #e95d00;
+    font-size: 12px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.fornecedores-filters {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.fornecedores-filters input {
+    width: min(340px, 38vw);
+    min-height: 39px;
+    padding: 9px 12px;
+    border: 1px solid #d8dfe8;
+    border-radius: 6px;
+    background: #fff;
+}
+
+.fornecedores-filters input:focus,
+.forn-dialog input:focus {
+    outline: 2px solid #ff690c55;
+    border-color: #ff690c;
+}
+
+.fornecedores-table td,
+.fornecedores-table th {
+    padding: 14px 12px;
+}
+
+.fornecedores-table td:first-child {
+    font-weight: 700;
+    color: #253043;
+}
+
+.fornecedores-table td:last-child {
+    white-space: nowrap;
+}
+
+.forn-action {
+    border: 1px solid #d8dfe8;
+    background: #fff;
+    border-radius: 6px;
+    color: #34445e;
+    padding: 6px 10px;
+    margin-right: 5px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.forn-action:hover {
+    border-color: #ff690c;
+    color: #e95d00;
+    background: #fff7f1;
+}
+
+.forn-action.delete {
+    color: #c42c33;
+}
+
+.forn-action.delete:hover {
+    background: #fff1f1;
+    border-color: #c42c33;
+}
+
+.forn-feedback {
+    min-height: 16px;
+    font-size: 13px;
+    color: #68768a;
+    margin: 5px 0 13px;
+}
+
+.forn-feedback:empty {
+    margin: 0;
+    min-height: 0;
+}
+
+.forn-dialog {
+    width: min(530px, 94vw);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.forn-dialog form {
+    gap: 9px;
+}
+
+.forn-dialog .panel-heading {
+    margin-bottom: 5px;
+}
+
+.forn-dialog input {
+    min-height: 44px;
+    height: 44px;
+}
+
+.forn-dialog label {
+    margin-top: 5px;
+}
+
+.forn-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-top: 9px;
+}
+
+.forn-detalhes {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
+    margin: 15px 0 23px;
+}
+
+.forn-detalhes dt {
+    font-size: 12px;
+    font-weight: 700;
+    color: #8190a5;
+    margin-top: 10px;
+}
+
+.forn-detalhes dd {
+    margin: 0;
+    font-size: 15px;
+    color: #253043;
+    overflow-wrap: anywhere;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 780px) {
+
+    .fornecedores-tools,
+    .fornecedores-heading {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .fornecedores-filters input {
+        flex: 1;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .fornecedores-panel {
+        padding: 14px;
+    }
+
+    .fornecedores-table {
+        min-width: 780px;
+    }
+}
