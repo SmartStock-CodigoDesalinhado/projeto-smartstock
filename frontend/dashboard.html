@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,14 +8,18 @@
     <link rel="stylesheet" href="css/dashboard.css">
     <script src="js/dashboard.js" defer></script>
 </head>
+
 <body class="dashboard-page">
     <header class="topbar dash-topbar">
-        <a class="brand" href="dashboard.html"><span class="brand-icon">⬡</span><span>Smart<span class="orange">Stock</span></span></a>
+        <a class="brand" href="dashboard.html"><span class="brand-icon">⬡</span><span>Smart<span
+                    class="orange">Stock</span></span></a>
         <span class="green-line"></span>
         <div class="profile-area">
-            <button type="button" class="profile-trigger" id="botaoPerfil" aria-label="Abrir menu do perfil" aria-expanded="false" aria-controls="menuPerfil">
+            <button type="button" class="profile-trigger" id="botaoPerfil" aria-label="Abrir menu do perfil"
+                aria-expanded="false" aria-controls="menuPerfil">
                 <span class="profile-avatar" id="iniciaisUsuario" aria-hidden="true">SS</span>
-                <span class="profile-info"><strong id="nomeUsuario">Carregando...</strong><small id="perfilUsuario">Usuário</small></span>
+                <span class="profile-info"><strong id="nomeUsuario">Carregando...</strong><small
+                        id="perfilUsuario">Usuário</small></span>
                 <span class="profile-chevron" aria-hidden="true">⌄</span>
             </button>
             <div class="profile-menu" id="menuPerfil" hidden>
@@ -32,22 +37,118 @@
         <a href="#movimentacoes">⇄ &nbsp; Movimentações</a>
     </nav>
     <main class="dashboard-content">
-        <div class="title-row"><div><h1>Visão geral do estoque</h1><p>Acompanhe indicadores e informações reais do estoque.</p></div><span class="live-badge">● Dados da API</span></div>
+        <div class="title-row">
+            <div>
+                <p id="saudacaoUsuario" class="dashboard-saudacao"></p>
+                <h1>Visão geral do estoque</h1>
+                <p>Acompanhe seus produtos, movimentações e a situação do estoque.</p>
+            </div>
+            <span class="live-badge" id="indicadorAtualizacao">● Verificando estoque</span>
+        </div>
         <p id="statusPainel" class="dashboard-status" role="status">Carregando informações...</p>
         <section class="metrics" aria-label="Indicadores do estoque">
-            <article class="metric"><div class="metric-icon neutral">⬡</div><div><h2>Total de Produtos</h2><strong id="totalProdutos">—</strong></div></article>
-            <article class="metric"><div class="metric-icon danger">✕</div><div><h2>Em Falta</h2><strong id="totalFalta">—</strong></div></article>
-            <article class="metric"><div class="metric-icon warning">⚠</div><div><h2>Estoque Baixo</h2><strong id="totalBaixo">—</strong></div></article>
-            <article class="metric"><div class="metric-icon success">⬡</div><div><h2>Estoque Saudável</h2><strong id="totalSaudavel">—</strong></div></article>
+            <article class="metric">
+                <div class="metric-icon neutral">⬡</div>
+                <div>
+                    <h2>Total de Produtos</h2><strong id="totalProdutos">—</strong>
+                </div>
+            </article>
+            <article class="metric">
+                <div class="metric-icon danger">✕</div>
+                <div>
+                    <h2>Em Falta</h2><strong id="totalFalta">—</strong>
+                </div>
+            </article>
+            <article class="metric">
+                <div class="metric-icon warning">⚠</div>
+                <div>
+                    <h2>Estoque Baixo</h2><strong id="totalBaixo">—</strong>
+                </div>
+            </article>
+            <article class="metric">
+                <div class="metric-icon success">⬡</div>
+                <div>
+                    <h2>Estoque Saudável</h2><strong id="totalSaudavel">—</strong>
+                </div>
+            </article>
         </section>
         <div class="dashboard-grid">
-            <section class="panel wide" id="produtos"><div class="panel-heading"><div><h2>Produtos cadastrados</h2><p>Produtos retornados pelo MySQL por meio da API.</p></div><button class="small-btn" id="recarregar">Atualizar</button></div><div class="table-wrap"><table><thead><tr><th>Produto</th><th>Código</th><th>Quantidade</th><th>Mínimo</th><th>Status</th></tr></thead><tbody id="listaProdutos"><tr><td colspan="5">Carregando...</td></tr></tbody></table></div></section>
-            <section class="panel" id="alertas"><div class="panel-heading"><div><h2>Produtos com alerta</h2><p>Em falta ou abaixo do mínimo.</p></div></div><div id="listaAlertas" class="items"><p>Carregando...</p></div></section>
-            <section class="panel" id="fornecedores"><div class="panel-heading"><div><h2>Fornecedores</h2><p>Registros cadastrados no sistema.</p></div></div><div id="listaFornecedores" class="items"><p>Carregando...</p></div></section>
-            <section class="panel wide" id="movimentacoes"><div class="panel-heading"><div><h2>Movimentações recentes</h2><p>Entradas e saídas registradas no backend.</p></div></div><div class="table-wrap"><table><thead><tr><th>Data</th><th>Produto</th><th>Tipo</th><th>Quantidade</th></tr></thead><tbody id="listaMovimentacoes"><tr><td colspan="4">Carregando...</td></tr></tbody></table></div></section>
+            <section class="panel wide" id="produtos">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Produtos cadastrados</h2>
+                        <p>Consulte os produtos e suas quantidades disponíveis.</p>
+                    </div><button class="small-btn" id="recarregar">Atualizar</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Código</th>
+                                <th>Quantidade</th>
+                                <th>Estoque Mínimo</th>
+                                <th>Situação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listaProdutos">
+                            <tr>
+                                <td colspan="5">Carregando...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <section class="panel" id="alertas">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Atenção ao Estoque</h2>
+                        <p>Produtos que precisam de reposição.</p>
+                    </div>
+                </div>
+                <div id="listaAlertas" class="items">
+                    <p>Carregando...</p>
+                </div>
+            </section>
+            <section class="panel" id="fornecedores">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Fornecedores</h2>
+                        <p>Consulte os seus fornecedores cadastrados.</p>
+                    </div>
+                </div>
+                <div id="listaFornecedores" class="items">
+                    <p>Carregando...</p>
+                </div>
+            </section>
+            <section class="panel wide" id="movimentacoes">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Movimentações recentes</h2>
+                        <p>Acompanhe as últimas entradas e saídas de produtos.</p>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Produto</th>
+                                <th>Tipo</th>
+                                <th>Quantidade</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listaMovimentacoes">
+                            <tr>
+                                <td colspan="4">Carregando...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
         </div>
     </main>
-        <dialog id="modalUsuario" class="dialog">
+    <dialog id="modalUsuario" class="dialog">
         <form id="formUsuario">
             <div class="panel-heading">
                 <h2>Cadastrar administrador</h2>
@@ -76,4 +177,5 @@
         <p id="resultadoRemocao" class="admin-feedback" role="status" aria-live="polite"></p>
     </dialog>
 </body>
+
 </html>

@@ -34,6 +34,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/usuarios/ceo-inicial/disponibilidade").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/usuarios/ceo-inicial").permitAll()   
                 .requestMatchers(HttpMethod.GET, "/api/usuarios/csrf").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/usuarios/me").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/api/usuarios/**").hasRole("CEO")

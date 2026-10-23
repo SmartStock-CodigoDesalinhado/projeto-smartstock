@@ -6,6 +6,8 @@ import java.sql.Date;
 import br.com.smartstock.api.enums.Categoria;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -50,10 +52,10 @@ public class Produto {
     @JoinColumn(name = "fornecedor_id") 
     private Fornecedor fornecedor;
 	
+	@Enumerated(EnumType.STRING)
+	private Categoria categoria;
 	
 	
-	public Categoria categoria;
-
 	public Produto() {}
 	
 	public Produto(String nome, String codigoBarras, BigDecimal precoVenda, Date dataVencimento, Integer unidade) {
@@ -111,6 +113,22 @@ public class Produto {
 
 	public void setUnidade(Integer unidade) {
 		this.unidade = unidade;
+	}
+
+	public Fornecedor getFornecedor() {
+		return fornecedor;
+	}
+
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 	
 	

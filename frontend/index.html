@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,11 +8,16 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="js/script.js" defer></script>
 </head>
+
 <body class="login-page">
     <header class="topbar login-topbar">
-        <a class="brand" href="index.html"><span class="brand-icon">⬡</span><span>Smart<span class="orange">Stock</span></span></a>
+        <a class="brand" href="index.html"><span class="brand-icon">⬡</span><span>Smart<span
+                    class="orange">Stock</span></span></a>
         <span class="green-line"></span>
-        <nav class="site-links"><a href="#recursos">RECURSOS</a><a href="mailto:suporte@smartstock.com">SUPORTE</a><a href="#sobre">SOBRE</a><a href="mailto:contato@smartstock.com">CONTATO</a></nav>
+        <nav class="site-links">
+            <a href="sobre.html">SOBRE NÓS</a>
+            <button type="button" id="abrirContato" class="nav-link">CONTATO</button>
+        </nav>
     </header>
     <main class="login-layout">
         <div class="photo-side left-photo" role="img" aria-label="Operador organizando produtos no armazém"></div>
@@ -22,15 +28,90 @@
             <p class="subtitle">Faça login para acessar o sistema de gestão de estoque.</p>
             <form id="loginForm">
                 <label for="email">E-mail</label>
-                <input id="email" name="email" type="email" maxlength="50" autocomplete="username" placeholder="Digite seu e-mail" required>
+                <input id="email" name="email" type="email" maxlength="50" autocomplete="username"
+                    placeholder="Digite seu e-mail" required>
                 <label for="senha">Senha</label>
-                <div class="password-field"><input id="senha" name="senha" type="password" autocomplete="current-password" placeholder="Digite sua senha" required><button type="button" id="toggleSenha" aria-label="Mostrar senha">◉</button></div>
+                <div class="password-field"><input id="senha" name="senha" type="password"
+                        autocomplete="current-password" placeholder="Digite sua senha" required><button type="button"
+                        id="toggleSenha" aria-label="Mostrar senha">◉</button></div>
                 <button class="primary-btn" type="submit" id="entrar">➜ &nbsp; ENTRAR</button>
             </form>
+
+            <div class="cadastro-ceo" id="areaCadastroCeo" hidden> <span>Primeiro acesso ao SmartStock?</span>
+                <button type="button" id="abrirCadastroCeo" class="ceo-btn">
+                    Cadastrar CEO
+                </button>
+            </div>
+
             <p id="mensagem" class="feedback" role="status" aria-live="polite"></p>
         </section>
         <div class="photo-side right-photo" role="img" aria-label="Gestora acompanhando o estoque com tablet"></div>
     </main>
-    <footer class="footer"><span><strong>SmartStock</strong> • Sistema de Controle de Estoque<br><small>Organize. Controle. Faça seu estoque render mais.</small></span><span>© SmartStock • Projeto TCC</span></footer>
+    <footer class="footer"><span><strong>SmartStock</strong> • Sistema de Controle de Estoque<br><small>Organize.
+                Controle. Faça seu estoque render mais.</small></span><span>© SmartStock • Projeto TCC</span></footer>
+
+    <div id="modalContato" class="modal-overlay" hidden>
+        <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="tituloContato">
+            <button type="button" class="modal-fechar" data-fechar-modal aria-label="Fechar">×</button>
+
+            <h2 id="tituloContato">Entre em contato</h2>
+            <p class="modal-descricao">Conheça os integrantes da equipe SmartStock.</p>
+
+            <div class="contato-item">
+                <strong>Matheus de Souza</strong>
+                <a href="mailto:dev.matheus.ssilva@gmail.com">dev.matheus.ssilva@gmail.com</a>
+            </div>
+
+            <div class="contato-item">
+                <strong>Marcelo Henrique</strong>
+                <a href="mailto:dev.marcelo.henrique06@gmail.com">dev.marcelo.henrique06@gmail.com</a>
+            </div>
+
+            <div class="contato-item">
+                <strong>Paulo Bacci</strong>
+                <a href="mailto:dev.paulo.bacci@gmail.com">dev.paulo.bacci@gmail.com</a>
+            </div>
+
+            <div class="contato-item">
+                <strong>Renan Pereira</strong>
+                <a href="mailto:dev.renan.agantes@gmail.com">dev.renan.agantes@gmail.com</a>
+            </div>
+        </section>
+    </div>
+
+    <div id="modalCadastroCeo" class="modal-overlay" hidden>
+        <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="tituloCadastroCeo">
+            <button type="button" class="modal-fechar" data-fechar-modal aria-label="Fechar">×</button>
+
+            <h2 id="tituloCadastroCeo">Cadastrar CEO</h2>
+            <p class="modal-descricao">
+                Realize o cadastro inicial do responsável pelo SmartStock.
+            </p>
+
+            <form id="cadastroCeoForm" class="modal-form">
+                <label for="nomeCeo">Nome completo</label>
+                <input id="nomeCeo" type="text" maxlength="100" autocomplete="name" required>
+
+                <label for="emailCeo">E-mail</label>
+                <input id="emailCeo" type="email" maxlength="50" autocomplete="email" required>
+
+                <label for="senhaCeo">Senha</label>
+                <input id="senhaCeo" type="password" minlength="8" autocomplete="new-password" required>
+
+                <label for="confirmarSenhaCeo">Confirmar senha</label>
+                <input id="confirmarSenhaCeo" type="password" minlength="8" autocomplete="new-password" required>
+
+                <button type="submit" id="salvarCeo" class="primary-btn">
+                    CADASTRAR CEO
+                </button>
+            </form>
+
+            <p id="mensagemCeo" class="feedback" role="status" aria-live="polite"></p>
+        </section>
+    </div>
+
+
+
 </body>
+
 </html>

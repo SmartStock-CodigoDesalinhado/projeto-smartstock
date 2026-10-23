@@ -58,6 +58,25 @@ public class UsuarioController {
         );
     }
     
+    @GetMapping("/ceo-inicial/disponibilidade")
+    public ResponseEntity<Map<String, Boolean>> verificarDisponibilidadeCeo() {
+        return ResponseEntity.ok(
+            Map.of("disponivel", service.cadastroCeoDisponivel())
+        );
+    }
+
+    @PostMapping("/ceo-inicial")
+    public ResponseEntity<Map<String, String>> cadastrarCeoInicial(@Valid @RequestBody Usuario usuario) {
+        Usuario ceo = service.cadastrarCeoInicial(usuario);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+            Map.of(
+                "mensagem", "CEO cadastrado com sucesso.",
+                "nome", ceo.getNome()
+            )
+        );
+    }
+    
     @GetMapping
     public ResponseEntity<List<Usuario>> listar() {
         return ResponseEntity.ok(service.listarTodos());

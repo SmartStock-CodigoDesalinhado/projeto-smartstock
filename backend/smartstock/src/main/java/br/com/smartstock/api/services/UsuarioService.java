@@ -4,11 +4,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import br.com.smartstock.api.entities.Usuario;
+import br.com.smartstock.api.enums.TipoUsuario;
 import br.com.smartstock.api.repositories.UsuarioRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UsuarioService {
@@ -32,6 +36,10 @@ public class UsuarioService {
     }
 
     public Usuario salvar(Usuario usuario) {
+        if(usuario.getTipoUsuario() == TipoUsuario.CEO) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Não é permitido cadastrar outro CEO.");
+        }
+
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         return repository.save(usuario);
     }
@@ -44,7 +52,15 @@ public class UsuarioService {
             
             atualizado.setNome(usuarioAtualizado.getNome());
             atualizado.setLogin(usuarioAtualizado.getLogin());
-            atualizado.setTipoUsuario(usuarioAtualizado.getTipoUsuario());
+            if(atualizado.getTipoUsuario() == TipoUsuario.CEO) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "O CEO não pode ser alterado.");
+            }
+
+            if(usuarioAtualizado.getTipoUsuario() != TipoUsuario.ADMIN) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Não é permitido alterar um usuário para CEO.");
+            }
+
+            atualizado.setTipoUsuario(TipoUsuario.ADMIN);
             
             if (usuarioAtualizado.getSenha() != null && !usuarioAtualizado.getSenha().isBlank()) {
                 atualizado.setSenha(passwordEncoder.encode(usuarioAtualizado.getSenha()));
@@ -57,6 +73,29 @@ public class UsuarioService {
     }
 
     public void deletar(Long id) {
+        Usuario usuario = repository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado."));
+
+        if(usuario.getTipoUsuario() == TipoUsuario.CEO) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "O CEO não pode ser excluído.");
+        }
+
         repository.deleteById(id);
+    }
+    
+    public boolean cadastroCeoDisponivel() {
+        return repository.count() == 0;
+    }
+
+    @Transactional
+    public synchronized Usuario cadastrarCeoInicial(Usuario usuario) {
+        if(!cadastroCeoDisponivel()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "O cadastro inicial do CEO não está disponível.");
+        }
+
+        usuario.setId(null);
+        usuario.setTipoUsuario(TipoUsuario.CEO);
+
+        return salvar(usuario);
     }
 }

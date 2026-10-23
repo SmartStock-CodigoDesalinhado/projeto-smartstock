@@ -56,8 +56,7 @@ async function listaAPI(caminhos) {
 }
 
 function quantidade(produto) {
-    const valor = produto.quantidadeAtual ?? produto.quantidadeEstoque ?? produto.quantidade ?? produto.estoqueAtual ?? produto.estoque;
-    return valor == null ? null : Number(valor);
+    const valor = produto.unidade ?? produto.quantidadeAtual ?? produto.quantidadeEstoque ?? produto.quantidade ?? produto.estoqueAtual ?? produto.estoque; return valor == null ? null : Number(valor);
 }
 
 function minimo(produto) {
@@ -75,7 +74,7 @@ function situacao(produto) {
 }
 
 async function carregarProdutos() {
-    const produtos = await listaAPI(["/produtos"]);
+    const produtos = await listaAPI(["/produto"]);
     $("totalProdutos").textContent = produtos.length.toLocaleString("pt-BR");
     const completos = produtos.every(produto => situacao(produto) !== null);
     if (completos) {
@@ -86,15 +85,24 @@ async function carregarProdutos() {
     $("listaProdutos").innerHTML = produtos.length ? produtos.map(produto => {
         const status = situacao(produto);
         const classe = status === "Em falta" ? "red" : status === "Estoque baixo" ? "yellow" : "green";
-        return `<tr><td>${seguro(produto.nome)}</td><td>${seguro(produto.codigo ?? produto.sku ?? produto.id)}</td><td>${seguro(quantidade(produto))}</td><td>${seguro(minimo(produto))}</td><td>${status ? `<span class="pill ${classe}">${status}</span>` : "Não informado"}</td></tr>`;
+        return `<tr><td>${seguro(produto.nome)}</td><td>${seguro(produto.codigoBarras ?? produto.codigo ?? produto.sku ?? produto.id)}</td><td>${seguro(quantidade(produto))}</td><td>${seguro(minimo(produto))}</td><td>${status ? `<span class="pill ${classe}">${status}</span>` : "Não informado"}</td></tr>`;
     }).join("") : '<tr><td colspan="5">Nenhum produto cadastrado.</td></tr>';
     const alertas = produtos.filter(produto => ["Em falta", "Estoque baixo"].includes(situacao(produto)));
-    $("listaAlertas").innerHTML = !completos ? "<p>Os campos de quantidade e estoque mínimo precisam ser conferidos na API.</p>" : alertas.length ? alertas.map(produto => `<div class="item"><strong>${seguro(produto.nome)}</strong><span>${seguro(situacao(produto))}</span></div>`).join("") : "<p>Nenhum produto em alerta.</p>";
+    $("listaAlertas").innerHTML = !completos
+        ? "<p>Não foi possível verificar a situação de todos os produtos.</p>"
+        : alertas.length
+            ? alertas.map(produto => `
+            <div class="item">
+                <strong>${seguro(produto.nome)}</strong>
+                <span>${seguro(situacao(produto))}</span>
+            </div>
+        `).join("")
+            : "<p>Nenhum produto precisa de reposição no momento.</p>";
 }
 
 async function carregarFornecedores() {
     const fornecedores = await listaAPI(["/fornecedores"]);
-    $("listaFornecedores").innerHTML = fornecedores.length ? fornecedores.slice(0, 8).map(fornecedor => `<div class="item"><strong>${seguro(fornecedor.nome ?? fornecedor.razaoSocial)}</strong><small>${seguro(fornecedor.cnpj ?? fornecedor.email ?? "")}</small></div>`).join("") : "<p>Nenhum fornecedor cadastrado.</p>";
+    $("listaFornecedores").innerHTML = fornecedores.length ? fornecedores.slice(0, 8).map(fornecedor => `<div class="item"><strong>${seguro(fornecedor.nomeFornecedor ?? fornecedor.nome ?? fornecedor.razaoSocial)}</strong><small>${seguro(fornecedor.cnpj ?? fornecedor.email ?? "")}</small></div>`).join("") : "<p>Nenhum fornecedor cadastrado.</p>";
 }
 
 async function carregarMovimentacoes() {
@@ -103,17 +111,57 @@ async function carregarMovimentacoes() {
 }
 
 async function atualizarPainel() {
-    const resultados = await Promise.allSettled([carregarProdutos(), carregarFornecedores(), carregarMovimentacoes()]);
-    const nomes = ["produtos", "fornecedores", "movimentações"];
-    const erros = resultados.map((resultado, indice) => resultado.status === "rejected" ? `${nomes[indice]}: ${resultado.reason.message}` : null).filter(Boolean);
+    $("statusPainel").textContent = "Atualizando informações do estoque...";
+    $("indicadorAtualizacao").textContent = "● Atualizando";
+
+    const resultados = await Promise.allSettled([
+        carregarProdutos(),
+        carregarFornecedores(),
+        carregarMovimentacoes()
+    ]);
+
+    const nomes = ["Produtos", "Fornecedores", "Movimentações"];
+
+    const erros = resultados
+        .map((resultado, indice) => {
+            if (resultado.status === "rejected") {
+                console.error(`Erro ao carregar ${nomes[indice]}:`, resultado.reason);
+                return nomes[indice];
+            }
+            return null;
+        })
+        .filter(Boolean);
+
     if (resultados[0].status === "rejected") {
-        $("listaProdutos").innerHTML = '<tr><td colspan="5">Não foi possível carregar os produtos.</td></tr>';
-        $("listaAlertas").textContent = "Dados indisponíveis.";
+        $("listaProdutos").innerHTML =
+            '<tr><td colspan="5">Não foi possível consultar os produtos.</td></tr>';
+
+        $("listaAlertas").textContent =
+            "Não foi possível consultar os alertas de estoque.";
     }
-    if (resultados[1].status === "rejected") $("listaFornecedores").textContent = "Dados indisponíveis.";
-    if (resultados[2].status === "rejected") $("listaMovimentacoes").innerHTML = '<tr><td colspan="4">Dados indisponíveis.</td></tr>';
-    $("statusPainel").textContent = erros.length ? `Alguns dados não foram carregados: ${erros.join(" | ")}` : "Dados atualizados a partir do backend.";
+
+    if (resultados[1].status === "rejected") {
+        $("listaFornecedores").textContent =
+            "Não foi possível consultar os fornecedores.";
+    }
+
+    if (resultados[2].status === "rejected") {
+        $("listaMovimentacoes").innerHTML =
+            '<tr><td colspan="4">Não foi possível consultar as movimentações.</td></tr>';
+    }
+
+    if (erros.length === 0) {
+        $("statusPainel").textContent = "";
+        $("indicadorAtualizacao").textContent = "● Estoque atualizado";
+    } else {
+        $("statusPainel").textContent =
+            "Algumas informações não puderam ser carregadas. Tente atualizar a página.";
+
+        $("indicadorAtualizacao").textContent =
+            "● Atualização incompleta";
+    }
 }
+
 
 
 async function carregarAdministradores() {
@@ -152,7 +200,8 @@ async function carregarAdministradores() {
             lista.append(linha);
         }
     } catch (erro) {
-        $("listaAdministradores").textContent = `Não foi possível listar os administradores: ${erro.message}`;
+        console.error("Erro ao consultar administradores:", erro);
+        $("listaAdministradores").textContent = "Não foi possível consultar os administradores. Tente novamente.";
     }
 }
 
@@ -164,6 +213,8 @@ async function iniciarDashboard() {
             return;
         }
         const nome = usuario.nome || usuario.email;
+        atualizarSaudacao(nome);
+        setInterval(() => atualizarSaudacao(nome), 60000);
         $("nomeUsuario").textContent = nome;
         $("perfilUsuario").textContent = ehCEO(usuario) ? "CEO" : usuario.tipoUsuario === "ADMIN" ? "Administrador" : "Usuário";
         $("iniciaisUsuario").textContent = nome.trim().split(/\s+/).slice(0, 2).map(parte => parte[0]).join("").toUpperCase();
@@ -171,7 +222,8 @@ async function iniciarDashboard() {
         $("removerAdministrador").hidden = !podeRemoverAdministrador(usuario);
         await atualizarPainel();
     } catch (erro) {
-        $("statusPainel").textContent = erro.message;
+        console.error("Erro ao iniciar o Dashboard:", erro);
+        $("statusPainel").textContent = "Não foi possível carregar o painel. Atualize a página.";
     }
 
     const botaoPerfil = $("botaoPerfil");
@@ -243,10 +295,10 @@ async function iniciarDashboard() {
                 const detalhe = await resposta.text();
                 throw new Error(`Erro ${resposta.status}: ${detalhe.slice(0, 160)}`);
             }
-            $("resultadoRemocao").textContent = `${nome} foi excluído do banco de dados.`;
-            await carregarAdministradores();
+            $("resultadoRemocao").textContent = `O administrador ${nome} foi removido com sucesso.`; await carregarAdministradores();
         } catch (erro) {
-            $("resultadoRemocao").textContent = `Não foi possível excluir: ${erro.message}`;
+            console.error("Erro ao excluir administrador:", erro);
+            $("resultadoRemocao").textContent = "Não foi possível remover o administrador. Tente novamente.";
             botao.disabled = false;
         }
     });
@@ -262,12 +314,29 @@ async function iniciarDashboard() {
                 const detalhe = await resposta.text();
                 throw new Error(`Erro ${resposta.status}: ${detalhe.slice(0, 200)}`);
             }
-            $("resultadoCadastro").textContent = "Administrador cadastrado no banco de dados.";
-            $("formUsuario").reset();
+            $("resultadoCadastro").textContent = "Administrador cadastrado com sucesso!"; $("formUsuario").reset();
         } catch (erro) {
-            $("resultadoCadastro").textContent = erro.message;
+            console.error("Erro ao cadastrar administrador:", erro);
+            $("resultadoCadastro").textContent = "Não foi possível cadastrar o administrador. Verifique os dados e tente novamente.";
         }
     });
+}
+
+function atualizarSaudacao(nome) {
+    const hora = new Date().getHours();
+    const primeiroNome = nome.trim().split(/\s+/)[0];
+
+    let saudacao;
+
+    if (hora >= 18 || hora < 5) {
+        saudacao = "Boa noite";
+    } else if (hora < 12) {
+        saudacao = "Bom dia";
+    } else {
+        saudacao = "Boa tarde";
+    }
+
+    $("saudacaoUsuario").textContent = `${saudacao}, ${primeiroNome}!`;
 }
 
 iniciarDashboard();

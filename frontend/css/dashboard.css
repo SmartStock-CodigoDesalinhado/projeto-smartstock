@@ -644,3 +644,10 @@ td[colspan] {
     min-height: 18px;
     margin-bottom: 0;
 }
+
+.dashboard-saudacao {
+    margin: 0 0 8px;
+    color: #ff690c;
+    font-size: 18px;
+    font-weight: 700;
+}
