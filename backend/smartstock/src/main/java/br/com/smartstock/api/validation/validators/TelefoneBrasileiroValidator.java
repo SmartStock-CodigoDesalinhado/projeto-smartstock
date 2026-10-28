@@ -12,7 +12,7 @@ public class TelefoneBrasileiroValidator implements ConstraintValidator<Telefone
 			return true;
 		}
 		
-		String regex = "^\\(?\\d{2}\\)?\\s?9?\\d{4}-?\\d{4}$";
+		String regex = "^(?:\\(?\\d{2}\\)?\\s?9?\\d{4}-?\\d{4}|0800[\\s-]?\\d{3}[\\s-]?\\d{4})$";
 		
 		return valor.matches(regex);
 	}
