@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/usuarios/ceo-inicial").permitAll()   
                 .requestMatchers(HttpMethod.GET, "/api/usuarios/csrf").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/usuarios/me").authenticated()
+                .requestMatchers(HttpMethod.POST, "/api/usuarios/ceos").hasRole("CEO")
                 .requestMatchers(HttpMethod.DELETE, "/api/usuarios/**").hasRole("CEO")
                 .requestMatchers("/api/usuarios", "/api/usuarios/**").hasAnyRole("ADMIN", "CEO")
                 .anyRequest().authenticated()

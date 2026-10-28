@@ -35,6 +35,14 @@ public class UsuarioService {
         return repository.findByLoginIgnoreCase(email);
     }
 
+    public Usuario cadastrarCeo(Usuario usuario) {
+        usuario.setId(null);
+        usuario.setTipoUsuario(TipoUsuario.CEO);
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+
+        return repository.save(usuario);
+    }
+    
     public Usuario salvar(Usuario usuario) {
         if(usuario.getTipoUsuario() == TipoUsuario.CEO) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Não é permitido cadastrar outro CEO.");
@@ -89,13 +97,13 @@ public class UsuarioService {
 
     @Transactional
     public synchronized Usuario cadastrarCeoInicial(Usuario usuario) {
-        if(!cadastroCeoDisponivel()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "O cadastro inicial do CEO não está disponível.");
+        if (!cadastroCeoDisponivel()) {
+            throw new ResponseStatusException(
+                HttpStatus.CONFLICT,
+                "O cadastro inicial do CEO não está disponível."
+            );
         }
 
-        usuario.setId(null);
-        usuario.setTipoUsuario(TipoUsuario.CEO);
-
-        return salvar(usuario);
+        return cadastrarCeo(usuario);
     }
 }

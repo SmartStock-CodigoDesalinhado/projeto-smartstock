@@ -65,14 +65,14 @@ public class UsuarioController {
         );
     }
 
-    @PostMapping("/ceo-inicial")
-    public ResponseEntity<Map<String, String>> cadastrarCeoInicial(@Valid @RequestBody Usuario usuario) {
-        Usuario ceo = service.cadastrarCeoInicial(usuario);
+    @PostMapping("/ceos")
+    public ResponseEntity<Map<String, String>> cadastrarCeo(@Valid @RequestBody Usuario usuario) {
+        Usuario novoCeo = service.cadastrarCeo(usuario);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
             Map.of(
                 "mensagem", "CEO cadastrado com sucesso.",
-                "nome", ceo.getNome()
+                "nome", novoCeo.getNome()
             )
         );
     }
