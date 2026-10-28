@@ -111,6 +111,20 @@ public class UsuarioController {
         return ResponseEntity.notFound().build();
     }
     
+    @PostMapping("/ceo-inicial")
+    public ResponseEntity<Map<String, String>> cadastrarCeoInicial(
+            @Valid @RequestBody Usuario usuario) {
+
+        Usuario ceo = service.cadastrarCeoInicial(usuario);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+            Map.of(
+                "mensagem", "CEO cadastrado com sucesso.",
+                "nome", ceo.getNome()
+            )
+        );
+    }
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletar(@PathVariable Long id) {
         Optional<Usuario> usuario = service.buscarPorId(id);
