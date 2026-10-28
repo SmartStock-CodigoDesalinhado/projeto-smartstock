@@ -189,20 +189,7 @@ iniciarCadastroCeo();
 
 async function verificarCadastroCeo() {
     const areaCadastro = $("areaCadastroCeo");
-
-    areaCadastro.hidden = true;
-
-    try {
-        const resposta = await requisicao("/usuarios/ceo-inicial/disponibilidade");
-
-        if (!resposta.ok) return;
-
-        const dados = await resposta.json();
-
-        areaCadastro.hidden = dados.disponivel !== true;
-    } catch (erro) {
-        areaCadastro.hidden = true;
-    }
+    areaCadastro.hidden = false;
 }
 
 verificarCadastroCeo();

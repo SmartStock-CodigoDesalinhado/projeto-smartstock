@@ -92,18 +92,15 @@ public class UsuarioService {
     }
     
     public boolean cadastroCeoDisponivel() {
-        return repository.count() == 0;
+        return true;
     }
 
     @Transactional
     public synchronized Usuario cadastrarCeoInicial(Usuario usuario) {
-        if (!cadastroCeoDisponivel()) {
-            throw new ResponseStatusException(
-                HttpStatus.CONFLICT,
-                "O cadastro inicial do CEO não está disponível."
-            );
-        }
+        usuario.setId(null);
+        usuario.setTipoUsuario(TipoUsuario.CEO);
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
 
-        return cadastrarCeo(usuario);
+        return repository.save(usuario);
     }
 }
