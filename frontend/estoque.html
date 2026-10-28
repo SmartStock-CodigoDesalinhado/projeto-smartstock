@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Estoque &mdash; SmartStock
+  </title>
+  <link href="css/dashboard.css" rel="stylesheet"/>
+  <link href="css/estoque.css" rel="stylesheet"/>
+  <script defer="" src="js/estoque.js">
+  </script>
+ </head>
+ <body class="dashboard-page">
+  <header class="topbar dash-topbar">
+   <a class="brand" href="dashboard.html">
+    <span class="brand-icon">
+     ⬡
+    </span>
+    <span>
+     Smart
+     <span class="orange">
+      Stock
+     </span>
+    </span>
+   </a>
+   <span class="green-line">
+   </span>
+   <div class="profile-area">
+    <button aria-controls="menuPerfil" aria-expanded="false" aria-label="Abrir menu do perfil" class="profile-trigger" id="botaoPerfil" type="button">
+     <span class="profile-avatar" id="iniciaisUsuario">
+      SS
+     </span>
+     <span class="profile-info">
+      <strong id="nomeUsuario">
+       Carregando...
+      </strong>
+      <small id="perfilUsuario">
+       Usu&aacute;rio
+      </small>
+     </span>
+     <span class="profile-chevron">
+      ⌄
+     </span>
+    </button>
+    <div class="profile-menu" hidden="" id="menuPerfil">
+     <button id="sair" type="button">
+      Sair da conta
+     </button>
+    </div>
+   </div>
+  </header>
+  <nav aria-label="Menu principal" class="app-nav">
+   <a href="dashboard.html">
+    ⌂ &nbsp; Dashboard
+   </a>
+   <a href="dashboard.html#produtos">
+    ⬡ &nbsp; Produtos
+   </a>
+   <a href="fornecedores.html">
+    ♟ &nbsp; Fornecedores
+   </a>
+   <a aria-current="page" class="active" href="estoque.html">
+    ◇ &nbsp; Estoque
+   </a>
+   <a href="estoque.html#movimentacoes">
+    &rlarr; &nbsp; Movimenta&ccedil;&otilde;es
+   </a>
+  </nav>
+  <main class="dashboard-content estoque-content">
+   <div class="title-row estoque-heading">
+    <div>
+     <p class="eyebrow">
+      CONTROLE OPERACIONAL
+     </p>
+     <h1>
+      Estoque
+     </h1>
+     <p>
+      Acompanhe os n&iacute;veis de estoque e registre entradas e sa&iacute;das.
+     </p>
+    </div>
+    <button class="estoque-primary" id="novoProduto">
+     ＋ Adicionar produto
+    </button>
+   </div>
+   <p aria-live="polite" class="estoque-feedback" id="feedback" role="status">
+    Carregando informa&ccedil;&otilde;es do estoque...
+   </p>
+   <section aria-label="Resumo do estoque" class="stock-stats">
+    <article class="stock-stat">
+     <span class="stat-icon">
+      ▦
+     </span>
+     <div>
+      <span>
+       Produtos cadastrados
+      </span>
+      <strong id="totalProdutos">
+       &mdash;
+      </strong>
+      <small>
+       itens diferentes
+      </small>
+     </div>
+    </article>
+    <article class="stock-stat">
+     <span class="stat-icon low">
+      !
+     </span>
+     <div>
+      <span>
+       Estoque baixo
+      </span>
+      <strong id="estoqueBaixo">
+       &mdash;
+      </strong>
+      <small>
+       at&eacute; 5 unidades
+      </small>
+     </div>
+    </article>
+    <article class="stock-stat">
+     <span class="stat-icon empty">
+      &times;
+     </span>
+     <div>
+      <span>
+       Sem estoque
+      </span>
+      <strong id="semEstoque">
+       &mdash;
+      </strong>
+      <small>
+       precisam de reposi&ccedil;&atilde;o
+      </small>
+     </div>
+    </article>
+    <article class="stock-stat">
+     <span class="stat-icon moves">
+      &rlarr;
+     </span>
+     <div>
+      <span>
+       Movimenta&ccedil;&otilde;es
+      </span>
+      <strong id="totalMovimentacoes">
+       &mdash;
+      </strong>
+      <small>
+       registros no hist&oacute;rico
+      </small>
+     </div>
+    </article>
+   </section>
+   <section class="panel stock-panel">
+    <div class="stock-toolbar">
+     <div>
+      <h2>
+       Produtos em estoque
+      </h2>
+      <p>
+       Consulte quantidades dispon&iacute;veis e gerencie seus produtos.
+      </p>
+     </div>
+     <div class="stock-filters">
+      <input aria-label="Pesquisar produto ou c&oacute;digo" id="pesquisa" placeholder="Pesquisar produto ou c&oacute;digo..." type="search"/>
+      <select aria-label="Filtrar por status" id="filtroStatus">
+       <option value="todos">
+        Todos os status
+       </option>
+       <option value="normal">
+        Estoque normal
+       </option>
+       <option value="baixo">
+        Estoque baixo
+       </option>
+       <option value="zerado">
+        Sem estoque
+       </option>
+      </select>
+      <button class="stock-secondary" id="atualizar">
+       Atualizar
+      </button>
+     </div>
+    </div>
+    <div class="table-wrap">
+     <table class="stock-table">
+      <thead>
+       <tr>
+        <th>
+         Produto
+        </th>
+        <th>
+         C&oacute;digo de barras
+        </th>
+        <th>
+         Categoria
+        </th>
+        <th>
+         Quantidade
+        </th>
+        <th>
+         Status
+        </th>
+        <th>
+         A&ccedil;&otilde;es
+        </th>
+       </tr>
+      </thead>
+      <tbody id="listaProdutos">
+       <tr>
+        <td colspan="6">
+         Carregando produtos...
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="table-foot">
+     <span id="contagemTabela">
+      &mdash;
+     </span>
+     <span>
+      Os dados s&atilde;o carregados da API SmartStock.
+     </span>
+    </div>
+   </section>
+   <section class="panel movement-panel" id="movimentacoes">
+    <div class="stock-toolbar">
+     <div>
+      <h2>
+       Movimenta&ccedil;&otilde;es recentes
+      </h2>
+      <p>
+       Hist&oacute;rico de entradas e sa&iacute;das registradas.
+      </p>
+     </div>
+     <button class="estoque-primary" id="novaMovimentacao">
+      ＋ Registrar movimenta&ccedil;&atilde;o
+     </button>
+    </div>
+    <div class="table-wrap">
+     <table class="stock-table">
+      <thead>
+       <tr>
+        <th>
+         Data
+        </th>
+        <th>
+         Produto
+        </th>
+        <th>
+         Tipo
+        </th>
+        <th>
+         Quantidade
+        </th>
+        <th>
+         Nota fiscal
+        </th>
+       </tr>
+      </thead>
+      <tbody id="listaMovimentacoes">
+       <tr>
+        <td colspan="5">
+         Carregando movimenta&ccedil;&otilde;es...
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </section>
+  </main>
+  <div class="modal-backdrop" hidden="" id="modalProduto">
+   <section aria-labelledby="tituloModalProduto" aria-modal="true" class="stock-modal" role="dialog">
+    <div class="modal-heading">
+     <div>
+      <p class="eyebrow">
+       CADASTRO DE PRODUTOS
+      </p>
+      <h2 id="tituloModalProduto">
+       Adicionar produto
+      </h2>
+     </div>
+     <button aria-label="Fechar" class="modal-close" data-fechar="modalProduto" type="button">
+      &times;
+     </button>
+    </div>
+    <form id="formProduto">
+     <p aria-live="polite" class="estoque-feedback" id="feedbackProduto" role="status">
+     </p>
+     <input id="produtoId" type="hidden"/>
+     <label for="nomeProduto">
+      Nome do produto
+     </label>
+     <input id="nomeProduto" maxlength="100" minlength="3" required=""/>
+     <div class="form-grid">
+      <div>
+       <label for="codigoBarras">
+        C&oacute;digo de barras
+       </label>
+       <input id="codigoBarras" required=""/>
+      </div>
+      <div>
+       <label for="categoria">
+        Categoria
+       </label>
+       <select id="categoria">
+        <option value="Comida">
+         Comida
+        </option>
+        <option value="Bebida">
+         Bebida
+        </option>
+        <option value="Higiene">
+         Higiene
+        </option>
+        <option value="produtosLimpeza">
+         Produtos de limpeza
+        </option>
+       </select>
+      </div>
+      <div>
+       <label for="precoVenda">
+        Pre&ccedil;o de venda (R$)
+       </label>
+       <input id="precoVenda" min="0" required="" step="0.01" type="number"/>
+      </div>
+      <div>
+       <label for="unidade">
+        Quantidade inicial
+       </label>
+       <input id="unidade" min="0" required="" step="1" type="number"/>
+      </div>
+      <div class="full-field">
+       <label for="dataVencimento">
+        Data de vencimento
+       </label>
+       <input id="dataVencimento" required="" type="date"/>
+      </div>
+     </div>
+     <p class="modal-note" hidden="" id="notaEdicao">
+      Na edi&ccedil;&atilde;o, c&oacute;digo de barras e categoria n&atilde;o s&atilde;o alterados porque o endpoint atual do backend n&atilde;o os atualiza.
+     </p>
+     <div class="modal-actions">
+      <button class="stock-secondary" data-fechar="modalProduto" type="button">
+       Cancelar
+      </button>
+      <button class="estoque-primary" id="salvarProduto" type="submit">
+       Salvar produto
+      </button>
+     </div>
+    </form>
+   </section>
+  </div>
+  <div class="modal-backdrop" hidden="" id="modalMovimentacao">
+   <section aria-labelledby="tituloModalMov" aria-modal="true" class="stock-modal" role="dialog">
+    <div class="modal-heading">
+     <div>
+      <p class="eyebrow">
+       CONTROLE DE QUANTIDADES
+      </p>
+      <h2 id="tituloModalMov">
+       Registrar movimenta&ccedil;&atilde;o
+      </h2>
+     </div>
+     <button aria-label="Fechar" class="modal-close" data-fechar="modalMovimentacao" type="button">
+      &times;
+     </button>
+    </div>
+    <form id="formMovimentacao">
+     <label for="produtoMov">
+      Produto
+     </label>
+     <select id="produtoMov" required="">
+     </select>
+     <div class="form-grid">
+      <div>
+       <label for="tipoMov">
+        Tipo
+       </label>
+       <select id="tipoMov">
+        <option value="ENTRADA">
+         Entrada
+        </option>
+        <option value="SAIDA">
+         Sa&iacute;da
+        </option>
+       </select>
+      </div>
+      <div>
+       <label for="quantidadeMov">
+        Quantidade
+       </label>
+       <input id="quantidadeMov" min="1" required="" step="1" type="number"/>
+      </div>
+      <div class="full-field">
+       <label for="notaFiscal">
+        Nota fiscal / refer&ecirc;ncia
+       </label>
+       <input id="notaFiscal" maxlength="100" placeholder="Ex.: NF-000123" required=""/>
+      </div>
+     </div>
+     <p class="modal-note">
+      A quantidade dispon&iacute;vel ser&aacute; atualizada ap&oacute;s o backend confirmar a opera&ccedil;&atilde;o. Sa&iacute;das acima do estoque dispon&iacute;vel ser&atilde;o recusadas.
+     </p>
+     <div class="modal-actions">
+      <button class="stock-secondary" data-fechar="modalMovimentacao" type="button">
+       Cancelar
+      </button>
+      <button class="estoque-primary" id="salvarMovimentacao" type="submit">
+       Registrar
+      </button>
+     </div>
+    </form>
+   </section>
+  </div>
+ </body>
+</html>
