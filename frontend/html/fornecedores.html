@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fornecedores — SmartStock</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/fornecedores.css">
+    <script src="js/fornecedores.js" defer></script>
+</head>
+
+<body class="dashboard-page">
+    <header class="topbar dash-topbar">
+        <a class="brand" href="dashboard.html"><span class="brand-icon">⬡</span><span>Smart<span
+                    class="orange">Stock</span></span></a>
+        <span class="green-line"></span>
+        <div class="profile-area">
+            <button type="button" class="profile-trigger" id="botaoPerfil" aria-label="Abrir menu do perfil"
+                aria-expanded="false" aria-controls="menuPerfil">
+                <span class="profile-avatar" id="iniciaisUsuario" aria-hidden="true">SS</span>
+                <span class="profile-info"><strong id="nomeUsuario">Carregando...</strong><small
+                        id="perfilUsuario">Usuário</small></span>
+                <span class="profile-chevron" aria-hidden="true">⌄</span>
+            </button>
+            <div class="profile-menu" id="menuPerfil" hidden>
+                <button type="button" id="cadastrarAdministrador" hidden>Cadastrar administrador</button>
+                <button type="button" id="removerAdministrador" hidden>Remover administrador</button>
+                <button type="button" id="sair">Sair da conta</button>
+            </div>
+        </div>
+    </header>
+    <nav class="app-nav" aria-label="Menu principal">
+        <a href="dashboard.html">⌂ &nbsp; Dashboard</a>
+        <a href="dashboard.html#produtos">⬡ &nbsp; Produtos</a>
+        <a class="active" aria-current="page" href="fornecedores.html">♟ &nbsp; Fornecedores</a>
+        <a href="dashboard.html#alertas">◇ &nbsp; Estoque</a>
+        <a href="dashboard.html#movimentacoes">⇄ &nbsp; Movimentações</a>
+    </nav>
+    <main class="dashboard-content fornecedores-content">
+        <div class="title-row fornecedores-heading">
+            <div>
+                <h1>Fornecedores</h1>
+                <p>Gerencie seus fornecedores e mantenha os dados sempre atualizados.</p>
+            </div>
+            <button type="button" class="forn-primary" id="novoFornecedor">＋ Novo fornecedor</button>
+        </div>
+        <section class="panel fornecedores-panel" aria-label="Fornecedores cadastrados">
+            <div class="fornecedores-tools">
+                <div>
+                    <h2>Fornecedores cadastrados <span class="forn-count" id="totalFornecedores">—</span></h2>
+                    <p>Consulte e gerencie os fornecedores do seu supermercado.</p>
+                </div>
+                <div class="fornecedores-filters">
+                    <label class="sr-only" for="pesquisarFornecedor">Pesquisar por nome ou CNPJ</label>
+                    <input id="pesquisarFornecedor" type="search" placeholder="Pesquisar por nome ou CNPJ"
+                        autocomplete="off">
+                    <button type="button" class="small-btn" id="recarregarFornecedores">Atualizar</button>
+                </div>
+            </div>
+            <p id="statusFornecedores" class="forn-feedback" role="status" aria-live="polite">Carregando fornecedores...
+            </p>
+            <div class="table-wrap">
+                <table class="fornecedores-table">
+                    <thead>
+                        <tr>
+                            <th>Fornecedor</th>
+                            <th>CNPJ</th>
+                            <th>Telefone</th>
+                            <th>E-mail</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaFornecedores">
+                        <tr>
+                            <td colspan="5">Carregando fornecedores...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <dialog id="modalFornecedor" class="dialog forn-dialog">
+        <form id="formFornecedor">
+            <div class="panel-heading">
+                <div>
+                    <h2 id="tituloModalFornecedor">Novo fornecedor</h2>
+                    <p>Preencha os dados do fornecedor.</p>
+                </div>
+                <button type="button" id="fecharFornecedor" class="close-btn" aria-label="Fechar">✕</button>
+            </div>
+            <input type="hidden" id="idFornecedor">
+            <label for="nomeFornecedor">Nome do fornecedor *</label>
+            <input id="nomeFornecedor" maxlength="255" autocomplete="organization" required
+                placeholder="Nome do fornecedor">
+            <label for="cnpjFornecedor">CNPJ *</label>
+            <input id="cnpjFornecedor" inputmode="numeric" maxlength="18" required placeholder="00.000.000/0000-00">
+            <label for="telefoneFornecedor">Telefone comercial *</label>
+            <input id="telefoneFornecedor" type="tel" maxlength="20" required placeholder="(00) 00000-0000">
+            <label for="emailFornecedor">E-mail</label>
+            <input id="emailFornecedor" type="email" maxlength="120" placeholder="contato@empresa.com.br">
+            <label for="enderecoFornecedor">Endereço *</label>
+            <input id="enderecoFornecedor" minlength="3" maxlength="150" required
+                placeholder="Rua, número, bairro e cidade">
+            <p id="resultadoFornecedor" class="forn-feedback" role="status" aria-live="polite"></p>
+            <div class="forn-form-actions">
+                <button type="button" class="outline-btn" id="cancelarFornecedor">Cancelar</button>
+                <button type="submit" class="forn-primary" id="salvarFornecedor">Cadastrar fornecedor</button>
+            </div>
+        </form>
+    </dialog>
+    <dialog id="modalDetalhes" class="dialog forn-dialog">
+        <div class="panel-heading">
+            <h2>Detalhes do fornecedor</h2><button type="button" id="fecharDetalhes" class="close-btn"
+                aria-label="Fechar">✕</button>
+        </div>
+        <dl id="detalhesFornecedor" class="forn-detalhes"></dl>
+        <button type="button" class="outline-btn" id="voltarDetalhes">Fechar</button>
+    </dialog>
+    <dialog id="modalUsuario" class="dialog">
+        <form id="formUsuario">
+            <div class="panel-heading">
+                <h2>Cadastrar administrador</h2><button type="button" id="fecharModal" class="close-btn"
+                    aria-label="Fechar">✕</button>
+            </div>
+            <p>Cadastre um novo administrador para ajudar no gerenciamento do SmartStock.</p>
+            <label for="novoNome">Nome</label><input id="novoNome" name="nome" required maxlength="100"
+                autocomplete="name">
+            <label for="novoEmail">E-mail</label><input id="novoEmail" name="login" type="email" required maxlength="50"
+                autocomplete="off">
+            <label for="novaSenha">Senha</label><input id="novaSenha" name="senha" type="password" required
+                minlength="8" autocomplete="new-password">
+            <button type="submit" class="primary-btn" id="salvarAdministrador">Cadastrar administrador</button>
+            <p id="resultadoCadastro" role="status" aria-live="polite"></p>
+        </form>
+    </dialog>
+    <dialog id="modalRemocao" class="dialog dialog-wide">
+        <div class="panel-heading">
+            <div>
+                <h2>Remover administrador</h2>
+                <p>Gerencie os administradores cadastrados. Por segurança, a conta principal não pode ser removida.</p>
+            </div><button type="button" id="fecharRemocao" class="close-btn" aria-label="Fechar">✕</button>
+        </div>
+        <div id="listaAdministradores" class="admin-list" aria-live="polite"></div>
+        <p id="resultadoRemocao" class="admin-feedback" role="status" aria-live="polite"></p>
+    </dialog>
+</body>
+
+</html>

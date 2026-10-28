@@ -1,0 +1,1114 @@
+:root {
+    font-family: Arial, Helvetica, sans-serif;
+
+    color: #253043;
+
+    background: #f8fafc;
+
+    font-synthesis: none;
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    margin: 0;
+
+    background: #f8fafc;
+}
+
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+
+button {
+    cursor: pointer;
+}
+
+
+a {
+    color: inherit;
+
+    text-decoration: none;
+}
+
+
+[hidden] {
+    display: none !important;
+}
+
+
+.orange {
+    color: #ff690c;
+}
+
+
+/* =========================
+   CABEÇALHO
+========================= */
+
+.topbar {
+    height: 61px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 26px;
+
+    padding: 0 3%;
+
+    background: #ffffff;
+}
+
+
+.brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    font-size: 28px;
+
+    font-weight: 800;
+
+    letter-spacing: -1.3px;
+
+    white-space: nowrap;
+}
+
+
+.brand-icon {
+    color: #ff690c;
+
+    font-size: 38px;
+
+    line-height: 1;
+}
+
+
+.green-line {
+    flex: 1;
+
+    height: 2px;
+
+    background: #50c640;
+}
+
+
+/* =========================
+   PERFIL
+========================= */
+
+.profile-area {
+    position: relative;
+
+    margin-left: auto;
+}
+
+
+.profile-trigger {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 7px 10px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #243146;
+
+    text-align: left;
+}
+
+
+.profile-trigger:hover,
+.profile-trigger[aria-expanded="true"] {
+    background: #f2f5f8;
+}
+
+
+.profile-avatar {
+    width: 37px;
+
+    height: 37px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: #e7edf5;
+
+    color: #254366;
+
+    font-size: 13px;
+
+    font-weight: 800;
+}
+
+
+.profile-info {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+    max-width: 150px;
+}
+
+
+.profile-info strong {
+    overflow: hidden;
+
+    font-size: 13px;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+.profile-info small {
+    color: #778397;
+
+    font-size: 11px;
+}
+
+
+.profile-chevron {
+    margin-left: 5px;
+
+    font-size: 20px;
+}
+
+
+.profile-menu {
+    position: absolute;
+
+    z-index: 30;
+
+    top: calc(100% + 7px);
+
+    right: 0;
+
+    width: 200px;
+
+    padding: 7px;
+
+    border: 1px solid #e5e9ef;
+
+    border-radius: 9px;
+
+    background: white;
+
+    box-shadow: 0 12px 30px #14213426;
+}
+
+
+.profile-menu button {
+    width: 100%;
+
+    padding: 12px;
+
+    border: 0;
+
+    border-radius: 6px;
+
+    background: white;
+
+    color: #263850;
+
+    text-align: left;
+}
+
+
+.profile-menu button:hover {
+    background: #fff1e8;
+
+    color: #ed5e08;
+}
+
+
+/* =========================
+   MENU
+========================= */
+
+.app-nav {
+    min-height: 55px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 7px 3%;
+
+    overflow-x: auto;
+
+    background: #ff690c;
+}
+
+
+.app-nav a {
+    padding: 12px 17px;
+
+    border-radius: 6px;
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+.app-nav a:hover,
+.app-nav a.active {
+    background: white;
+
+    color: #f36509;
+}
+
+
+/* =========================
+   CONTEÚDO
+========================= */
+
+.page-content {
+    width: 100%;
+
+    max-width: 1900px;
+
+    margin: 0 auto;
+
+    padding: 27px 3% 50px;
+}
+
+
+.page-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 20px;
+}
+
+
+.saudacao {
+    margin: 0 0 3px;
+
+    color: #8190a5;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+.page-header h1 {
+    margin: 0 0 5px;
+
+    color: #1d293b;
+
+    font-size: 29px;
+}
+
+
+.page-description {
+    margin: 0;
+
+    color: #8190a5;
+
+    font-size: 14px;
+}
+
+
+.api-status {
+    color: #27883b;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+}
+
+
+.status-message {
+    min-height: 17px;
+
+    margin: 12px 0;
+
+    color: #68768a;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.metrics {
+    display: grid;
+
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin: 18px 0;
+}
+
+
+.metric-card {
+    min-height: 118px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 18px;
+
+    border: 1px solid #e8edf2;
+
+    border-radius: 9px;
+
+    background: white;
+
+    box-shadow: 0 3px 12px #202d3c0b;
+}
+
+
+.metric-icon {
+    width: 65px;
+
+    height: 65px;
+
+    display: grid;
+
+    flex-shrink: 0;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    font-size: 30px;
+}
+
+
+.metric-card h2 {
+    margin: 0 0 8px;
+
+    color: #19345b;
+
+    font-size: 15px;
+}
+
+
+.metric-card strong {
+    color: #1b2940;
+
+    font-size: 30px;
+}
+
+
+.neutral {
+    background: #edf0f4;
+
+    color: #617084;
+}
+
+
+.danger {
+    background: #ffe2e3;
+
+    color: #e22;
+}
+
+
+.warning {
+    background: #fff0d5;
+
+    color: #ed9700;
+}
+
+
+.success {
+    background: #dff6e5;
+
+    color: #0e9c40;
+}
+
+
+/* =========================
+   PAINEL
+========================= */
+
+.panel {
+    padding: 20px;
+
+    border: 1px solid #e8edf2;
+
+    border-radius: 9px;
+
+    background: white;
+
+    box-shadow: 0 3px 12px #202d3c0b;
+}
+
+
+.panel-heading {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 18px;
+}
+
+
+.panel-heading h2 {
+    margin: 0 0 5px;
+
+    color: #1d3554;
+
+    font-size: 18px;
+}
+
+
+.panel-heading p {
+    margin: 0;
+
+    color: #8190a5;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   BOTÕES
+========================= */
+
+.primary-btn {
+    min-height: 42px;
+
+    padding: 10px 17px;
+
+    border: 1px solid #ff690c;
+
+    border-radius: 6px;
+
+    background: #ff690c;
+
+    color: white;
+
+    font-weight: 800;
+}
+
+
+.primary-btn:hover {
+    border-color: #e95d00;
+
+    background: #e95d00;
+}
+
+
+.primary-btn:disabled {
+    cursor: wait;
+
+    opacity: 0.6;
+}
+
+
+.outline-btn {
+    min-height: 44px;
+
+    padding: 9px 15px;
+
+    border: 1px solid #ff690c;
+
+    border-radius: 6px;
+
+    background: white;
+
+    color: #fb650b;
+
+    font-weight: 700;
+}
+
+
+.outline-btn:hover {
+    background: #fff3e9;
+}
+
+
+/* =========================
+   FILTROS
+========================= */
+
+.filters {
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 17px;
+}
+
+
+.search-field {
+    height: 44px;
+
+    display: flex;
+
+    flex: 1;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 0 13px;
+
+    border: 1px solid #dce3eb;
+
+    border-radius: 7px;
+
+    color: #8190a5;
+
+    background: white;
+}
+
+
+.search-field:focus-within {
+    border-color: #ff690c;
+
+    box-shadow: 0 0 0 3px #ff690c18;
+}
+
+
+.search-field input {
+    width: 100%;
+
+    border: 0;
+
+    outline: 0;
+
+    background: transparent;
+
+    color: #253043;
+}
+
+
+.filters select {
+    min-width: 200px;
+
+    height: 44px;
+
+    padding: 0 12px;
+
+    border: 1px solid #dce3eb;
+
+    border-radius: 7px;
+
+    outline: none;
+
+    background: white;
+
+    color: #38506c;
+}
+
+
+/* =========================
+   TABELA
+========================= */
+
+.table-wrap {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 13px;
+}
+
+
+th {
+    padding: 13px 10px;
+
+    background: #f4f7fa;
+
+    color: #38506c;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+
+td {
+    padding: 14px 10px;
+
+    border-bottom: 1px solid #e9edf2;
+
+    vertical-align: middle;
+}
+
+
+td[colspan] {
+    color: #8190a5;
+}
+
+
+.product-name {
+    color: #1d3554;
+
+    font-weight: 700;
+}
+
+
+/* =========================
+   SITUAÇÃO
+========================= */
+
+.pill {
+    display: inline-block;
+
+    padding: 5px 9px;
+
+    border-radius: 100px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+.pill.red {
+    background: #ffe6e6;
+
+    color: #d22;
+}
+
+
+.pill.yellow {
+    background: #fff2d5;
+
+    color: #bb7900;
+}
+
+
+.pill.green {
+    background: #e3f8e7;
+
+    color: #168741;
+}
+
+
+.pill.gray {
+    background: #edf0f4;
+
+    color: #617084;
+}
+
+
+/* =========================
+   EDITAR
+========================= */
+
+.edit-btn {
+    padding: 7px 12px;
+
+    border: 1px solid #ff690c;
+
+    border-radius: 6px;
+
+    background: white;
+
+    color: #f36509;
+
+    font-weight: 700;
+}
+
+
+.edit-btn:hover {
+    background: #fff3e9;
+}
+
+
+/* =========================
+   ESTADO VAZIO
+========================= */
+
+.empty-state {
+    padding: 45px 15px;
+
+    color: #718097;
+
+    text-align: center;
+}
+
+
+.empty-icon {
+    color: #ff690c;
+
+    font-size: 38px;
+}
+
+
+.empty-state h3 {
+    margin: 10px 0 5px;
+
+    color: #1d3554;
+}
+
+
+.empty-state p {
+    margin: 0;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.dialog {
+    width: min(720px, 94vw);
+
+    padding: 25px;
+
+    border: 0;
+
+    border-radius: 12px;
+
+    color: #253043;
+
+    box-shadow: 0 20px 80px #0004;
+}
+
+
+.dialog::backdrop {
+    background: #15243e99;
+}
+
+
+.modal-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+
+.modal-header h2 {
+    margin: 0 0 5px;
+
+    color: #1d3554;
+}
+
+
+.modal-header p {
+    margin: 0;
+
+    color: #8190a5;
+
+    font-size: 13px;
+}
+
+
+.close-btn {
+    border: 0;
+
+    background: transparent;
+
+    color: #253043;
+
+    font-size: 18px;
+}
+
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+}
+
+
+.form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+
+.form-group label {
+    color: #34465d;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+
+.form-group input,
+.form-group select {
+    width: 100%;
+
+    height: 49px;
+
+    padding: 0 14px;
+
+    border: 1px solid #d8dfe8;
+
+    border-radius: 7px;
+
+    outline: none;
+
+    background: white;
+}
+
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #ff690c;
+
+    box-shadow: 0 0 0 3px #ff690c18;
+}
+
+
+.modal-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 22px;
+}
+
+
+.cancel-btn {
+    min-height: 42px;
+
+    padding: 10px 17px;
+
+    border: 1px solid #d8dfe8;
+
+    border-radius: 6px;
+
+    background: white;
+
+    color: #53647a;
+
+    font-weight: 700;
+}
+
+
+.cancel-btn:hover {
+    background: #f5f7f9;
+}
+
+
+.form-result {
+    min-height: 18px;
+
+    margin: 12px 0 0;
+
+    color: #68768a;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 1050px) {
+
+    .metrics {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 760px) {
+
+    .topbar {
+        gap: 8px;
+
+        padding: 0 12px;
+    }
+
+
+    .brand {
+        font-size: 22px;
+    }
+
+
+    .brand-icon {
+        font-size: 30px;
+    }
+
+
+    .green-line {
+        display: none;
+    }
+
+
+    .profile-info {
+        max-width: 105px;
+    }
+
+
+    .page-content {
+        padding: 20px 12px 40px;
+    }
+
+
+    .page-header h1 {
+        font-size: 24px;
+    }
+
+
+    .api-status {
+        display: none;
+    }
+
+
+    .panel-heading {
+        align-items: stretch;
+
+        flex-direction: column;
+    }
+
+
+    .filters {
+        flex-direction: column;
+    }
+
+
+    .filters select {
+        width: 100%;
+    }
+
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .form-group.full {
+        grid-column: auto;
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    .metrics {
+        grid-template-columns: 1fr 1fr;
+
+        gap: 9px;
+    }
+
+
+    .metric-card {
+        min-height: 95px;
+
+        gap: 9px;
+
+        padding: 10px;
+    }
+
+
+    .metric-icon {
+        width: 42px;
+
+        height: 42px;
+
+        font-size: 21px;
+    }
+
+
+    .metric-card h2 {
+        font-size: 12px;
+    }
+
+
+    .metric-card strong {
+        font-size: 23px;
+    }
+
+
+    .profile-avatar {
+        width: 32px;
+
+        height: 32px;
+    }
+
+
+    .dialog {
+        padding: 18px;
+    }
+
+
+    .modal-actions {
+        flex-direction: column-reverse;
+    }
+
+
+    .modal-actions button {
+        width: 100%;
+    }
+
+}
