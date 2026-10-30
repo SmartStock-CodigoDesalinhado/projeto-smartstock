@@ -41,12 +41,16 @@ public class Produto {
 	@Column(nullable = false, precision = 12, scale = 2)
 	private BigDecimal precoVenda;
 	
-	@NotNull(message = "A data de validade deve ser uma data futura.")
+	@NotNull(message = "A data de validade deve ser obrigatória.")
 	private Date dataVencimento;
 	
 	@NotNull(message = "A quantidade é obrigatória.")
 	@PositiveOrZero(message = "A quantidade não pode ser negativa.")
 	private Integer unidade;
+	
+	@PositiveOrZero(message = "O estoque mínimo não pode ser negativo.")
+	@Column(name = "estoque_minimo")
+	private Integer estoqueMinimo;
 	
 	@ManyToOne
     @JoinColumn(name = "fornecedor_id") 
@@ -129,6 +133,14 @@ public class Produto {
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+
+	public Integer getEstoqueMinimo() {
+		return estoqueMinimo;
+	}
+
+	public void setEstoqueMinimo(Integer estoqueMinimo) {
+		this.estoqueMinimo = estoqueMinimo;
 	}
 	
 	

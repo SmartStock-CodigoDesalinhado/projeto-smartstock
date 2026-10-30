@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.br.CNPJ;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.smartstock.api.validation.annotations.TelefoneBrasileiro;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -49,6 +51,7 @@ public class Fornecedor {
 	@Column(unique = true)
 	private String cnpj;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "fornecedor")
 	private List<Produto> produtos;
 

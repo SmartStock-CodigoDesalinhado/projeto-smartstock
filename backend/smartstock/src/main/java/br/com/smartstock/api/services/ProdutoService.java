@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.smartstock.api.entities.Produto;
 import br.com.smartstock.api.repositories.ProdutoRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ProdutoService {
@@ -15,8 +16,15 @@ public class ProdutoService {
 	@Autowired
 	private ProdutoRepository repository;
 	
+	
+	@Transactional
 	public Produto salvar(Produto produto) {
-		return repository.save(produto);
+
+	    if (produto.getEstoqueMinimo() == null) {
+	        produto.setEstoqueMinimo(0);
+	    }
+
+	    return repository.save(produto);
 	}
 	
 	public List<Produto> listarTodos() {
@@ -35,11 +43,12 @@ public class ProdutoService {
 			
 			Produto atualizado = produtoExistente.get();
 			
-			atualizado.setNome(produtoAlterado.getNome());
-			atualizado.setDataVencimento(produtoAlterado.getDataVencimento());
-			atualizado.setPrecoVenda(produtoAlterado.getPrecoVenda());
-			atualizado.setUnidade(produtoAlterado.getUnidade());
+			atualizado.setCodigoBarras(produtoAlterado.getCodigoBarras());
+			atualizado.setEstoqueMinimo(produtoAlterado.getEstoqueMinimo());
 
+			if (produtoAlterado.getFornecedor() != null) {
+			    atualizado.setFornecedor(produtoAlterado.getFornecedor());
+			}
 			
 			return repository.save(atualizado);
 

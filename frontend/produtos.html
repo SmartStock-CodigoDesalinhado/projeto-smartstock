@@ -7,8 +7,8 @@
 
     <title>Produtos — SmartStock</title>
 
-    <link rel="stylesheet" href="../css/produto.css">
-    <script src="../js/produto.js" defer></script>
+    <link rel="stylesheet" href="css/produtos.css">
+    <script src="js/produtos.js" defer></script>
 </head>
 
 <body>
@@ -16,7 +16,7 @@
     <!-- CABEÇALHO -->
     <header class="topbar">
 
-        <a class="brand" href="../dashboard.html">
+        <a class="brand" href="dashboard.html">
             <span class="brand-icon">⬡</span>
 
             <span>
@@ -66,17 +66,15 @@
 
 
     <nav class="app-nav" aria-label="Menu principal">
-        <a href="../dashboard.html">⌂ &nbsp; Dashboard</a>
+        <a href="dashboard.html">⌂ &nbsp; Dashboard</a>
 
-        <a href="produto.html" class="active" aria-current="page">
-            ⬡ &nbsp; Produtos
-        </a>
+        <a href="produtos.html" class="active" aria-current="page"> ⬡ &nbsp; Produtos</a>
 
-        <a href="../fornecedores.html">♟ &nbsp; Fornecedores</a>
+        <a href="fornecedores.html">♟ &nbsp; Fornecedores</a>
 
-        <a href="../estoque.html">◇ &nbsp; Estoque</a>
+        <a href="estoque.html">◇ &nbsp; Estoque</a>
 
-        <a href="../movimentacoes.html">⇄ &nbsp; Movimentações</a>
+        <a href="movimentacoes.html">⇄ &nbsp; Movimentações</a>
     </nav>
 
 
@@ -101,9 +99,7 @@
 
             </div>
 
-            <span class="api-status">
-                ● Dados da API
-            </span>
+
 
         </section>
 
@@ -362,8 +358,8 @@
                         Nome
                     </label>
 
-                    <input type="text" id="nomeProduto" maxlength="120" required placeholder="Ex.: Arroz 5 kg">
-
+                    <input type="text" id="nomeProduto" minlength="3" maxlength="100" required
+                        placeholder="Ex.: Arroz 5 kg">
                 </div>
 
 
@@ -440,7 +436,7 @@
                         Data de vencimento
                     </label>
 
-                    <input type="date" id="vencimentoProduto">
+                    <input type="date" id="vencimentoProduto" required>
 
                 </div>
 
