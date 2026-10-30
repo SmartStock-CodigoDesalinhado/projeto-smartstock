@@ -4,7 +4,7 @@ INSERT IGNORE INTO tb_fornecedores (id, nome_fornecedor, email_fornecedor, telef
 (4,'Sorocaba Refrescos','comunicacao@sorocabarefrescos.com.br', '0800 120 1443','Rodovia Raposo Tavares, Parque Reserva Faze...','45913696000185');
 
 INSERT IGNORE INTO tb_usuario (id_usuario, login, nome_usuario, senha, tipo_usuario) VALUES
-(1, 'marcelo@ceosmartstock.com', 'Marcelo Henrique', '$10$qgduWc68gMHvcHE4aq5DyeSAbCoRXu3aTHMoT.Ok/s7NHw34gVzGq', 'CEO'),
+(1, 'marcelo@ceosmartstock.com', 'Marcelo Henrique', '$2a$10$FCP6mB6hqlnOz6CCF9302e5lvibLuQpJ1/gqHhZl5GWVA32xB9Srm', 'CEO'),
 (2, 'renan@ceosmartstock.com', 'Renan Pereira', '$2y$10$OatosI42NWPf/EKtlVzl.utictMQ1El385wwhztintg8tIdkhyFp.', 'CEO'),
 (3, 'murillo@ceosmartstock.com', 'Murillo Henrique', '$2y$10$kl/V5HTwbvxdSSgC1AYJIOc21Rt0JwpTUrWdFbREmdBeBgG.sOOGe', 'CEO'),
 (4, 'matheus@ceosmartstock.com', 'Matheus de Souza', '$2y$10$jLcamagcTVfUMgWHag5AJeJZKLiYeyrqrZui5UEgfZSolSOeWuFN.', 'CEO'),

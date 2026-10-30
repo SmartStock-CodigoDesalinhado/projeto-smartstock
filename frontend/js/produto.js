@@ -1724,5 +1724,6 @@ async function iniciarPagina() {
 }
 
 
-iniciarPagina();
 }
+
+iniciarPagina();
