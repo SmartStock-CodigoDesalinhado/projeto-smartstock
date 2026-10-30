@@ -1,0 +1,500 @@
+/* Estilos exclusivos da tela de Movimentações. A identidade base vem de dashboard.css. */
+.mov-content {
+    color: #1d2b43;
+}
+
+.mov-intro {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 22px;
+}
+
+.mov-intro .greeting {
+    display: block;
+    color: #8193ad;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.mov-intro h1 {
+    margin: 0 0 5px;
+    color: #1d2b43;
+    font-size: 30px;
+}
+
+.mov-intro p,
+.mov-panel-heading p {
+    margin: 0;
+    color: #8193ad;
+}
+
+.api-status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #218b45;
+    font-size: 14px;
+    white-space: nowrap;
+    padding-top: 8px;
+}
+
+.api-status span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #1ba34a;
+}
+
+.api-status.error {
+    color: #d12d2d;
+}
+
+.api-status.error span {
+    background: #d12d2d;
+}
+
+.mov-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.mov-stat {
+    min-height: 114px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 20px 24px;
+    background: #fff;
+    border: 1px solid #e1eaf4;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px #142b4810;
+}
+
+.stat-icon {
+    flex: 0 0 68px;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 32px;
+    font-weight: 500;
+}
+
+.stat-icon.neutral {
+    color: #193c69;
+    background: #e9eef5;
+}
+
+.stat-icon.green {
+    color: #00a344;
+    background: #dff7e7;
+}
+
+.stat-icon.red {
+    color: #ff2727;
+    background: #ffe2e2;
+}
+
+.stat-icon.amber {
+    color: #f58200;
+    background: #fff0d6;
+}
+
+.mov-stat h2 {
+    margin: 0 0 9px;
+    font-size: 14px;
+    color: #19345b;
+    font-weight: 700;
+}
+
+.mov-stat strong {
+    font-size: 29px;
+    color: #102f5b;
+    line-height: 1;
+}
+
+.mov-panel {
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #e1eaf4;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px #142b480b;
+}
+
+.mov-panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.mov-panel-heading h2 {
+    margin: 0 0 4px;
+    font-size: 22px;
+    color: #17345e;
+}
+
+.mov-panel-heading p {
+    font-size: 14px;
+}
+
+.mov-primary,
+.mov-outline {
+    min-height: 42px;
+    border-radius: 7px;
+    padding: 10px 16px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .15s, border-color .15s;
+}
+
+.mov-primary {
+    background: #ff690c;
+    color: #fff;
+    border: 1px solid #ff690c;
+}
+
+.mov-primary:hover {
+    background: #e95b00;
+}
+
+.mov-primary:disabled {
+    opacity: .65;
+    cursor: wait;
+}
+
+.mov-outline {
+    background: #fff;
+    color: #f36509;
+    border: 1px solid #ff690c;
+}
+
+.mov-outline:hover {
+    background: #fff3e9;
+}
+
+.mov-filters {
+    display: grid;
+    grid-template-columns: minmax(200px, 1fr) minmax(170px, 240px) 165px;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.search-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    height: 43px;
+    padding: 0 14px;
+    border: 1px solid #d9e3ef;
+    border-radius: 7px;
+    color: #7b91ad;
+}
+
+.search-field input {
+    border: 0;
+    outline: 0;
+    width: 100%;
+    min-width: 0;
+    background: transparent;
+    font: inherit;
+    color: #19345b;
+}
+
+.search-field:focus-within {
+    border-color: #ff8a43;
+    box-shadow: 0 0 0 3px #ff690c18;
+}
+
+.mov-filters select,
+.mov-dialog input,
+.mov-dialog select,
+.mov-dialog textarea {
+    width: 100%;
+    min-height: 43px;
+    padding: 10px 12px;
+    border: 1px solid #d9e3ef;
+    border-radius: 7px;
+    background: #fff;
+    color: #294364;
+    font: inherit;
+}
+
+.mov-dialog input:focus,
+.mov-dialog select:focus,
+.mov-dialog textarea:focus,
+.mov-filters select:focus {
+    outline: 2px solid #ffb27f;
+    outline-offset: 1px;
+}
+
+.mov-feedback {
+    color: #7589a3;
+    font-size: 13px;
+    min-height: 0;
+    margin: 0 0 10px;
+}
+
+.mov-feedback:empty {
+    display: none;
+}
+
+.mov-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.mov-table th {
+    background: #f3f6f9;
+    color: #45617f;
+    text-align: left;
+    font-weight: 700;
+    padding: 13px 14px;
+    white-space: nowrap;
+}
+
+.mov-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid #e9eff6;
+    color: #3b5b82;
+    vertical-align: middle;
+}
+
+.mov-table tbody tr:hover {
+    background: #fffaf6;
+}
+
+.mov-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border-radius: 16px;
+    padding: 5px 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.mov-badge.entrada {
+    color: #078b42;
+    background: #e0f8e9;
+}
+
+.mov-badge.saida {
+    color: #e22323;
+    background: #ffe5e5;
+}
+
+.mov-badge.ajuste {
+    color: #a96100;
+    background: #fff0d3;
+}
+
+.mov-quantity.positive {
+    color: #079b4b;
+    font-weight: 700;
+}
+
+.mov-quantity.negative {
+    color: #e22323;
+    font-weight: 700;
+}
+
+.mov-action {
+    border: 1px solid #d9e5f1;
+    background: #fff;
+    color: #315c8b;
+    border-radius: 6px;
+    padding: 7px 11px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.mov-action:hover {
+    border-color: #ff9a5a;
+    color: #e95b00;
+}
+
+.mov-table-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: #7b90aa;
+    font-size: 12px;
+    padding-top: 14px;
+}
+
+.mov-dialog {
+    width: min(540px, calc(100% - 28px));
+    max-height: 90vh;
+    overflow: auto;
+    border: 0;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 18px 70px #10233c40;
+}
+
+.mov-dialog::backdrop {
+    background: #17263c70;
+}
+
+.mov-dialog form {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.mov-dialog .panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.mov-dialog .panel-heading h2 {
+    margin: 0 0 5px;
+    color: #19345b;
+}
+
+.mov-dialog .panel-heading p {
+    margin: 0;
+    color: #8193ad;
+    font-size: 13px;
+}
+
+.mov-dialog label {
+    color: #294364;
+    font-weight: 700;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.mov-dialog textarea {
+    resize: vertical;
+}
+
+.mov-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.mov-form-grid>div {
+    min-width: 0;
+}
+
+.mov-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.mov-details {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 10px 14px;
+    margin: 10px 0 20px;
+}
+
+.mov-details dt {
+    color: #7b90aa;
+    font-size: 13px;
+}
+
+.mov-details dd {
+    margin: 0;
+    color: #19345b;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+@media(max-width:1000px) {
+    .mov-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .mov-filters {
+        grid-template-columns: 1fr 200px;
+    }
+
+    .mov-filters .mov-outline {
+        grid-column: 1/-1;
+    }
+
+    .table-wrap {
+        overflow-x: auto;
+    }
+
+    .mov-table {
+        min-width: 850px;
+    }
+}
+
+@media(max-width:620px) {
+
+    .mov-intro,
+    .mov-panel-heading {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .api-status {
+        padding-top: 0;
+    }
+
+    .mov-stats {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .mov-stat {
+        min-height: 90px;
+        padding: 15px;
+    }
+
+    .stat-icon {
+        width: 56px;
+        height: 56px;
+        flex-basis: 56px;
+        font-size: 27px;
+    }
+
+    .mov-filters {
+        grid-template-columns: 1fr;
+    }
+
+    .mov-filters .mov-outline {
+        grid-column: auto;
+    }
+
+    .mov-panel {
+        padding: 14px;
+    }
+
+    .mov-intro h1 {
+        font-size: 26px;
+    }
+
+    .mov-table-footer {
+        flex-direction: column;
+    }
+
+    .mov-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mov-dialog {
+        padding: 18px;
+    }
+}
