@@ -37,11 +37,10 @@
 
     <main class="dashboard-content mov-content">
         <div class="mov-intro">
-            <div><span class="greeting">Olá!</span>
+            <div><span class="greeting" id="saudacaoUsuario">Olá!</span>
                 <h1>Movimentações</h1>
                 <p>Acompanhe e registre as entradas e saídas dos produtos no estoque.</p>
             </div>
-            <span class="api-status" id="statusApi"><span></span> Conectando à API</span>
         </div>
 
         <section class="mov-stats" aria-label="Resumo das movimentações">
@@ -58,11 +57,6 @@
             <article class="mov-stat"><span class="stat-icon red">⇤</span>
                 <div>
                     <h2>Saídas</h2><strong id="totalSaidas">—</strong>
-                </div>
-            </article>
-            <article class="mov-stat"><span class="stat-icon amber">⚙</span>
-                <div>
-                    <h2>Ajustes</h2><strong id="totalAjustes">—</strong>
                 </div>
             </article>
         </section>
@@ -82,7 +76,6 @@
                     <option value="">Todos os tipos</option>
                     <option value="ENTRADA">Entrada</option>
                     <option value="SAIDA">Saída</option>
-                    <option value="AJUSTE">Ajuste</option>
                 </select>
                 <button type="button" class="mov-outline" id="atualizarMovimentacoes">↻ &nbsp; Atualizar</button>
             </div>
@@ -107,8 +100,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="mov-table-footer"><span id="contagemLista">Mostrando 0 movimentações</span><span>Os dados são
-                    carregados da API do SmartStock.</span></div>
+            <div class="mov-table-footer"><span id="contagemLista">Mostrando 0 movimentações</span></div>
         </section>
     </main>
 
@@ -134,6 +126,10 @@
                 <div><label for="estoqueAtual">Estoque atual</label><input id="estoqueAtual" type="text" readonly
                         placeholder="Selecione um produto"></div>
             </div>
+
+            <label for="notaFiscalMovimentacao">Nota fiscal *</label>
+            <input id="notaFiscalMovimentacao" type="text" maxlength="100" required placeholder="Ex.: NF-000123">
+
             <label for="observacaoMovimentacao">Observação</label><textarea id="observacaoMovimentacao" rows="3"
                 maxlength="500" placeholder="Motivo ou detalhes da movimentação (opcional)"></textarea>
             <p class="mov-feedback" id="feedbackFormulario" role="status" aria-live="polite"></p>

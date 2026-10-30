@@ -1,13 +1,3 @@
-// ======================================================
-// SMARTSTOCK - MOVIMENTAÇÕES
-// Registro e consulta de entradas e saídas do estoque
-// ======================================================
-
-
-// ======================================================
-// 1. CONFIGURAÇÕES E VARIÁVEIS
-// ======================================================
-
 const API = `http://${window.location.hostname}:8080/api`;
 
 const $ = (id) => document.getElementById(id);
@@ -16,9 +6,7 @@ let produtos = [];
 let movimentacoes = [];
 
 
-// ======================================================
-// 2. COMUNICAÇÃO COM A API
-// ======================================================
+
 
 async function requisicao(caminho, opcoes = {}) {
     return fetch(`${API}${caminho}`, {
@@ -361,11 +349,11 @@ function renderizarTabela() {
         criarCelula(
             linha,
             item?.produto?.codigoBarras
-                ?? item?.codigoBarras
-                ?? item?.produto?.codigo
-                ?? produto?.codigoBarras
-                ?? produto?.codigo
-                ?? produtoId
+            ?? item?.codigoBarras
+            ?? item?.produto?.codigo
+            ?? produto?.codigoBarras
+            ?? produto?.codigo
+            ?? produtoId
         );
 
         // Tipo
@@ -600,14 +588,14 @@ async function registrarMovimentacao(evento) {
         Number($("quantidadeMovimentacao").value);
 
     const notaFiscal =
-        $("observacaoMovimentacao").value.trim();
+        $("notaFiscalMovimentacao").value.trim();
 
 
     // Validar produto
     if (!produtoId) {
 
         $("feedbackFormulario").textContent =
-            "Selecione um produto.";
+            "Preencha a nota fiscal ou identificação da movimentação.";
 
         return;
     }
@@ -937,6 +925,9 @@ async function iniciar() {
                 ?? "Usuário";
 
             $("nomeUsuario").textContent = nome;
+
+            $("saudacaoUsuario").textContent =
+                `Olá, ${nome.trim().split(/\s+/)[0]}!`;
 
             $("perfilUsuario").textContent =
                 usuario.tipoUsuario
