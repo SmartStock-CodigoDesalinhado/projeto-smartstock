@@ -8,3 +8,4 @@ INSERT IGNORE INTO tb_usuario (id_usuario, login, nome_usuario, senha, tipo_usua
 (4, 'murillo@ceosmartstock.com', 'Murillo Henrique', '$2y$10$kl/V5HTwbvxdSSgC1AYJIOc21Rt0JwpTUrWdFbREmdBeBgG.sOOGe', 'CEO'),
 (5, 'matheus@ceosmartstock.com', 'Matheus de Souza', '$2y$10$jLcamagcTVfUMgWHag5AJeJZKLiYeyrqrZui5UEgfZSolSOeWuFN.', 'CEO'),
 (6, 'paulo@ceosmartstock.com', 'Paulo Bacci', '$2y$10$nn0Jt5BYDCpa6cxDo6Nh7Ou6/cWvG.irc6E6gqwd2h5bG2acGXTgq', 'CEO');
+(9, 'marcelo@ceosmartstock.com', 'Marcelo Henrique', '$10$qgduWc68gMHvcHE4aq5DyeSAbCoRXu3aTHMoT.Ok/s7NHw34gVzGq', 'CEO')
