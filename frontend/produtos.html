@@ -462,6 +462,64 @@
 
     </dialog>
 
+    <!-- ==========================================
+     MODAL DE CONFIRMAÇÃO DE EXCLUSÃO DE PRODUTO
+     ========================================== -->
+
+<dialog
+    class="dialog modal-exclusao"
+    id="modalExclusaoProduto"
+    aria-labelledby="tituloExclusaoProduto"
+    aria-describedby="mensagemExclusaoProduto"
+>
+    <div class="modal-exclusao-conteudo">
+
+        <div class="modal-exclusao-icone" aria-hidden="true">
+            ⚠
+        </div>
+
+        <h2 id="tituloExclusaoProduto">
+            Excluir produto?
+        </h2>
+
+        <p id="mensagemExclusaoProduto">
+            Deseja realmente excluir este produto?
+        </p>
+
+        <p class="modal-exclusao-aviso">
+            Esta ação não poderá ser desfeita.
+        </p>
+
+        <p
+            id="erroExclusaoProduto"
+            class="modal-exclusao-erro"
+            role="alert"
+            hidden
+        ></p>
+
+        <div class="modal-exclusao-acoes">
+
+            <button
+                type="button"
+                class="cancel-btn"
+                id="cancelarExclusaoProduto"
+            >
+                Cancelar
+            </button>
+
+            <button
+                type="button"
+                class="confirmar-exclusao-btn"
+                id="confirmarExclusaoProduto"
+            >
+                Excluir permanentemente
+            </button>
+
+        </div>
+
+    </div>
+</dialog>
+
 </body>
 
 </html>

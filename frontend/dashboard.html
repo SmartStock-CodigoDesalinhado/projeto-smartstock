@@ -176,6 +176,27 @@
         <div id="listaAdministradores" class="admin-list" aria-live="polite"></div>
         <p id="resultadoRemocao" class="admin-feedback" role="status" aria-live="polite"></p>
     </dialog>
+
+    <dialog id="modalConfirmacaoExclusao" class="modal-confirmacao">
+    <div class="confirmacao-conteudo">
+        <div class="confirmacao-icone" aria-hidden="true">!</div>
+
+        <h2>Excluir administrador?</h2>
+
+        <p id="mensagemConfirmacaoExclusao"></p>
+
+        <div class="confirmacao-acoes">
+            <button type="button" id="cancelarExclusao" class="btn-cancelar">
+                Cancelar
+            </button>
+
+            <button type="button" id="confirmarExclusao" class="btn-excluir">
+                Excluir permanentemente
+            </button>
+        </div>
+    </div>
+</dialog>
+
 </body>
 
 </html>

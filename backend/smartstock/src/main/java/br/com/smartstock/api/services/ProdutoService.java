@@ -43,10 +43,6 @@ public class ProdutoService {
 			
 			Produto atualizado = produtoExistente.get();
 			
-			atualizado.setNome(produtoAlterado.getNome());
-			atualizado.setPrecoVenda(produtoAlterado.getPrecoVenda());
-			atualizado.setUnidade(produtoAlterado.getUnidade());
-			atualizado.setDataVencimento(produtoAlterado.getDataVencimento());
 			atualizado.setCodigoBarras(produtoAlterado.getCodigoBarras());
 			atualizado.setEstoqueMinimo(produtoAlterado.getEstoqueMinimo());
 
@@ -62,8 +58,19 @@ public class ProdutoService {
 		
 	}	
 
-	public void deletar(Long id) {
-		repository.deleteById(id);
+	@Transactional
+	public boolean deletar(Long id) {
+
+	    Optional<Produto> produto = repository.findById(id);
+
+	    if (produto.isEmpty()) {
+	        return false;
+	    }
+
+	    repository.delete(produto.get());
+	    repository.flush();
+
+	    return true;
 	}
 	
 }

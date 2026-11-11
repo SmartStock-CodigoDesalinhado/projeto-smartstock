@@ -651,3 +651,136 @@ td[colspan] {
     font-size: 18px;
     font-weight: 700;
 }
+
+.modal-confirmacao {
+    width: min(440px, calc(100% - 32px));
+    max-width: none;
+    border: none;
+    border-radius: 18px;
+    padding: 0;
+    color: #203653;
+    background: #ffffff;
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.2);
+}
+
+.modal-confirmacao::backdrop {
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(3px);
+}
+
+.modal-confirmacao[open] {
+    animation: confirmacaoEntrar 0.25s ease-out;
+}
+
+.confirmacao-conteudo {
+    padding: 32px;
+    text-align: center;
+}
+
+.confirmacao-icone {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #fff0ed;
+    color: #dc2626;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.confirmacao-conteudo h2 {
+    margin: 0 0 12px;
+    font-size: 23px;
+}
+
+.confirmacao-conteudo p {
+    margin: 0 0 28px;
+    color: #64748b;
+    line-height: 1.6;
+}
+
+.confirmacao-acoes {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.confirmacao-acoes button {
+    padding: 12px 18px;
+    border-radius: 9px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.confirmacao-acoes button:hover {
+    transform: translateY(-2px);
+}
+
+.btn-cancelar {
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-excluir {
+    background: #dc2626;
+    color: white;
+    border: 1px solid #dc2626;
+}
+
+.btn-excluir:hover {
+    background: #b91c1c;
+}
+
+.btn-excluir:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@keyframes confirmacaoEntrar {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes confirmacaoSair {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+}
+
+.modal-confirmacao.saindo {
+    animation: confirmacaoSair 0.2s ease-in forwards;
+}
+
+@media (max-width: 480px) {
+    .confirmacao-acoes {
+        flex-direction: column-reverse;
+    }
+
+    .confirmacao-acoes button {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .modal-confirmacao[open],
+    .modal-confirmacao.saindo {
+        animation: none;
+    }
+}

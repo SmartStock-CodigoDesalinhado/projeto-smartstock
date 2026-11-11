@@ -59,6 +59,10 @@ public class Produto {
 	@Enumerated(EnumType.STRING)
 	private Categoria categoria;
 	
+	@NotNull
+	@Column(name = "ativo", nullable = false)
+	private Boolean ativo = true;
+	
 	
 	public Produto() {}
 	
@@ -141,6 +145,14 @@ public class Produto {
 
 	public void setEstoqueMinimo(Integer estoqueMinimo) {
 		this.estoqueMinimo = estoqueMinimo;
+	}
+
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
 	}
 	
 	

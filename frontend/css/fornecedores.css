@@ -224,3 +224,198 @@
         min-width: 780px;
     }
 }
+
+/* ==========================================
+   MODAIS DE CONFIRMAÇÃO DE EXCLUSÃO
+   FORNECEDORES E ADMINISTRADORES
+   ========================================== */
+
+.forn-confirm-dialog {
+    width: min(440px, 92vw);
+    max-height: 90vh;
+    overflow-y: auto;
+
+    padding: 32px;
+
+    border: none;
+    border-radius: 16px;
+
+    background: #ffffff;
+    color: #253043;
+
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+
+    text-align: center;
+
+    animation: fornModalEntrada 0.25s ease-out;
+}
+
+/* Fundo escurecido */
+
+.forn-confirm-dialog::backdrop {
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+}
+
+/* Conteúdo */
+
+.forn-confirm-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Ícone de alerta */
+
+.forn-confirm-icon {
+    display: grid;
+    place-items: center;
+
+    width: 70px;
+    height: 70px;
+
+    margin-bottom: 20px;
+
+    border-radius: 50%;
+
+    background: #fee2e2;
+    color: #dc2626;
+
+    font-size: 36px;
+}
+
+/* Título */
+
+.forn-confirm-dialog h2 {
+    margin: 0 0 12px;
+
+    color: #1d293b;
+
+    font-size: 23px;
+    font-weight: 800;
+}
+
+/* Mensagem */
+
+.forn-confirm-dialog p {
+    margin: 0 0 12px;
+
+    color: #64748b;
+
+    font-size: 14px;
+    line-height: 1.6;
+
+    overflow-wrap: anywhere;
+}
+
+/* Aviso */
+
+.forn-confirm-dialog .forn-confirm-warning {
+    color: #dc2626;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* Erro */
+
+.forn-confirm-dialog .forn-confirm-error {
+    width: 100%;
+
+    padding: 10px;
+
+    border-radius: 7px;
+
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+/* Ações */
+
+.forn-confirm-actions {
+    display: flex;
+    justify-content: center;
+
+    gap: 12px;
+
+    width: 100%;
+    margin-top: 22px;
+}
+
+.forn-confirm-actions button {
+    flex: 1;
+
+    min-height: 44px;
+    padding: 10px 12px;
+
+    border-radius: 7px;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* Botão vermelho */
+
+.forn-danger-btn {
+    border: 1px solid #dc2626;
+
+    background: #dc2626;
+    color: #ffffff;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.forn-danger-btn:hover {
+    background: #b91c1c;
+    transform: translateY(-1px);
+}
+
+.forn-danger-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none;
+}
+
+/* Animação */
+
+@keyframes fornModalEntrada {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Responsividade */
+
+@media (max-width: 520px) {
+    .forn-confirm-dialog {
+        padding: 24px 18px;
+    }
+
+    .forn-confirm-actions {
+        flex-direction: column-reverse;
+    }
+
+    .forn-confirm-actions button {
+        width: 100%;
+        flex: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .forn-confirm-dialog {
+        animation: none;
+    }
+
+    .forn-danger-btn {
+        transition: none;
+    }
+}

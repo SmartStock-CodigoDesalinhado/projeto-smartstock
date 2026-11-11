@@ -61,17 +61,15 @@ public class ProdutoController {
 	    }
 	 
 	 @DeleteMapping("/{id}")
-	    public ResponseEntity<Object> deletar(@PathVariable Long id) {
-	        Optional<Produto> produtos = service.buscarPorId(id);
-	        
-	        if(produtos.isPresent()) {	
-	        	service.deletar(id);
-	        	return ResponseEntity.status(HttpStatus.OK).body("Sucesso: O produto foi excluído permanentemente");
+	 public ResponseEntity<Void> deletar(@PathVariable Long id) {
 
-	        }
-	    	
-	    	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: Não foi possível deletar. o produto com ID" + id + "não foi encontrado");
+	     boolean excluido = service.deletar(id);
 
-	    }
+	     if (!excluido) {
+	         return ResponseEntity.notFound().build();
+	     }
+
+	     return ResponseEntity.noContent().build();
+	 }
 
 }

@@ -416,3 +416,89 @@
         padding:19px;
     }
 }
+
+.row-action-delete {
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    background-color: #fff;
+    transition: background-color 0.2s ease;
+}
+
+.row-action-delete:hover {
+    color: #b91c1c;
+    background-color: #fef2f2;
+    border-color: #f87171;
+}
+
+.row-action-delete:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}   
+
+/* Botão Excluir na tabela */
+
+.row-action-delete {
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.row-action-delete:hover {
+    color: #b91c1c;
+    background-color: #fef2f2;
+    border-color: #f87171;
+}
+
+/* Modal de exclusão */
+
+.modal-excluir {
+    max-width: 460px;
+    width: calc(100% - 32px);
+}
+
+.excluir-descricao {
+    margin: 20px 0 12px;
+    color: #374151;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.excluir-descricao strong {
+    color: #111827;
+    font-weight: 700;
+}
+
+.excluir-aviso {
+    margin-bottom: 20px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+    font-size: 13px;
+}
+
+/* Botão de confirmação */
+
+.btn-excluir-confirmar {
+    padding: 11px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #dc2626;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-excluir-confirmar:hover {
+    background-color: #b91c1c;
+}
+
+.btn-excluir-confirmar:disabled,
+.row-action-delete:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

@@ -3,7 +3,6 @@ const API = `http://${HOST_API}:8080/api`;
 const $ = (id) => document.getElementById(id);
 
 let produtos = [];
-let movimentacoes = [];
 
 const texto = (valor) => String(valor ?? "—");
 
@@ -17,18 +16,7 @@ function seguro(valor) {
   })[caractere]);
 }
 
-function formatarData(valor) {
-  if (!valor) return "—";
 
-  const data = new Date(valor);
-  if (Number.isNaN(data.getTime())) return texto(valor);
-
-  return data.toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
-}
 
 function categoriaNome(categoria) {
   const categorias = {
@@ -74,7 +62,11 @@ function feedback(mensagem, tipo = "") {
     mensagemModal.textContent = mensagem;
     mensagemModal.className = `estoque-feedback ${tipo}`.trim();
   }
+
+
 }
+
+
 
 async function requisicao(caminho, opcoes = {}) {
   try {
@@ -85,8 +77,8 @@ async function requisicao(caminho, opcoes = {}) {
   } catch (erro) {
     throw new Error(
       `Não foi possível conectar ao backend em ${API}. ` +
-        "Confirme se o Spring Boot está em execução e se a porta 8080 está correta. " +
-        `Detalhe: ${erro.message || "falha de rede/CORS"}`,
+      "Confirme se o Spring Boot está em execução e se a porta 8080 está correta. " +
+      `Detalhe: ${erro.message || "falha de rede/CORS"}`,
     );
   }
 }
@@ -195,14 +187,15 @@ async function enviar(caminho, metodo, dados) {
 
 function renderResumo() {
   $("totalProdutos").textContent = produtos.length;
+
   $("estoqueBaixo").textContent = produtos.filter((produto) => {
     const quantidade = Number(produto.unidade);
     return quantidade > 0 && quantidade <= 5;
   }).length;
-  $("semEstoque").textContent = produtos.filter(
-    (produto) => Number(produto.unidade) <= 0,
-  ).length;
-  $("totalMovimentacoes").textContent = movimentacoes.length;
+
+  $("semEstoque").textContent = produtos.filter((produto) => {
+    return Number(produto.unidade) <= 0;
+  }).length;
 }
 
 function renderProdutos() {
@@ -242,97 +235,55 @@ function renderProdutos() {
         <td><span class="stock-badge ${status.cls}">${status.label}</span></td>
         <td>
           <div class="row-actions">
-            <button class="row-action" data-editar="${seguro(produto.id)}">Editar</button>
-            <button class="row-action" data-mov="${seguro(produto.id)}">Movimentar</button>
-          </div>
+    <button
+        type="button"
+        class="row-action"
+        data-editar="${seguro(produto.id)}"
+    >
+        Editar
+    </button>
+
+  
+
+    <button
+        type="button"
+        class="row-action row-action-delete"
+        data-excluir="${seguro(produto.id)}">
+        Excluir
+    </button>
+</div>
         </td>
       </tr>`;
   }).join("");
 }
 
-function renderMovimentacoes() {
-  const recentes = [...movimentacoes]
-    .sort((a, b) => new Date(b.dataHora || 0) - new Date(a.dataHora || 0))
-    .slice(0, 10);
 
-  if (!recentes.length) {
-    $("listaMovimentacoes").innerHTML =
-      '<tr><td colspan="5" class="empty-state">Nenhuma movimentação registrada ainda.</td></tr>';
-    return;
-  }
 
-  $("listaMovimentacoes").innerHTML = recentes.map((movimentacao) => {
-    const entrada = movimentacao.tipo === "ENTRADA";
-    const nomeProduto =
-      movimentacao.produto?.nome ||
-      produtoPorId(movimentacao.produto?.id)?.nome ||
-      `Produto #${movimentacao.produto?.id ?? "—"}`;
-    const data = movimentacao.dataHora
-      ? new Date(movimentacao.dataHora).toLocaleString("pt-BR")
-      : "—";
-    const sinal = entrada ? "+" : "−";
-    const classe = entrada ? "movement-entry" : "movement-exit";
-    const rotulo = entrada ? "↙ Entrada" : "↗ Saída";
 
-    return `
-      <tr>
-        <td>${seguro(data)}</td>
-        <td>${seguro(nomeProduto)}</td>
-        <td><span class="movement-badge ${classe}">${rotulo}</span></td>
-        <td><strong>${sinal}${Number(movimentacao.quantidadeEstoque || 0)}</strong> un.</td>
-        <td>${seguro(movimentacao.notaFiscal)}</td>
-      </tr>`;
-  }).join("");
-}
-
-function atualizarSelectProdutos(selecionado = "") {
-  const select = $("produtoMov");
-  select.innerHTML = '<option value="">Selecione um produto</option>' +
-    produtos.map((produto) => `
-      <option value="${seguro(produto.id)}">
-        ${seguro(produto.nome)} — ${Number(produto.unidade || 0)} un.
-      </option>`).join("");
-
-  if (selecionado) select.value = String(selecionado);
-}
 
 async function carregar() {
   feedback("Atualizando dados do estoque...");
 
   try {
-    const resultados = await Promise.allSettled([
-      listaAPI("/produto"),
-      listaAPI("/movimentacoes"),
-    ]);
-
-    if (resultados[0].status !== "fulfilled") {
-      throw resultados[0].reason;
-    }
-
-    produtos = resultados[0].value;
-    movimentacoes = resultados[1].status === "fulfilled"
-      ? resultados[1].value
-      : [];
+    produtos = await listaAPI("/produto");
 
     renderResumo();
     renderProdutos();
-    renderMovimentacoes();
-    atualizarSelectProdutos();
 
-    const historicoCarregado = resultados[1].status === "fulfilled";
-    feedback(
-      historicoCarregado
-        ? "Estoque atualizado com sucesso."
-        : "Produtos carregados. Não foi possível carregar o histórico de movimentações.",
-      historicoCarregado ? "success" : "error",
-    );
+    await carregarTotalMovimentacoes();
+
+    feedback("Estoque atualizado com sucesso.", "success");
+
   } catch (erro) {
-    feedback(erro.message || "Não foi possível carregar o estoque.", "error");
+    feedback(
+      erro.message || "Não foi possível carregar o estoque.",
+      "error"
+    );
+
     $("listaProdutos").innerHTML =
       '<tr><td colspan="6" class="empty-state">Não foi possível carregar os produtos. Verifique a API e sua sessão.</td></tr>';
   }
 }
-
 
 function abrirModal(id) {
   $(id).hidden = false;
@@ -344,20 +295,6 @@ function fecharModal(id) {
   document.body.style.overflow = "";
 }
 
-function abrirNovoProduto() {
-  $("formProduto").reset();
-  $("feedbackProduto").textContent = "";
-  $("feedbackProduto").className = "estoque-feedback";
-  $("produtoId").value = "";
-  $("tituloModalProduto").textContent = "Adicionar produto";
-  $("salvarProduto").textContent = "Salvar produto";
-  $("codigoBarras").disabled = false;
-  $("categoria").disabled = false;
-  $("unidade").disabled = false;
-  $("notaEdicao").hidden = true;
-  abrirModal("modalProduto");
-  $("nomeProduto").focus();
-}
 
 function editarProduto(id) {
   const produto = produtoPorId(id);
@@ -382,12 +319,7 @@ function editarProduto(id) {
   abrirModal("modalProduto");
 }
 
-function abrirMovimentacao(id = "") {
-  atualizarSelectProdutos(id);
-  $("formMovimentacao").reset();
-  if (id) $("produtoMov").value = String(id);
-  abrirModal("modalMovimentacao");
-}
+
 
 async function salvarProduto(evento) {
   evento.preventDefault();
@@ -438,57 +370,6 @@ async function salvarProduto(evento) {
   }
 }
 
-async function salvarMovimentacao(evento) {
-  evento.preventDefault();
-
-  const idProduto = $("produtoMov").value;
-  const quantidade = Number($("quantidadeMov").value);
-  const tipo = $("tipoMov").value;
-  const notaFiscal = $("notaFiscal").value.trim();
-  const produto = produtoPorId(idProduto);
-
-  if (
-    !idProduto ||
-    !produto ||
-    !Number.isInteger(quantidade) ||
-    quantidade <= 0 ||
-    !notaFiscal
-  ) {
-    feedback(
-      "Informe produto, quantidade inteira positiva e nota fiscal/referência.",
-      "error",
-    );
-    return;
-  }
-
-  if (tipo === "SAIDA" && quantidade > Number(produto.unidade || 0)) {
-    feedback(
-      `Estoque insuficiente. Disponível: ${produto.unidade} unidade(s).`,
-      "error",
-    );
-    return;
-  }
-
-  const botao = $("salvarMovimentacao");
-  botao.disabled = true;
-
-  try {
-    await enviar("/movimentacoes", "POST", {
-      tipo,
-      notaFiscal,
-      quantidadeEstoque: quantidade,
-      produto: { id: Number(idProduto) },
-    });
-
-    fecharModal("modalMovimentacao");
-    feedback("Movimentação registrada com sucesso.", "success");
-    await carregar();
-  } catch (erro) {
-    feedback(erro.message || "Não foi possível registrar a movimentação.", "error");
-  } finally {
-    botao.disabled = false;
-  }
-}
 
 async function inicializarPerfil() {
   try {
@@ -517,41 +398,194 @@ async function inicializarPerfil() {
   }
 }
 
+
+let produtoSelecionadoExclusao = null;
+let exclusaoEmAndamento = false;
+
+function abrirModalExcluir(id) {
+    const produto = produtoPorId(id);
+
+    if (!produto || exclusaoEmAndamento) {
+        return;
+    }
+
+    produtoSelecionadoExclusao = produto;
+
+    $("nomeProdutoExcluir").textContent = produto.nome;
+
+    $("feedbackExcluir").textContent = "";
+    $("feedbackExcluir").className = "estoque-feedback";
+
+    abrirModal("modalExcluirProduto");
+
+    $("cancelarExclusao").focus();
+}
+
+function fecharModalExcluir() {
+    if (exclusaoEmAndamento) {
+        return;
+    }
+
+    produtoSelecionadoExclusao = null;
+
+    fecharModal("modalExcluirProduto");
+}
+
+async function confirmarExclusaoProduto() {
+    if (!produtoSelecionadoExclusao || exclusaoEmAndamento) {
+        return;
+    }
+
+    const produto = produtoSelecionadoExclusao;
+    const botaoConfirmar = $("confirmarExclusao");
+    const botaoCancelar = $("cancelarExclusao");
+    const feedbackExcluir = $("feedbackExcluir");
+
+    exclusaoEmAndamento = true;
+
+    botaoConfirmar.disabled = true;
+    botaoCancelar.disabled = true;
+
+    feedbackExcluir.textContent = "Excluindo produto...";
+    feedbackExcluir.className = "estoque-feedback";
+
+    try {
+        const csrf = await obterCsrf();
+
+        const resposta = await requisicao(
+            `/produto/${encodeURIComponent(produto.id)}`,
+            {
+                method: "DELETE",
+                headers: {
+                    [csrf.headerName]: csrf.token
+                }
+            }
+        );
+
+        if (!resposta.ok) {
+            let mensagem;
+
+            switch (resposta.status) {
+                case 401:
+                    window.location.replace("index.html");
+                    return;
+
+                case 403:
+                    mensagem = "Você não tem permissão para excluir este produto.";
+                    break;
+
+                case 404:
+                    mensagem = "Produto não encontrado.";
+                    break;
+
+                case 409:
+                    mensagem = "O produto possui registros vinculados e não pode ser excluído.";
+                    break;
+
+                default:
+                    mensagem = `Erro ao excluir produto (HTTP ${resposta.status}).`;
+            }
+
+            throw new Error(mensagem);
+        }
+
+        produtoSelecionadoExclusao = null;
+
+        fecharModal("modalExcluirProduto");
+
+        await carregar();
+
+        feedback(
+            `Produto "${produto.nome}" excluído com sucesso.`,
+            "success"
+        );
+
+    } catch (erro) {
+        console.error("Erro ao excluir produto:", erro);
+
+        feedbackExcluir.textContent =
+            erro.message || "Não foi possível excluir o produto.";
+
+        feedbackExcluir.className = "estoque-feedback error";
+
+    } finally {
+        exclusaoEmAndamento = false;
+
+        botaoConfirmar.disabled = false;
+        botaoCancelar.disabled = false;
+    }
+}
+
 function configurarEventos() {
   $("pesquisa").addEventListener("input", renderProdutos);
   $("filtroStatus").addEventListener("change", renderProdutos);
   $("atualizar").addEventListener("click", carregar);
-  $("novoProduto").addEventListener("click", abrirNovoProduto);
-  $("novaMovimentacao").addEventListener("click", () => abrirMovimentacao());
-
-  $("listaProdutos").addEventListener("click", (evento) => {
+  
+ $("listaProdutos").addEventListener("click", (evento) => {
     const botaoEditar = evento.target.closest("[data-editar]");
-    const botaoMovimentar = evento.target.closest("[data-mov]");
+    const botaoExcluir = evento.target.closest("[data-excluir]");
 
-    if (botaoEditar) editarProduto(botaoEditar.dataset.editar);
-    if (botaoMovimentar) abrirMovimentacao(botaoMovimentar.dataset.mov);
-  });
+    if (botaoEditar) {
+        editarProduto(botaoEditar.dataset.editar);
+        return;
+    }
 
-  document.querySelectorAll("[data-fechar]").forEach((botao) => {
-    botao.addEventListener("click", () => fecharModal(botao.dataset.fechar));
-  });
+    if (botaoExcluir) {
+        abrirModalExcluir(botaoExcluir.dataset.excluir);
+    }
+
+    $("confirmarExclusao").addEventListener(
+    "click",
+    confirmarExclusaoProduto
+);
+
+
+});
+
+ document.querySelectorAll("[data-fechar]").forEach((botao) => {
+    botao.addEventListener("click", () => {
+        if (botao.dataset.fechar === "modalExcluirProduto") {
+            fecharModalExcluir();
+            return;
+        }
+
+        fecharModal(botao.dataset.fechar);
+    });
+});
 
   document.querySelectorAll(".modal-backdrop").forEach((modal) => {
     modal.addEventListener("click", (evento) => {
-      if (evento.target === modal) fecharModal(modal.id);
+        if (evento.target !== modal) {
+            return;
+        }
+
+        if (modal.id === "modalExcluirProduto") {
+            fecharModalExcluir();
+            return;
+        }
+
+        fecharModal(modal.id);
     });
-  });
+});
 
   document.addEventListener("keydown", (evento) => {
-    if (evento.key === "Escape") {
-      document.querySelectorAll(".modal-backdrop:not([hidden])").forEach((modal) => {
-        fecharModal(modal.id);
-      });
+    if (evento.key !== "Escape") {
+        return;
     }
-  });
+
+    document
+        .querySelectorAll(".modal-backdrop:not([hidden])")
+        .forEach((modal) => {
+            if (modal.id === "modalExcluirProduto") {
+                fecharModalExcluir();
+                return;
+            }
+
+            fecharModal(modal.id);
+        });
+});
 
   $("formProduto").addEventListener("submit", salvarProduto);
-  $("formMovimentacao").addEventListener("submit", salvarMovimentacao);
 
   const botaoPerfil = $("botaoPerfil");
   const menuPerfil = $("menuPerfil");
@@ -571,16 +605,51 @@ function configurarEventos() {
   $("sair").addEventListener("click", async () => {
     try {
       const csrf = await obterCsrf();
-      await requisicao("/auth/logout", {
+
+      const resposta = await requisicao("/auth/logout", {
         method: "POST",
-        headers: { [csrf.headerName]: csrf.token },
+        headers: {
+          [csrf.headerName]: csrf.token
+        }
       });
+
+      if (!resposta.ok) {
+        throw new Error(`Falha no logout: HTTP ${resposta.status}`);
+      }
+
+      window.location.replace("index.html");
+
     } catch (erro) {
-      console.warn("Não foi possível encerrar a sessão pela API:", erro);
+      console.error("Erro ao encerrar sessão:", erro);
+
+      feedback(
+        "Não foi possível encerrar a sessão. Tente novamente.",
+        "error"
+      );
+    }
+  });
+}
+
+async function carregarTotalMovimentacoes() {
+    const elemento = $("totalMovimentacoes");
+
+    if (!elemento) {
+        return;
     }
 
-    window.location.replace("index.html");
-  });
+    try {
+        const movimentacoes = await listaAPI("/movimentacoes");
+
+        elemento.textContent = movimentacoes.length;
+
+    } catch (erro) {
+        console.error(
+            "Erro ao consultar movimentações:",
+            erro
+        );
+
+        elemento.textContent = "—";
+    }
 }
 
 configurarEventos();

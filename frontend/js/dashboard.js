@@ -274,34 +274,111 @@ async function iniciarDashboard() {
         await carregarAdministradores();
     });
 
-    $("fecharRemocao").addEventListener("click", () => $("modalRemocao").close());
 
-    $("listaAdministradores").addEventListener("click", async (evento) => {
-        const botao = evento.target.closest("button[data-id]");
-        if (!botao) return;
-        const id = Number(botao.dataset.id);
-        const nome = botao.dataset.nome;
-        if (!Number.isSafeInteger(id) || id <= 0) return;
-        if (!window.confirm(`Deseja excluir permanentemente o administrador ${nome}?`)) return;
-        botao.disabled = true;
-        $("resultadoRemocao").textContent = "Excluindo administrador...";
-        try {
-            const csrf = await obterCsrf();
-            const resposta = await requisicao(`/usuarios/${id}`, {
-                method: "DELETE",
-                headers: { [csrf.headerName]: csrf.token }
-            });
-            if (!resposta.ok) {
-                const detalhe = await resposta.text();
-                throw new Error(`Erro ${resposta.status}: ${detalhe.slice(0, 160)}`);
+
+
+    $("fecharRemocao").addEventListener("click", () => $("modalRemocao").close()); 
+
+        const modalConfirmacao = $("modalConfirmacaoExclusao");
+        const botaoConfirmar = $("confirmarExclusao");
+        const botaoCancelar = $("cancelarExclusao");
+
+        let administradorPendente = null;
+        let exclusaoEmAndamento = false;
+
+        $("listaAdministradores").addEventListener("click", (evento) => {
+            const botao = evento.target.closest("button[data-id]");
+
+            if (!botao || exclusaoEmAndamento) return;
+
+            const id = Number(botao.dataset.id);
+            const nome = botao.dataset.nome;
+
+            if (!Number.isSafeInteger(id) || id <= 0) return;
+
+            administradorPendente = { id, nome };
+
+            $("mensagemConfirmacaoExclusao").textContent =
+                `Deseja excluir permanentemente o administrador ${nome}? Esta ação não poderá ser desfeita.`;
+
+            $("modalRemocao").close();
+            modalConfirmacao.showModal();
+        });
+
+        botaoCancelar.addEventListener("click", () => {
+            modalConfirmacao.close();
+        });
+
+        modalConfirmacao.addEventListener("close", () => {
+            if (exclusaoEmAndamento) return;
+
+            administradorPendente = null;
+
+            if (!$("modalRemocao").open) {
+                $("modalRemocao").showModal();
             }
-            $("resultadoRemocao").textContent = `O administrador ${nome} foi removido com sucesso.`; await carregarAdministradores();
-        } catch (erro) {
-            console.error("Erro ao excluir administrador:", erro);
-            $("resultadoRemocao").textContent = "Não foi possível remover o administrador. Tente novamente.";
-            botao.disabled = false;
-        }
-    });
+        });
+
+        modalConfirmacao.addEventListener("cancel", (evento) => {
+            if (exclusaoEmAndamento) {
+                evento.preventDefault();
+            }
+        });
+
+        botaoConfirmar.addEventListener("click", async () => {
+            if (!administradorPendente || exclusaoEmAndamento) return;
+
+            const { id, nome } = administradorPendente;
+
+            exclusaoEmAndamento = true;
+            botaoConfirmar.disabled = true;
+            botaoCancelar.disabled = true;
+            botaoConfirmar.textContent = "Excluindo...";
+
+            try {
+                const csrf = await obterCsrf();
+
+                const resposta = await requisicao(`/usuarios/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        [csrf.headerName]: csrf.token
+                    }
+                });
+
+                if (!resposta.ok) {
+                    throw new Error(`Erro ${resposta.status}`);
+                }
+
+                modalConfirmacao.close();
+                administradorPendente = null;
+
+                $("modalRemocao").showModal();
+                $("resultadoRemocao").textContent =
+                    `O administrador ${nome} foi removido com sucesso.`;
+
+                await carregarAdministradores();
+
+            } catch (erro) {
+                console.error("Erro ao excluir administrador:", erro);
+
+                modalConfirmacao.close();
+
+                if (!$("modalRemocao").open) {
+                    $("modalRemocao").showModal();
+                }
+
+                $("resultadoRemocao").textContent =
+                    "Não foi possível excluir o administrador. Tente novamente.";
+
+            } finally {
+                exclusaoEmAndamento = false;
+                botaoConfirmar.disabled = false;
+                botaoCancelar.disabled = false;
+                botaoConfirmar.textContent = "Excluir permanentemente";
+            }
+        });
+
+
 
     $("formUsuario").addEventListener("submit", async (evento) => {
         evento.preventDefault();

@@ -7,7 +7,6 @@ let movimentacoes = [];
 
 
 
-
 async function requisicao(caminho, opcoes = {}) {
     return fetch(`${API}${caminho}`, {
         credentials: "include",

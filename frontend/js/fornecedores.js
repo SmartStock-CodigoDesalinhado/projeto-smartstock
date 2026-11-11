@@ -2,6 +2,16 @@ const API = `http://${window.location.hostname}:8080/api`;
 const $ = id => document.getElementById(id);
 let fornecedores = [];
 
+// ==========================================
+// ESTADO DOS MODAIS DE EXCLUSÃO
+// ==========================================
+
+let fornecedorPendenteExclusao = null;
+let administradorPendenteExclusao = null;
+
+let exclusaoFornecedorEmAndamento = false;
+let exclusaoAdministradorEmAndamento = false;
+
 async function requisicao(caminho, opcoes = {}) {
     return fetch(`${API}${caminho}`, { credentials: "include", ...opcoes });
 }
@@ -184,20 +194,136 @@ async function salvarFornecedor(evento) {
     }
 }
 
-async function excluirFornecedor(fornecedor) {
-    if (!window.confirm(`Deseja excluir o fornecedor ${fornecedor.nomeFornecedor}? Essa ação não poderá ser desfeita.`)) return;
-    $("statusFornecedores").textContent = "Excluindo fornecedor...";
+   // ==========================================
+// MODAL DE CONFIRMAÇÃO DE EXCLUSÃO DE FORNECEDOR
+// ==========================================
+
+function excluirFornecedor(fornecedor) {
+    if (exclusaoFornecedorEmAndamento) return;
+
+    if (
+        !fornecedor ||
+        !Number.isSafeInteger(Number(fornecedor.id)) ||
+        Number(fornecedor.id) <= 0
+    ) {
+        $("statusFornecedores").textContent =
+            "Fornecedor inválido. Atualize a lista.";
+        return;
+    }
+
+    fornecedorPendenteExclusao = {
+        id: fornecedor.id,
+        nome: fornecedor.nomeFornecedor
+    };
+
+    $("mensagemExclusaoFornecedor").textContent =
+        `Deseja excluir permanentemente o fornecedor "${fornecedor.nomeFornecedor}"?`;
+
+    $("erroExclusaoFornecedor").textContent = "";
+    $("erroExclusaoFornecedor").hidden = true;
+
+    $("modalExclusaoFornecedor").showModal();
+}
+
+
+// ==========================================
+// CONFIRMAÇÃO DA EXCLUSÃO DE FORNECEDOR
+// ==========================================
+
+async function confirmarExclusaoFornecedor() {
+    if (
+        exclusaoFornecedorEmAndamento ||
+        !fornecedorPendenteExclusao
+    ) {
+        return;
+    }
+
+    const fornecedor = fornecedorPendenteExclusao;
+
+    const confirmar = $("confirmarExclusaoFornecedor");
+    const cancelar = $("cancelarExclusaoFornecedor");
+    const erroModal = $("erroExclusaoFornecedor");
+
+    exclusaoFornecedorEmAndamento = true;
+
+    confirmar.disabled = true;
+    cancelar.disabled = true;
+    confirmar.textContent = "Excluindo...";
+
+    erroModal.hidden = true;
+    erroModal.textContent = "";
+
     try {
         const csrf = await obterCsrf();
-        const resposta = await requisicao(`/fornecedores/${fornecedor.id}`, { method: "DELETE", headers: { [csrf.headerName]: csrf.token } });
-        if (!resposta.ok) throw new Error(`Falha ao excluir fornecedor: ${resposta.status}`);
+
+        const resposta = await requisicao(
+            `/fornecedores/${encodeURIComponent(fornecedor.id)}`,
+            {
+                method: "DELETE",
+                headers: {
+                    [csrf.headerName]: csrf.token
+                }
+            }
+        );
+
+        if (resposta.status === 401) {
+            window.location.replace("index.html");
+            return;
+        }
+
+        if (resposta.status === 403) {
+            throw new Error(
+                "Você não possui permissão para excluir fornecedores."
+            );
+        }
+
+        if (resposta.status === 404) {
+            throw new Error(
+                "Fornecedor não encontrado."
+            );
+        }
+
+        if (resposta.status === 409) {
+            throw new Error(
+                "Este fornecedor possui registros vinculados e não pode ser excluído."
+            );
+        }
+
+        if (!resposta.ok) {
+            throw new Error(
+                `Falha ao excluir fornecedor: HTTP ${resposta.status}.`
+            );
+        }
+
+        fornecedorPendenteExclusao = null;
+
+        $("modalExclusaoFornecedor").close();
+
         await carregarFornecedores();
-        if (!$("statusFornecedores").textContent) $("statusFornecedores").textContent = "Fornecedor excluído com sucesso.";
+
+        $("statusFornecedores").textContent =
+            `Fornecedor "${fornecedor.nome}" excluído com sucesso.`;
+
     } catch (erro) {
         console.error("Erro ao excluir fornecedor:", erro);
-        $("statusFornecedores").textContent = "Não foi possível excluir o fornecedor. Verifique se há produtos vinculados a ele.";
+
+        if ($("modalExclusaoFornecedor").open) {
+            erroModal.textContent = erro.message;
+            erroModal.hidden = false;
+        } else {
+            $("statusFornecedores").textContent =
+                `A exclusão foi enviada, mas houve um problema ao atualizar a lista: ${erro.message}`;
+        }
+
+    } finally {
+        exclusaoFornecedorEmAndamento = false;
+
+        confirmar.disabled = false;
+        cancelar.disabled = false;
+        confirmar.textContent = "Excluir permanentemente";
     }
 }
+
 
 async function carregarAdministradores() {
     const lista = $("listaAdministradores");
@@ -232,6 +358,125 @@ async function carregarAdministradores() {
     } catch (erro) {
         console.error("Erro ao listar administradores:", erro);
         lista.textContent = "Não foi possível consultar os administradores. Tente novamente.";
+    }
+}
+
+// ==========================================
+// MODAL DE CONFIRMAÇÃO DE EXCLUSÃO DE ADMINISTRADOR
+// ==========================================
+
+function abrirConfirmacaoAdministrador(id, nome) {
+    if (exclusaoAdministradorEmAndamento) return;
+
+    if (!Number.isSafeInteger(id) || id <= 0) return;
+
+    administradorPendenteExclusao = {
+        id,
+        nome
+    };
+
+    $("mensagemConfirmacaoExclusao").textContent =
+        `Deseja excluir permanentemente o administrador "${nome}"?`;
+
+    $("erroConfirmacaoExclusao").textContent = "";
+    $("erroConfirmacaoExclusao").hidden = true;
+
+    $("modalRemocao").close();
+    $("modalConfirmacaoExclusao").showModal();
+}
+
+
+// ==========================================
+// CONFIRMAÇÃO DA EXCLUSÃO DE ADMINISTRADOR
+// ==========================================
+
+async function confirmarExclusaoAdministrador() {
+    if (
+        exclusaoAdministradorEmAndamento ||
+        !administradorPendenteExclusao
+    ) {
+        return;
+    }
+
+    const administrador = administradorPendenteExclusao;
+
+    const confirmar = $("confirmarExclusao");
+    const cancelar = $("cancelarExclusao");
+    const erroModal = $("erroConfirmacaoExclusao");
+
+    exclusaoAdministradorEmAndamento = true;
+
+    confirmar.disabled = true;
+    cancelar.disabled = true;
+    confirmar.textContent = "Excluindo...";
+
+    erroModal.hidden = true;
+    erroModal.textContent = "";
+
+    try {
+        const csrf = await obterCsrf();
+
+        const resposta = await requisicao(
+            `/usuarios/${encodeURIComponent(administrador.id)}`,
+            {
+                method: "DELETE",
+                headers: {
+                    [csrf.headerName]: csrf.token
+                }
+            }
+        );
+
+        if (resposta.status === 401) {
+            window.location.replace("index.html");
+            return;
+        }
+
+        if (resposta.status === 403) {
+            throw new Error(
+                "Você não possui permissão para remover administradores."
+            );
+        }
+
+        if (resposta.status === 404) {
+            throw new Error(
+                "Administrador não encontrado."
+            );
+        }
+
+        if (!resposta.ok) {
+            throw new Error(
+                `Falha na exclusão: HTTP ${resposta.status}.`
+            );
+        }
+
+        administradorPendenteExclusao = null;
+
+        $("modalConfirmacaoExclusao").close();
+
+        $("modalRemocao").showModal();
+
+        await carregarAdministradores();
+
+        $("resultadoRemocao").textContent =
+            `O administrador ${administrador.nome} foi removido com sucesso.`;
+
+    } catch (erro) {
+        console.error("Erro ao remover administrador:", erro);
+
+        if ($("modalConfirmacaoExclusao").open) {
+            erroModal.textContent = erro.message;
+            erroModal.hidden = false;
+        } else {
+            $("resultadoRemocao").textContent =
+                `A exclusão foi enviada, mas houve um problema ao atualizar a lista: ${erro.message}`;
+        }
+
+    } finally {
+        exclusaoAdministradorEmAndamento = false;
+
+        confirmar.disabled = false;
+        cancelar.disabled = false;
+        confirmar.textContent = "Excluir permanentemente";
     }
 }
 
@@ -294,27 +539,108 @@ function configurarEventos() {
         await carregarAdministradores();
     });
     $("fecharRemocao").addEventListener("click", () => $("modalRemocao").close());
-    $("listaAdministradores").addEventListener("click", async evento => {
-        const botao = evento.target.closest("button[data-id]");
-        if (!botao || !/^\d+$/.test(botao.dataset.id)) return;
-        const id = Number(botao.dataset.id);
-        if (!Number.isSafeInteger(id) || id <= 0) return;
-        const nome = botao.dataset.nome;
-        if (!window.confirm(`Deseja excluir permanentemente o administrador ${nome}?`)) return;
-        botao.disabled = true;
-        $("resultadoRemocao").textContent = "Excluindo administrador...";
-        try {
-            const csrf = await obterCsrf();
-            const resposta = await requisicao(`/usuarios/${id}`, { method: "DELETE", headers: { [csrf.headerName]: csrf.token } });
-            if (!resposta.ok) throw new Error(`Falha na exclusão: ${resposta.status}`);
-            $("resultadoRemocao").textContent = `O administrador ${nome} foi removido com sucesso.`;
-            await carregarAdministradores();
-        } catch (erro) {
-            console.error("Erro ao remover administrador:", erro);
-            $("resultadoRemocao").textContent = "Não foi possível remover o administrador. Tente novamente.";
-            botao.disabled = false;
+   // ==========================================
+// EVENTO DE ABERTURA DO MODAL DE ADMINISTRADOR
+// ==========================================
+
+$("listaAdministradores").addEventListener("click", evento => {
+    const botao = evento.target.closest("button[data-id]");
+
+    if (!botao || !/^\d+$/.test(botao.dataset.id)) {
+        return;
+    }
+
+    const id = Number(botao.dataset.id);
+
+    if (!Number.isSafeInteger(id) || id <= 0) {
+        return;
+    }
+
+    abrirConfirmacaoAdministrador(
+        id,
+        botao.dataset.nome
+    );
+});
+
+// ==========================================
+// EVENTOS DO MODAL DE EXCLUSÃO DE FORNECEDOR
+// ==========================================
+
+$("cancelarExclusaoFornecedor").addEventListener(
+    "click",
+    () => {
+        if (!exclusaoFornecedorEmAndamento) {
+            $("modalExclusaoFornecedor").close();
         }
-    });
+    }
+);
+
+$("confirmarExclusaoFornecedor").addEventListener(
+    "click",
+    confirmarExclusaoFornecedor
+);
+
+$("modalExclusaoFornecedor").addEventListener(
+    "cancel",
+    evento => {
+        if (exclusaoFornecedorEmAndamento) {
+            evento.preventDefault();
+        }
+    }
+);
+
+$("modalExclusaoFornecedor").addEventListener(
+    "close",
+    () => {
+        if (!exclusaoFornecedorEmAndamento) {
+            fornecedorPendenteExclusao = null;
+        }
+    }
+);
+
+
+// ==========================================
+// EVENTOS DO MODAL DE EXCLUSÃO DE ADMINISTRADOR
+// ==========================================
+
+$("cancelarExclusao").addEventListener(
+    "click",
+    () => {
+        if (!exclusaoAdministradorEmAndamento) {
+            $("modalConfirmacaoExclusao").close();
+        }
+    }
+);
+
+$("confirmarExclusao").addEventListener(
+    "click",
+    confirmarExclusaoAdministrador
+);
+
+$("modalConfirmacaoExclusao").addEventListener(
+    "cancel",
+    evento => {
+        if (exclusaoAdministradorEmAndamento) {
+            evento.preventDefault();
+        }
+    }
+);
+
+$("modalConfirmacaoExclusao").addEventListener(
+    "close",
+    () => {
+        if (exclusaoAdministradorEmAndamento) {
+            return;
+        }
+
+        administradorPendenteExclusao = null;
+
+        if (!$("modalRemocao").open) {
+            $("modalRemocao").showModal();
+        }
+    }
+);
+
     $("formUsuario").addEventListener("submit", async evento => {
         evento.preventDefault();
         $("resultadoCadastro").textContent = "Cadastrando...";

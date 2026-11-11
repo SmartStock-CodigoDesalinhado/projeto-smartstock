@@ -15,7 +15,9 @@ const ROTAS = Object.freeze({
 const ESTADO = {
     produtos: [],
     fornecedores: [],
-    salvando: false
+    salvando: false,
+    excluindo: false,
+    produtoPendenteExclusao: null
 };
 
 async function requisicao(caminho, opcoes = {}) {
@@ -812,7 +814,15 @@ function configurarMenuPerfil() {
     });
 }
 
-async function excluirProduto(id) {
+// ==========================================
+// MODAL DE CONFIRMAÇÃO DE EXCLUSÃO DE PRODUTO
+// ==========================================
+
+function abrirModalExclusaoProduto(id) {
+    if (ESTADO.excluindo) {
+        return;
+    }
+
     const produto = ESTADO.produtos.find(
         (item) => String(item.id) === String(id)
     );
@@ -822,28 +832,71 @@ async function excluirProduto(id) {
             "statusPagina",
             "Produto não encontrado. Atualize a lista."
         );
+
         return;
     }
 
-    const confirmado = window.confirm(
-        `Deseja realmente excluir o produto "${produto.nome}"?\n\n` +
-        "Esta operação não poderá ser desfeita."
-    );
+    ESTADO.produtoPendenteExclusao = {
+        id: produto.id,
+        nome: produto.nome
+    };
 
-    if (!confirmado) {
+    $("mensagemExclusaoProduto").textContent =
+        `Deseja realmente excluir o produto "${produto.nome}"?`;
+
+    $("erroExclusaoProduto").textContent = "";
+    $("erroExclusaoProduto").hidden = true;
+
+    $("modalExclusaoProduto").showModal();
+}
+
+
+// ==========================================
+// CANCELAMENTO DO MODAL DE EXCLUSÃO
+// ==========================================
+
+function cancelarModalExclusaoProduto() {
+    if (ESTADO.excluindo) {
         return;
     }
+
+    $("modalExclusaoProduto").close();
+}
+
+
+// ==========================================
+// CONFIRMAÇÃO E EXCLUSÃO DO PRODUTO
+// ==========================================
+
+async function confirmarExclusaoProduto() {
+    if (
+        ESTADO.excluindo ||
+        !ESTADO.produtoPendenteExclusao
+    ) {
+        return;
+    }
+
+    const produto = ESTADO.produtoPendenteExclusao;
+
+    const botaoConfirmar = $("confirmarExclusaoProduto");
+    const botaoCancelar = $("cancelarExclusaoProduto");
+    const mensagemErro = $("erroExclusaoProduto");
+
+    ESTADO.excluindo = true;
+
+    botaoConfirmar.disabled = true;
+    botaoCancelar.disabled = true;
+
+    botaoConfirmar.textContent = "Excluindo...";
+
+    mensagemErro.textContent = "";
+    mensagemErro.hidden = true;
 
     try {
-        exibirMensagem(
-            "statusPagina",
-            "Excluindo produto..."
-        );
-
         const csrf = await obterCsrf();
 
         const resposta = await requisicao(
-            `${ROTAS.produtos}/${encodeURIComponent(id)}`,
+            `${ROTAS.produtos}/${encodeURIComponent(produto.id)}`,
             {
                 method: "DELETE",
                 headers: {
@@ -881,6 +934,10 @@ async function excluirProduto(id) {
             );
         }
 
+        ESTADO.produtoPendenteExclusao = null;
+
+        $("modalExclusaoProduto").close();
+
         await carregarProdutos();
 
         exibirMensagem(
@@ -889,12 +946,29 @@ async function excluirProduto(id) {
         );
 
     } catch (erro) {
-        console.error("Erro ao excluir produto:", erro);
-
-        exibirMensagem(
-            "statusPagina",
-            erro.message
+        console.error(
+            "Erro ao excluir produto:",
+            erro
         );
+
+        if ($("modalExclusaoProduto").open) {
+            mensagemErro.textContent = erro.message;
+            mensagemErro.hidden = false;
+        } else {
+            exibirMensagem(
+                "statusPagina",
+                `A exclusão foi enviada, mas ocorreu um erro ao atualizar a página: ${erro.message}`
+            );
+        }
+
+    } finally {
+        ESTADO.excluindo = false;
+
+        botaoConfirmar.disabled = false;
+        botaoCancelar.disabled = false;
+
+        botaoConfirmar.textContent =
+            "Excluir permanentemente";
     }
 }
 
@@ -937,15 +1011,7 @@ function configurarEventos() {
             );
 
             if (botaoExcluir) {
-                botaoExcluir.disabled = true;
-
-                try {
-                    await excluirProduto(
-                        botaoExcluir.dataset.excluir
-                    );
-                } finally {
-                    botaoExcluir.disabled = false;
-                }
+                abrirModalExclusaoProduto(botaoExcluir.dataset.excluir);
             }
         }
     );
@@ -963,6 +1029,38 @@ function configurarEventos() {
     $("formProduto").addEventListener(
         "submit",
         salvarProduto
+    );
+
+        // ==========================================
+    // EVENTOS DO MODAL DE EXCLUSÃO DE PRODUTO
+    // ==========================================
+
+    $("cancelarExclusaoProduto").addEventListener(
+        "click",
+        cancelarModalExclusaoProduto
+    );
+
+    $("confirmarExclusaoProduto").addEventListener(
+        "click",
+        confirmarExclusaoProduto
+    );
+
+    $("modalExclusaoProduto").addEventListener(
+        "cancel",
+        (evento) => {
+            if (ESTADO.excluindo) {
+                evento.preventDefault();
+            }
+        }
+    );
+
+    $("modalExclusaoProduto").addEventListener(
+        "close",
+        () => {
+            if (!ESTADO.excluindo) {
+                ESTADO.produtoPendenteExclusao = null;
+            }
+        }
     );
 
     configurarMenuPerfil();

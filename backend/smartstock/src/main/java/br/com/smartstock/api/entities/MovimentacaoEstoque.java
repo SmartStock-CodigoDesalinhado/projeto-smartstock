@@ -24,6 +24,10 @@ public class MovimentacaoEstoque {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "produto_id", nullable = false)
+	private Produto produto;
 
 	@CreationTimestamp
 	private LocalDateTime dataHora;
@@ -46,9 +50,8 @@ public class MovimentacaoEstoque {
 	@Column(name = "nota_fiscal", length = 100)
 	private String notaFiscal;
 	
-	@ManyToOne
-    @JoinColumn(name = "produto_id", nullable = false)
-    private Produto produto;
+	@Column(nullable = false)
+	private Boolean ativo = true;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "responsavel_id", nullable = false)
