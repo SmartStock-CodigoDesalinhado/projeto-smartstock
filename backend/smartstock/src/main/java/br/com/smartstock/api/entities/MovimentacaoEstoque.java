@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -35,27 +36,32 @@ public class MovimentacaoEstoque {
 	@Enumerated(EnumType.STRING)
 	private TipoMovimentacao tipo;
 	
-	@NotBlank(message = "Este campo não pode estar vazio.")
-	private String notaFiscal; 
+	@Column(length = 500)
+	private String observacao; 
 	
 	@Positive
 	private Integer quantidadeEstoque;
+	
+	@NotBlank(message = "A nota fiscal é obrigatória.")
+	@Column(name = "nota_fiscal", length = 100)
+	private String notaFiscal;
 	
 	@ManyToOne
     @JoinColumn(name = "produto_id", nullable = false)
     private Produto produto;
 
-    @ManyToOne
-    @JoinColumn(name = "fornecedor_id")
-    private Fornecedor fornecedor;
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "responsavel_id", nullable = false)
+	private Usuario responsavel;
     
     
     public MovimentacaoEstoque() {}
     
-    public MovimentacaoEstoque(LocalDateTime dataHora, TipoMovimentacao tipo, Integer quantidade, String notaFiscal) {
+    public MovimentacaoEstoque(LocalDateTime dataHora, TipoMovimentacao tipo, Integer quantidade, String notaFiscal, String observacao) {
     	this.dataHora = dataHora;
     	this.tipo = tipo;
     	this.quantidadeEstoque = quantidade;
+    	this.observacao = observacao;
     	this.notaFiscal = notaFiscal;
     }
 
@@ -100,12 +106,21 @@ public class MovimentacaoEstoque {
 		this.produto = produto;
 	}
 
-	public Fornecedor getFornecedor() {
-		return fornecedor;
+
+	public String getObservacao() {
+		return observacao;
 	}
 
-	public void setFornecedor(Fornecedor fornecedor) {
-		this.fornecedor = fornecedor;
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
+	}
+
+	public Usuario getResponsavel() {
+		return responsavel;
+	}
+
+	public void setResponsavel(Usuario responsavel) {
+		this.responsavel = responsavel;
 	}
 
 	public String getNotaFiscal() {
@@ -115,6 +130,8 @@ public class MovimentacaoEstoque {
 	public void setNotaFiscal(String notaFiscal) {
 		this.notaFiscal = notaFiscal;
 	}
+	
+	
     
     
 }

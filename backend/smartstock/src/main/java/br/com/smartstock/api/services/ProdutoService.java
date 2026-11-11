@@ -43,6 +43,10 @@ public class ProdutoService {
 			
 			Produto atualizado = produtoExistente.get();
 			
+			atualizado.setNome(produtoAlterado.getNome());
+			atualizado.setPrecoVenda(produtoAlterado.getPrecoVenda());
+			atualizado.setUnidade(produtoAlterado.getUnidade());
+			atualizado.setDataVencimento(produtoAlterado.getDataVencimento());
 			atualizado.setCodigoBarras(produtoAlterado.getCodigoBarras());
 			atualizado.setEstoqueMinimo(produtoAlterado.getEstoqueMinimo());
 

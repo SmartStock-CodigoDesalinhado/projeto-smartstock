@@ -587,8 +587,9 @@ async function registrarMovimentacao(evento) {
     const quantidade =
         Number($("quantidadeMovimentacao").value);
 
-    const notaFiscal =
-        $("notaFiscalMovimentacao").value.trim();
+    const notaFiscal = $("notaFiscalMovimentacao").value.trim();
+
+    const observacao = $("observacaoMovimentacao").value.trim();
 
 
     // Validar produto
@@ -681,6 +682,8 @@ async function registrarMovimentacao(evento) {
             tipo: tipo,
 
             notaFiscal: notaFiscal,
+
+            observacao: observacao,
 
             quantidadeEstoque: quantidade,
 

@@ -1,7 +1,7 @@
 INSERT IGNORE INTO tb_fornecedores (id, nome_fornecedor, email_fornecedor, telefone_comercial, logradouro_comercio, cnpj) VALUES
 (1, 'Distribuidora Alimentos Brasil LTDA', 'contato@alimentosbrasil.com.br', '(11) 3344-5566', 'Av. das Indústrias, 1500 - São Paulo/SP', '12.345.678/0001-90'),
 (2,'Bebidas & Cia S.A.','vendas@bebidasecia.com.br','(21) 2233-4455','Rua dos Comerciantes, 420 - Rio de Janeiro/RJ','98.765.432/0001-10'),
-(4,'Sorocaba Refrescos','comunicacao@sorocabarefrescos.com.br', '0800 120 1443','Rodovia Raposo Tavares, Parque Reserva Faze...','45913696000185');
+(3,'Sorocaba Refrescos','comunicacao@sorocabarefrescos.com.br', '0800 120 1443','Rodovia Raposo Tavares, Parque Reserva Faze...','45913696000185');
 
 INSERT IGNORE INTO tb_usuario (id_usuario, login, nome_usuario, senha, tipo_usuario) VALUES
 (1, 'marcelo@ceosmartstock.com', 'Marcelo Henrique', '$2a$10$FCP6mB6hqlnOz6CCF9302e5lvibLuQpJ1/gqHhZl5GWVA32xB9Srm', 'CEO'),

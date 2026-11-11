@@ -23,7 +23,7 @@ function ehCEO(usuario) {
 }
 
 function podeCadastrarAdministrador(usuario) {
-    return ["ADMIN", "CEO"].includes(usuario?.tipoUsuario);
+    return usuario?.tipoUsuario === "CEO";
 }
 
 function podeRemoverAdministrador(usuario) {
@@ -107,7 +107,7 @@ async function carregarFornecedores() {
 
 async function carregarMovimentacoes() {
     const movimentacoes = await listaAPI(["/movimentacoes", "/movimentacoes-estoque", "/movimentacoesEstoque"]);
-    $("listaMovimentacoes").innerHTML = movimentacoes.length ? movimentacoes.slice(0, 10).map(mov => `<tr><td>${seguro(mov.dataHora ?? mov.dataMovimentacao ?? mov.data)}</td><td>${seguro(mov.produto?.nome ?? mov.nomeProduto ?? mov.produtoId)}</td><td>${seguro(mov.tipo ?? mov.tipoMovimentacao)}</td><td>${seguro(mov.quantidade)}</td></tr>`).join("") : '<tr><td colspan="4">Nenhuma movimentação cadastrada.</td></tr>';
+    $("listaMovimentacoes").innerHTML = movimentacoes.length ? movimentacoes.slice(0, 10).map(mov => `<tr><td>${seguro(mov.dataHora ?? mov.dataMovimentacao ?? mov.data)}</td><td>${seguro(mov.produto?.nome ?? mov.nomeProduto ?? mov.produtoId)}</td><td>${seguro(mov.tipo ?? mov.tipoMovimentacao)}</td><td>${seguro(mov.quantidadeEstoque)}</td></tr>`).join("") : '<tr><td colspan="4">Nenhuma movimentação cadastrada.</td></tr>';
 }
 
 async function atualizarPainel() {

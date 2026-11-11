@@ -92,7 +92,7 @@ public class UsuarioService {
     }
     
     public boolean cadastroCeoDisponivel() {
-        return true;
+      return !repository.existsByTipoUsuario(TipoUsuario.CEO);
     }
 
     @Transactional
@@ -100,6 +100,13 @@ public class UsuarioService {
         usuario.setId(null);
         usuario.setTipoUsuario(TipoUsuario.CEO);
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        
+        if (!cadastroCeoDisponivel()) {
+            throw new ResponseStatusException(
+                HttpStatus.CONFLICT,
+                "O CEO inicial já foi cadastrado."
+            );
+        }
 
         return repository.save(usuario);
     }
