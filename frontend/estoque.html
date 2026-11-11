@@ -2,418 +2,380 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <title>
-        Estoque &mdash; SmartStock
-    </title>
-    <link href="css/dashboard.css" rel="stylesheet" />
-    <link href="css/estoque.css" rel="stylesheet" />
-    <script defer="" src="js/estoque.js">
-    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <title>Estoque — SmartStock</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/estoque.css">
+    <script src="js/estoque.js" defer></script>
 </head>
 
-<body class="dashboard-page">
+<body class="dashboard-page estoque-page">
+    <!-- Ícones SVG locais: não dependem de bibliotecas externas. -->
+    <svg class="stock-svg-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+        <symbol id="ico-box" viewBox="0 0 24 24">
+            <path d="m3 7 9-4 9 4v10l-9 4-9-4V7Z" />
+            <path d="m3 7 9 4 9-4M12 11v10" />
+        </symbol>
+        <symbol id="ico-alert" viewBox="0 0 24 24">
+            <path d="m10.3 3.9-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3.1l-8-14a2 2 0 0 0-3.4 0Z" />
+            <path d="M12 9v4m0 4h.01" />
+        </symbol>
+        <symbol id="ico-zero" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" />
+            <path d="m8.8 8.8 6.4 6.4m0-6.4-6.4 6.4" />
+        </symbol>
+        <symbol id="ico-move" viewBox="0 0 24 24">
+            <path d="M4 7h16m-4-4 4 4-4 4M20 17H4m4-4-4 4 4 4" />
+        </symbol>
+        <symbol id="ico-plus" viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12h14" />
+        </symbol>
+        <symbol id="ico-arrow" viewBox="0 0 24 24">
+            <path d="M5 12h14m-6-6 6 6-6 6" />
+        </symbol>
+        <symbol id="ico-search" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-4-4" />
+        </symbol>
+        <symbol id="ico-refresh" viewBox="0 0 24 24">
+            <path d="M20 11a8 8 0 0 0-14.3-4.9L4 8m0-5v5h5M4 13a8 8 0 0 0 14.3 4.9L20 16m-5 0h5v5" />
+        </symbol>
+        <symbol id="ico-edit" viewBox="0 0 24 24">
+            <path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L9 17l-4 1 1-4L16.5 3.5Z" />
+        </symbol>
+        <symbol id="ico-trash" viewBox="0 0 24 24">
+            <path d="M4 7h16M10 3h4m-7 4 1 14h8l1-14M10 11v6m4-6v6" />
+        </symbol>
+        <symbol id="ico-check" viewBox="0 0 24 24">
+            <path d="m5 12 5 5L20 7" />
+        </symbol>
+        <symbol id="ico-clock" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 7v5l3 2" />
+        </symbol>
+        <symbol id="ico-info" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 11v5m0-8h.01" />
+        </symbol>
+        <symbol id="ico-layers" viewBox="0 0 24 24">
+            <path d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5" />
+        </symbol>
+    </svg>
+
     <header class="topbar dash-topbar">
-        <a class="brand" href="dashboard.html">
-            <span class="brand-icon">
-                ⬡
-            </span>
+        <a class="brand" href="dashboard.html" aria-label="SmartStock — Dashboard">
+            <span class="brand-icon" aria-hidden="true">⬡</span>
             <span>Smart<span class="orange">Stock</span></span>
-            </span>
         </a>
-        <span class="green-line">
-        </span>
+        <span class="green-line" aria-hidden="true"></span>
         <div class="profile-area">
-            <button aria-controls="menuPerfil" aria-expanded="false" aria-label="Abrir menu do perfil"
-                class="profile-trigger" id="botaoPerfil" type="button">
-                <span class="profile-avatar" id="iniciaisUsuario">
-                    SS
-                </span>
+            <button class="profile-trigger" id="botaoPerfil" type="button" aria-label="Abrir menu do perfil"
+                aria-controls="menuPerfil" aria-expanded="false">
+                <span class="profile-avatar" id="iniciaisUsuario">SS</span>
                 <span class="profile-info">
-                    <strong id="nomeUsuario">
-                        Carregando...
-                    </strong>
-                    <small id="perfilUsuario">
-                        Usu&aacute;rio
-                    </small>
+                    <strong id="nomeUsuario">Carregando...</strong>
+                    <small id="perfilUsuario">Usuário</small>
                 </span>
-                <span class="profile-chevron">
-                    ⌄
-                </span>
+                <span class="profile-chevron" aria-hidden="true">⌄</span>
             </button>
-            <div class="profile-menu" hidden="" id="menuPerfil">
-                <button id="sair" type="button">
-                    Sair da conta
-                </button>
+            <div class="profile-menu" id="menuPerfil" hidden>
+                <button id="sair" type="button">Sair da conta</button>
             </div>
         </div>
     </header>
-    <nav aria-label="Menu principal" class="app-nav">
-        <a href="dashboard.html">
-            ⌂ &nbsp; Dashboard
-        </a>
-        <a href="produtos.html">
-            ⬡ &nbsp; Produtos
-        </a>
-        <a href="fornecedores.html">
-            ♟ &nbsp; Fornecedores
-        </a>
-        <a aria-current="page" class="active" href="estoque.html">
-            ◇ &nbsp; Estoque
-        </a>
-        <a href="movimentacoes.html">
-            &rlarr; &nbsp; Movimenta&ccedil;&otilde;es
-        </a>
+
+    <nav class="app-nav" aria-label="Menu principal">
+        <a href="dashboard.html">⌂ &nbsp; Dashboard</a>
+        <a href="produtos.html">⬡ &nbsp; Produtos</a>
+        <a href="fornecedores.html">♟ &nbsp; Fornecedores</a>
+        <a href="estoque.html" class="active" aria-current="page">◇ &nbsp; Estoque</a>
+        <a href="movimentacoes.html">⇄ &nbsp; Movimentações</a>
     </nav>
-    <main class="dashboard-content estoque-content">
-        <div class="title-row estoque-heading">
-            <div>
-                <p class="eyebrow">
-                    CONTROLE OPERACIONAL
-                </p>
-                <h1>
-                    Estoque
-                </h1>
-                <p>
-                    Acompanhe os n&iacute;veis de estoque e registre entradas e sa&iacute;das.
+
+    <main class="dashboard-content estoque-content" id="conteudo">
+        <section class="stock-hero" aria-labelledby="tituloEstoque">
+            <div class="stock-hero-copy">
+                <p class="stock-overline"><span class="stock-overline-dot"></span> CONTROLE OPERACIONAL</p>
+                <h1 id="tituloEstoque">Gestão de <span>estoque</span></h1>
+                <p class="stock-hero-description">
+                    Acompanhe seus produtos, identifique prioridades de reposição e mantenha o estoque em dia.
                 </p>
             </div>
-
-        </div>
-        <p aria-live="polite" class="estoque-feedback" id="feedback" role="status">
-            Carregando informa&ccedil;&otilde;es do estoque...
-        </p>
-        <section aria-label="Resumo do estoque" class="stock-stats">
-
-    <article class="stock-stat">
-        <span class="stat-icon">▦</span>
-
-        <div>
-            <span>Produtos cadastrados</span>
-            <strong id="totalProdutos">—</strong>
-            <small>itens diferentes</small>
-        </div>
-    </article>
-
-    <article class="stock-stat">
-        <span class="stat-icon low">!</span>
-
-        <div>
-            <span>Estoque baixo</span>
-            <strong id="estoqueBaixo">—</strong>
-            <small>até 5 unidades</small>
-        </div>
-    </article>
-
-    <article class="stock-stat">
-        <span class="stat-icon empty">×</span>
-
-        <div>
-            <span>Sem estoque</span>
-            <strong id="semEstoque">—</strong>
-            <small>precisam de reposição</small>
-        </div>
-    </article>
-
-    <article class="stock-stat">
-        <span class="stat-icon moves">⇄</span>
-
-        <div>
-            <span>Movimentações</span>
-            <strong id="totalMovimentacoes">—</strong>
-            <small>registros no histórico</small>
-        </div>
-    </article>
-
-</section>
-            </span>
-            <strong id="totalProdutos">
-                &mdash;
-            </strong>
-            <small>
-                itens diferentes
-            </small>
-        </div>
-        </article>
-        <article class="stock-stat">
-            <span class="stat-icon low">
-                !
-            </span>
-            <div>
-                <span>
-                    Estoque baixo
-                </span>
-                <strong id="estoqueBaixo">
-                    &mdash;
-                </strong>
-                <small>
-                    at&eacute; 5 unidades
-                </small>
+            <div class="stock-hero-actions">
+                <a class="stock-btn stock-btn-outline" href="produtos.html">
+                    <svg class="stock-icon" aria-hidden="true">
+                        <use href="#ico-box"></use>
+                    </svg>
+                    Gerenciar produtos
+                </a>
+                <a class="stock-btn stock-btn-primary" href="movimentacoes.html">
+                    <svg class="stock-icon" aria-hidden="true">
+                        <use href="#ico-plus"></use>
+                    </svg>
+                    Nova movimentação
+                </a>
             </div>
-        </article>
-        <article class="stock-stat">
-            <span class="stat-icon empty">
-                &times;
-            </span>
-            <div>
-                <span>
-                    Sem estoque
-                </span>
-                <strong id="semEstoque">
-                    &mdash;
-                </strong>
-                <small>
-                    precisam de reposi&ccedil;&atilde;o
-                </small>
-            </div>
-        </article>
-        <article class="stock-stat">
-            <span class="stat-icon moves">
-                &rlarr;
-            </span>
-            <div>
-                <span>
-                    Movimenta&ccedil;&otilde;es
-                </span>
-                <strong id="totalMovimentacoes">
-                    &mdash;
-                </strong>
-                <small>
-                    registros no hist&oacute;rico
-                </small>
-            </div>
-        </article>
         </section>
-        <section class="panel stock-panel">
-            <div class="stock-toolbar">
-                <div>
-                    <h2>
-                        Produtos em estoque
-                    </h2>
-                    <p>
-                        Consulte quantidades dispon&iacute;veis e gerencie seus produtos.
-                    </p>
+
+        <p class="stock-feedback" id="feedback" role="status" aria-live="polite" hidden></p>
+
+        <section class="stock-stats" aria-label="Indicadores do estoque">
+            <article class="stock-stat stock-stat-products">
+                <span class="stock-stat-icon" aria-hidden="true">
+                    <svg class="stock-icon">
+                        <use href="#ico-box"></use>
+                    </svg>
+                </span>
+                <div class="stock-stat-copy">
+                    <span class="stock-stat-label">Produtos cadastrados</span>
+                    <strong id="totalProdutos">—</strong>
+                    <small>Tipos de produtos no sistema</small>
                 </div>
-                <div class="stock-filters">
-                    <input aria-label="Pesquisar produto ou c&oacute;digo" id="pesquisa"
-                        placeholder="Pesquisar produto ou c&oacute;digo..." type="search" />
-                    <select aria-label="Filtrar por status" id="filtroStatus">
-                        <option value="todos">
-                            Todos os status
-                        </option>
-                        <option value="normal">
-                            Estoque normal
-                        </option>
-                        <option value="baixo">
-                            Estoque baixo
-                        </option>
-                        <option value="zerado">
-                            Sem estoque
-                        </option>
-                    </select>
-                    <button class="stock-secondary" id="atualizar">
-                        Atualizar
+            </article>
+            <article class="stock-stat stock-stat-low">
+                <span class="stock-stat-icon" aria-hidden="true">
+                    <svg class="stock-icon">
+                        <use href="#ico-alert"></use>
+                    </svg>
+                </span>
+                <div class="stock-stat-copy">
+                    <span class="stock-stat-label">Estoque baixo</span>
+                    <strong id="estoqueBaixo">—</strong>
+                    <small>No mínimo ou abaixo dele</small>
+                </div>
+            </article>
+            <article class="stock-stat stock-stat-empty">
+                <span class="stock-stat-icon" aria-hidden="true">
+                    <svg class="stock-icon">
+                        <use href="#ico-zero"></use>
+                    </svg>
+                </span>
+                <div class="stock-stat-copy">
+                    <span class="stock-stat-label">Sem estoque</span>
+                    <strong id="semEstoque">—</strong>
+                    <small>Reposição necessária</small>
+                </div>
+            </article>
+            <article class="stock-stat stock-stat-movements">
+                <span class="stock-stat-icon" aria-hidden="true">
+                    <svg class="stock-icon">
+                        <use href="#ico-move"></use>
+                    </svg>
+                </span>
+                <div class="stock-stat-copy">
+                    <span class="stock-stat-label">Movimentações</span>
+                    <strong id="totalMovimentacoes">—</strong>
+                    <small>Registros no histórico</small>
+                </div>
+            </article>
+        </section>
+
+        <div class="stock-layout">
+            <section class="stock-panel" aria-labelledby="tituloTabela">
+                <div class="stock-panel-heading">
+                    <div>
+                        <p class="stock-section-overline">INVENTÁRIO ATUAL</p>
+                        <h2 id="tituloTabela">Produtos em estoque</h2>
+                        <p>Consulte a disponibilidade e gerencie as informações dos produtos.</p>
+                    </div>
+                    <span class="stock-table-total" id="totalNaTabela">— produtos</span>
+                </div>
+
+                <div class="stock-toolbar">
+                    <label class="stock-search" for="pesquisa">
+                        <svg class="stock-icon" aria-hidden="true">
+                            <use href="#ico-search"></use>
+                        </svg>
+                        <input id="pesquisa" type="search" autocomplete="off"
+                            placeholder="Buscar por produto, código ou categoria">
+                    </label>
+                    <label class="stock-filter-select" for="filtroStatus">
+                        <span class="visually-hidden">Filtrar por situação</span>
+                        <select id="filtroStatus">
+                            <option value="todos">Todos os status</option>
+                            <option value="normal">Estoque normal</option>
+                            <option value="baixo">Estoque baixo</option>
+                            <option value="zerado">Sem estoque</option>
+                        </select>
+                    </label>
+                    <button id="atualizar" class="stock-btn stock-btn-refresh" type="button">
+                        <svg class="stock-icon" aria-hidden="true">
+                            <use href="#ico-refresh"></use>
+                        </svg>
+                        <span>Atualizar</span>
                     </button>
                 </div>
-            </div>
-            <div class="table-wrap">
-                <table class="stock-table">
-                    <thead>
-                        <tr>
-                            <th>
-                                Produto
-                            </th>
-                            <th>
-                                C&oacute;digo de barras
-                            </th>
-                            <th>
-                                Categoria
-                            </th>
-                            <th>
-                                Quantidade
-                            </th>
-                            <th>
-                                Status
-                            </th>
-                            <th>
-                                A&ccedil;&otilde;es
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="listaProdutos">
-                        <tr>
-                            <td colspan="6">
-                                Carregando produtos...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="table-foot">
-                <span id="contagemTabela">
-                    &mdash;
-                </span>
-                <span>
-                    Os dados s&atilde;o carregados da API SmartStock.
-                </span>
-            </div>
-        </section>
 
-    </main>
-    <div class="modal-backdrop" hidden="" id="modalProduto">
-        <section aria-labelledby="tituloModalProduto" aria-modal="true" class="stock-modal" role="dialog">
-            <div class="modal-heading">
-                <div>
-                    <p class="eyebrow">
-                        CADASTRO DE PRODUTOS
-                    </p>
-                    <h2 id="tituloModalProduto">
-                        Adicionar produto
-                    </h2>
+                <div class="stock-table-wrap">
+                    <table class="stock-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Produto</th>
+                                <th scope="col">Código de barras</th>
+                                <th scope="col">Categoria</th>
+                                <th scope="col" class="stock-th-number">Disponível</th>
+                                <th scope="col" class="stock-th-number">Mínimo</th>
+                                <th scope="col">Situação</th>
+                                <th scope="col" class="stock-th-actions">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listaProdutos">
+                            <tr>
+                                <td class="stock-empty-row" colspan="7">Carregando produtos...</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <button aria-label="Fechar" class="modal-close" data-fechar="modalProduto" type="button">
-                    &times;
-                </button>
+                <footer class="stock-table-footer">
+                    <span id="contagemTabela">—</span>
+                    <span class="stock-synced"><span class="stock-synced-dot"></span> Dados da API SmartStock</span>
+                </footer>
+            </section>
+
+            <aside class="stock-sidebar" aria-label="Análise do estoque">
+                <section class="stock-side-panel stock-health" aria-labelledby="tituloSaude">
+                    <div class="stock-side-heading">
+                        <span class="stock-side-icon stock-side-icon-green" aria-hidden="true">
+                            <svg class="stock-icon">
+                                <use href="#ico-layers"></use>
+                            </svg>
+                        </span>
+                        <div>
+                            <p class="stock-section-overline">VISÃO GERAL</p>
+                            <h2 id="tituloSaude">Saúde do estoque</h2>
+                        </div>
+                    </div>
+                    <p class="stock-health-description">Distribuição dos produtos por nível de disponibilidade.</p>
+                    <div class="stock-health-bar" aria-label="Distribuição dos níveis de estoque" role="img"
+                        id="graficoSaude">
+                        <span class="stock-health-segment segment-normal" id="barraNormal" style="width: 0%"></span>
+                        <span class="stock-health-segment segment-low" id="barraBaixo" style="width: 0%"></span>
+                        <span class="stock-health-segment segment-zero" id="barraZerado" style="width: 0%"></span>
+                    </div>
+                    <div class="stock-health-legend">
+                        <div><span class="stock-legend-dot legend-normal"></span><span>Normal</span><strong
+                                id="quantidadeNormais">—</strong></div>
+                        <div><span class="stock-legend-dot legend-low"></span><span>Estoque baixo</span><strong
+                                id="quantidadeBaixos">—</strong></div>
+                        <div><span class="stock-legend-dot legend-zero"></span><span>Sem estoque</span><strong
+                                id="quantidadeZerados">—</strong></div>
+                    </div>
+                </section>
+
+                <section class="stock-side-panel stock-alert-panel" aria-labelledby="tituloAlertas">
+                    <div class="stock-side-heading stock-alert-heading">
+                        <span class="stock-side-icon stock-side-icon-orange" aria-hidden="true">
+                            <svg class="stock-icon">
+                                <use href="#ico-alert"></use>
+                            </svg>
+                        </span>
+                        <div>
+                            <p class="stock-section-overline">PRIORIDADES</p>
+                            <h2 id="tituloAlertas">Atenção necessária</h2>
+                        </div>
+                    </div>
+                    <ul class="stock-alert-list" id="listaAlertas" aria-live="polite">
+                        <li class="stock-alert-placeholder">Carregando alertas...</li>
+                    </ul>
+                    <a class="stock-side-link" href="movimentacoes.html">
+                        Registrar reposição
+                        <svg class="stock-icon" aria-hidden="true">
+                            <use href="#ico-arrow"></use>
+                        </svg>
+                    </a>
+                </section>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Edição: a quantidade é informativa e só deve mudar por movimentações. -->
+    <div class="stock-modal-backdrop" id="modalProduto" hidden>
+        <section class="stock-modal" role="dialog" aria-modal="true" aria-labelledby="tituloModalProduto">
+            <div class="stock-modal-heading">
+                <div>
+                    <p class="stock-section-overline">GERENCIAR PRODUTOS</p>
+                    <h2 id="tituloModalProduto">Editar produto</h2>
+                    <p>Atualize os dados cadastrais do item.</p>
+                </div>
+                <button class="stock-modal-close" type="button" data-fechar="modalProduto"
+                    aria-label="Fechar janela">×</button>
             </div>
             <form id="formProduto">
-                <p aria-live="polite" class="estoque-feedback" id="feedbackProduto" role="status">
-                </p>
-                <input id="produtoId" type="hidden" />
-                <label for="nomeProduto">
-                    Nome do produto
-                </label>
-                <input id="nomeProduto" maxlength="100" minlength="3" required="" />
-                <div class="form-grid">
-                    <div>
-                        <label for="codigoBarras">
-                            C&oacute;digo de barras
-                        </label>
-                        <input id="codigoBarras" required="" />
+                <p class="stock-feedback stock-modal-feedback" id="feedbackProduto" aria-live="polite" hidden></p>
+                <input type="hidden" id="produtoId">
+                <div class="stock-field">
+                    <label for="nomeProduto">Nome do produto</label>
+                    <input id="nomeProduto" name="nome" required minlength="3" maxlength="100" autocomplete="off">
+                </div>
+                <div class="stock-form-grid">
+                    <div class="stock-field">
+                        <label for="codigoBarras">Código de barras</label>
+                        <input id="codigoBarras" name="codigoBarras" disabled>
                     </div>
-                    <div>
-                        <label for="categoria">
-                            Categoria
-                        </label>
-                        <select id="categoria">
-                            <option value="Comida">
-                                Comida
-                            </option>
-                            <option value="Bebida">
-                                Bebida
-                            </option>
-                            <option value="Higiene">
-                                Higiene
-                            </option>
-                            <option value="produtosLimpeza">
-                                Produtos de limpeza
-                            </option>
-                        </select>
+                    <div class="stock-field">
+                        <label for="categoria">Categoria</label>
+                        <input id="categoria" name="categoria" disabled>
                     </div>
-                    <div>
-                        <label for="precoVenda">
-                            Pre&ccedil;o de venda (R$)
-                        </label>
-                        <input id="precoVenda" min="0" required="" step="0.01" type="number" />
+                    <div class="stock-field">
+                        <label for="precoVenda">Preço de venda (R$)</label>
+                        <input type="number" id="precoVenda" name="precoVenda" min="0" step="0.01" required>
                     </div>
-                    <div>
-                        <label for="unidade">
-                            Quantidade inicial
-                        </label>
-                        <input id="unidade" min="0" required="" step="1" type="number" />
+                    <div class="stock-field">
+                        <label for="unidade">Quantidade atual</label>
+                        <input type="number" id="unidade" name="unidade" disabled>
                     </div>
-                    <div class="full-field">
-                        <label for="dataVencimento">
-                            Data de vencimento
-                        </label>
-                        <input id="dataVencimento" required="" type="date" />
+                    <div class="stock-field stock-field-full">
+                        <label for="dataVencimento">Data de vencimento</label>
+                        <input type="date" id="dataVencimento" name="dataVencimento" required>
                     </div>
                 </div>
-                <p class="modal-note" hidden="" id="notaEdicao">
-                    Na edi&ccedil;&atilde;o, c&oacute;digo de barras e categoria n&atilde;o s&atilde;o alterados porque
-                    o endpoint atual do backend n&atilde;o os atualiza.
+                <p class="stock-form-hint" id="notaEdicao">
+                    <svg class="stock-icon" aria-hidden="true">
+                        <use href="#ico-info"></use>
+                    </svg>
+                    Para alterar a quantidade, registre uma entrada ou saída em Movimentações.
                 </p>
-                <div class="modal-actions">
-                    <button class="stock-secondary" data-fechar="modalProduto" type="button">
-                        Cancelar
-                    </button>
-                    <button class="estoque-primary" id="salvarProduto" type="submit">
-                        Salvar produto
-                    </button>
+                <div class="stock-modal-actions">
+                    <button class="stock-btn stock-btn-outline" type="button"
+                        data-fechar="modalProduto">Cancelar</button>
+                    <button class="stock-btn stock-btn-primary" id="salvarProduto" type="submit">Salvar
+                        alterações</button>
                 </div>
             </form>
         </section>
     </div>
 
-    <!-- Modal de confirmação de exclusão -->
-<div
-    class="modal-backdrop"
-    id="modalExcluirProduto"
-    hidden
->
-    <section
-        class="stock-modal modal-excluir"
-        role="alertdialog"
-        aria-modal="true"
-        aria-labelledby="tituloExcluirProduto"
-        aria-describedby="descricaoExcluirProduto"
-    >
-        <div class="modal-heading">
-            <div>
-                <p class="eyebrow">CONFIRMAÇÃO DE EXCLUSÃO</p>
-                <h2 id="tituloExcluirProduto">
-                    Excluir produto
-                </h2>
+    <!-- Confirmação de exclusão; falhas de integridade são tratadas pela API. -->
+    <div class="stock-modal-backdrop" id="modalExcluirProduto" hidden>
+        <section class="stock-modal stock-modal-delete" role="alertdialog" aria-modal="true"
+            aria-labelledby="tituloExcluirProduto" aria-describedby="descricaoExcluirProduto">
+            <div class="stock-modal-heading">
+                <div>
+                    <p class="stock-section-overline">AÇÃO IRREVERSÍVEL</p>
+                    <h2 id="tituloExcluirProduto">Excluir produto?</h2>
+                </div>
+                <button class="stock-modal-close" type="button" data-fechar="modalExcluirProduto"
+                    aria-label="Fechar janela">×</button>
             </div>
-
-            <button
-                type="button"
-                class="modal-close"
-                data-fechar="modalExcluirProduto"
-                aria-label="Fechar"
-            >
-                &times;
-            </button>
-        </div>
-
-        <p id="descricaoExcluirProduto" class="excluir-descricao">
-            Tem certeza de que deseja excluir o produto
-            <strong id="nomeProdutoExcluir"></strong>?
-        </p>
-
-        <p class="excluir-aviso">
-            O produto deixará de aparecer no estoque.
-        </p>
-
-        <p
-            id="feedbackExcluir"
-            class="estoque-feedback"
-            role="status"
-            aria-live="polite"
-        ></p>
-
-        <div class="modal-actions">
-            <button
-                type="button"
-                class="stock-secondary"
-                data-fechar="modalExcluirProduto"
-                id="cancelarExclusao"
-            >
-                Cancelar
-            </button>
-
-            <button
-                type="button"
-                class="btn-excluir-confirmar"
-                id="confirmarExclusao"
-            >
-                Excluir produto
-            </button>
-        </div>
-    </section>
-</div>
-
-
+            <p id="descricaoExcluirProduto" class="stock-delete-description">
+                Deseja excluir <strong id="nomeProdutoExcluir"></strong> do cadastro?
+            </p>
+            <p class="stock-delete-warning">
+                <svg class="stock-icon" aria-hidden="true">
+                    <use href="#ico-alert"></use>
+                </svg>
+                Produtos vinculados a movimentações podem não permitir exclusão no banco de dados.
+            </p>
+            <p class="stock-feedback stock-modal-feedback" id="feedbackExcluir" role="status" aria-live="polite" hidden>
+            </p>
+            <div class="stock-modal-actions">
+                <button class="stock-btn stock-btn-outline" id="cancelarExclusao" type="button">Cancelar</button>
+                <button class="stock-btn stock-btn-danger" id="confirmarExclusao" type="button">Excluir produto</button>
+            </div>
+        </section>
+    </div>
 </body>
 
 </html>
