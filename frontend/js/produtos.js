@@ -298,6 +298,29 @@ async function carregarFornecedores() {
     }
 }
 
+
+async function carregarCategorias() {
+    const categorias = await obterJson(
+        `${ROTAS.produtos}/categorias`
+    );
+
+    const seletor = $("categoriaProduto");
+
+    seletor.replaceChildren(
+        new Option("Sem categoria", "")
+    );
+
+    for (const categoria of categorias) {
+        const nome = String(categoria)
+            .replaceAll("_", " ");
+
+        seletor.add(
+            new Option(nome, categoria)
+        );
+    }
+}
+
+
 function atualizarIndicadores() {
     $("totalProdutos").textContent =
         String(ESTADO.produtos.length);
@@ -548,6 +571,9 @@ function abrirEdicao(id) {
         ""
     );
 
+    $("categoriaProduto").value =
+        produto.categoria ?? "";
+
     $("tituloModal").textContent = "Editar produto";
     $("salvarProduto").textContent = "Salvar alterações";
 
@@ -574,6 +600,9 @@ function montarProduto() {
 
     const fornecedorId =
         Number($("fornecedorProduto").value);
+
+    const categoria =
+        $("categoriaProduto").value || null;
 
     if (nome.length < 3 || nome.length > 100) {
         throw new Error(
@@ -642,6 +671,7 @@ function montarProduto() {
         unidade,
         estoqueMinimo,
         dataVencimento,
+        categoria,
         fornecedor: {
             id: fornecedorId
         }
@@ -704,7 +734,7 @@ async function salvarProduto(evento) {
             let detalhe = "";
 
             try {
-                const corpo = await resposta.json();
+                const corpo = await resposta.text();
 
                 detalhe =
                     typeof corpo?.mensagem === "string"
@@ -968,7 +998,7 @@ async function confirmarExclusaoProduto() {
         botaoCancelar.disabled = false;
 
         botaoConfirmar.textContent =
-            "Excluir permanentemente";
+            "Excluir produto";
     }
 }
 
@@ -1031,7 +1061,7 @@ function configurarEventos() {
         salvarProduto
     );
 
-        // ==========================================
+    // ==========================================
     // EVENTOS DO MODAL DE EXCLUSÃO DE PRODUTO
     // ==========================================
 
@@ -1086,6 +1116,22 @@ async function iniciarPagina() {
 
         return;
     }
+
+
+    try {
+        await carregarCategorias();
+    } catch (erro) {
+        console.error(
+            "Falha ao carregar categorias:",
+            erro
+        );
+
+        exibirMensagem(
+            "statusPagina",
+            `Aviso: não foi possível carregar categorias: ${erro.message}`
+        );
+    }
+
 
     try {
         await carregarFornecedores();

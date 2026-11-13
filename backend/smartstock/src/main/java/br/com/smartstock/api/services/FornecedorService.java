@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.smartstock.api.entities.Fornecedor;
 import br.com.smartstock.api.repositories.FornecedorRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class FornecedorService {
@@ -15,15 +16,18 @@ public class FornecedorService {
 	@Autowired
 	public FornecedorRepository repository;
 	
+	
 	public List<Fornecedor> listarTodos() {
-	    return repository.findAll();
+	    return repository.findByAtivoTrue();
 	}
 	
 	public Optional<Fornecedor> buscarPorId(Long id) {
-		return repository.findById(id);
+		return repository.findById(id)
+			.filter(fornecedor -> Boolean.TRUE.equals(fornecedor.getAtivo()));
 	}
 	
 	public Fornecedor salvar(Fornecedor forn) {
+		forn.setAtivo(true);
 		return repository.save(forn);
 	}
 	
@@ -45,7 +49,22 @@ public class FornecedorService {
 		return null;
 	}
 	
-	public void deletar(Long id) {
-		repository.deleteById(id);
+
+
+	@Transactional
+	public boolean deletar(Long id) {
+
+    	Optional<Fornecedor> fornecedor = repository.findById(id);
+
+    	if (fornecedor.isEmpty()) {
+    		return false;
+    	}
+
+    	repository.delete(fornecedor.get());
+    	repository.flush();
+
+    	return true;
 	}
+
+
 }

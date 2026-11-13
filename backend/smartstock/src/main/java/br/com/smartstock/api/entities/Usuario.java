@@ -47,6 +47,9 @@ public class Usuario {
     @Column(name = "tipo_usuario", nullable = false)
     private TipoUsuario tipoUsuario;
     
+    @Column(name = "ativo", nullable = false)
+	private Boolean ativo = true;
+    
     public Usuario () {}
 
     public Usuario(String nome, String login, String senha, TipoUsuario tipoUsuario) {

@@ -53,7 +53,7 @@ public class MovimentacaoEstoque {
 	@Column(nullable = false)
 	private Boolean ativo = true;
 
-	@ManyToOne(optional = false)
+	@ManyToOne
 	@JoinColumn(name = "responsavel_id", nullable = false)
 	private Usuario responsavel;
     

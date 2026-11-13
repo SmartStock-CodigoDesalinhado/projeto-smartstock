@@ -2,11 +2,15 @@ package br.com.smartstock.api.controllers;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,18 +64,43 @@ public class FornecedorController {
         return ResponseEntity.notFound().build();
     }
 
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletar(@PathVariable Long id) {
-        Optional<Fornecedor> fornecedor = service.buscarPorId(id);
-        
-        if(fornecedor.isPresent()) {    
-            service.deletar(id);
-            return ResponseEntity.status(HttpStatus.OK).body("Sucesso: O fornecedor foi excluído permanentemente");
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
 
-        }
-        
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: Não foi possível deletar. o fornecedor com ID" + id + "não foi encontrado");
+    	boolean excluido = service.deletar(id);
 
-    }
+    	if (!excluido) {
+    		return ResponseEntity.notFound().build();
+    	}
+
+    	return ResponseEntity.noContent().build();
+}
+    
+
+@ExceptionHandler(MethodArgumentNotValidException.class)
+public ResponseEntity<String> tratarErrosValidacao(
+        MethodArgumentNotValidException erro) {
+
+    String mensagem = erro.getBindingResult()
+            .getFieldErrors()
+            .stream()
+            .map(campo -> campo.getField() + ": " + campo.getDefaultMessage())
+            .collect(Collectors.joining("; "));
+
+    return ResponseEntity.badRequest().body(mensagem);
+}
+
+
+@ExceptionHandler(DataIntegrityViolationException.class)
+public ResponseEntity<String> tratarExclusaoVinculada(
+        DataIntegrityViolationException erro) {
+
+    return ResponseEntity
+            .status(HttpStatus.CONFLICT)
+            .body("Não é possível excluir o fornecedor porque existem registros vinculados.");
+}
+
+
     
 }

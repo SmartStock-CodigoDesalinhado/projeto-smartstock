@@ -1,7 +1,7 @@
 package br.com.smartstock.api.enums;
 
 public enum Categoria {
-	produtosLimpeza,
+	Limpeza,
 	Comida,
 	Bebida,
 	Higiene

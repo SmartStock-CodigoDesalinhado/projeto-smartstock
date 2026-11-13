@@ -66,7 +66,7 @@
 
 
     <nav class="app-nav" aria-label="Menu principal">
-        <a href="dashboard.html">⌂ &nbsp; Dashboard</a>
+        <a href="dashboard.html">⌂ &nbsp; Home</a>
 
         <a href="produtos.html" class="active" aria-current="page"> ⬡ &nbsp; Produtos</a>
 
@@ -393,6 +393,18 @@
                 </div>
 
 
+                <div class="form-group">
+                    <label for="categoriaProduto">
+                        Categoria
+                    </label>
+
+                    <select id="categoriaProduto">
+                        <option value="">Sem categoria</option>
+                    </select>
+                </div>
+
+
+
                 <!-- PREÇO -->
                 <div class="form-group">
 
@@ -466,59 +478,42 @@
      MODAL DE CONFIRMAÇÃO DE EXCLUSÃO DE PRODUTO
      ========================================== -->
 
-<dialog
-    class="dialog modal-exclusao"
-    id="modalExclusaoProduto"
-    aria-labelledby="tituloExclusaoProduto"
-    aria-describedby="mensagemExclusaoProduto"
->
-    <div class="modal-exclusao-conteudo">
+    <dialog class="dialog modal-exclusao" id="modalExclusaoProduto" aria-labelledby="tituloExclusaoProduto"
+        aria-describedby="mensagemExclusaoProduto">
+        <div class="modal-exclusao-conteudo">
 
-        <div class="modal-exclusao-icone" aria-hidden="true">
-            ⚠
-        </div>
+            <div class="modal-exclusao-icone" aria-hidden="true">
+                ⚠
+            </div>
 
-        <h2 id="tituloExclusaoProduto">
-            Excluir produto?
-        </h2>
+            <h2 id="tituloExclusaoProduto">
+                Excluir produto?
+            </h2>
 
-        <p id="mensagemExclusaoProduto">
-            Deseja realmente excluir este produto?
-        </p>
+            <p id="mensagemExclusaoProduto">
+                Deseja realmente excluir este produto?
+            </p>
 
-        <p class="modal-exclusao-aviso">
-            Esta ação não poderá ser desfeita.
-        </p>
+            <p class="modal-exclusao-aviso">
+                O produto será removido das listagens, mas seu histórico será preservado.
+            </p>
 
-        <p
-            id="erroExclusaoProduto"
-            class="modal-exclusao-erro"
-            role="alert"
-            hidden
-        ></p>
+            <p id="erroExclusaoProduto" class="modal-exclusao-erro" role="alert" hidden></p>
 
-        <div class="modal-exclusao-acoes">
+            <div class="modal-exclusao-acoes">
 
-            <button
-                type="button"
-                class="cancel-btn"
-                id="cancelarExclusaoProduto"
-            >
-                Cancelar
-            </button>
+                <button type="button" class="cancel-btn" id="cancelarExclusaoProduto">
+                    Cancelar
+                </button>
 
-            <button
-                type="button"
-                class="confirmar-exclusao-btn"
-                id="confirmarExclusaoProduto"
-            >
-                Excluir permanentemente
-            </button>
+                <button type="button" class="confirmar-exclusao-btn" id="confirmarExclusaoProduto">
+                    Excluir produto
+                </button>
+
+            </div>
 
         </div>
-
-    </div>
-</dialog>
+    </dialog>
 
 </body>
 

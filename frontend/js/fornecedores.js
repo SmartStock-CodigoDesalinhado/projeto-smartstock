@@ -49,7 +49,30 @@ async function enviarDados(caminho, metodo, dados) {
         body: JSON.stringify(dados)
     });
     if (resposta.status === 401 || resposta.status === 403) throw new Error("Sua sessão expirou ou você não possui permissão.");
-    if (!resposta.ok) throw new Error(`Falha ao salvar: ${resposta.status}`);
+
+    if (!resposta.ok) {
+        const corpo = await resposta.text();
+
+        let mensagem = corpo;
+
+        try {
+            const json = JSON.parse(corpo);
+
+            mensagem =
+                json.mensagem ??
+                json.message ??
+                json.detail ??
+                JSON.stringify(json);
+
+        } catch {
+            mensagem = corpo;
+        }
+
+        throw new Error(
+            mensagem || `Falha ao salvar: ${resposta.status}`
+        );
+    }
+
     return resposta;
 }
 
@@ -167,10 +190,7 @@ async function salvarFornecedor(evento) {
     const telefoneComercial = $("telefoneFornecedor").value.trim();
     const emailFornecedor = $("emailFornecedor").value.trim();
     const logradouroComercio = $("enderecoFornecedor").value.trim();
-    if (!/^[\p{L} ]+$/u.test(nomeFornecedor)) {
-        $("resultadoFornecedor").textContent = "O nome deve conter apenas letras e espaços, conforme as regras atuais de cadastro.";
-        return;
-    }
+
     if (cnpj.length !== 14) {
         $("resultadoFornecedor").textContent = "Informe um CNPJ com 14 dígitos.";
         return;
@@ -188,13 +208,13 @@ async function salvarFornecedor(evento) {
         if (!$("statusFornecedores").textContent) $("statusFornecedores").textContent = id ? "Fornecedor atualizado com sucesso." : "Fornecedor cadastrado com sucesso.";
     } catch (erro) {
         console.error("Erro ao salvar fornecedor:", erro);
-        $("resultadoFornecedor").textContent = "Não foi possível salvar o fornecedor. Confira os dados e se CNPJ, e-mail ou telefone já estão cadastrados.";
+        $("resultadoFornecedor").textContent = erro.message;
     } finally {
         botao.disabled = false;
     }
 }
 
-   // ==========================================
+// ==========================================
 // MODAL DE CONFIRMAÇÃO DE EXCLUSÃO DE FORNECEDOR
 // ==========================================
 
@@ -217,7 +237,7 @@ function excluirFornecedor(fornecedor) {
     };
 
     $("mensagemExclusaoFornecedor").textContent =
-        `Deseja excluir permanentemente o fornecedor "${fornecedor.nomeFornecedor}"?`;
+        `Deseja excluir o fornecedor "${fornecedor.nomeFornecedor}"?`;
 
     $("erroExclusaoFornecedor").textContent = "";
     $("erroExclusaoFornecedor").hidden = true;
@@ -320,7 +340,7 @@ async function confirmarExclusaoFornecedor() {
 
         confirmar.disabled = false;
         cancelar.disabled = false;
-        confirmar.textContent = "Excluir permanentemente";
+        confirmar.textContent = "Excluir fornecedor";
     }
 }
 
@@ -539,107 +559,107 @@ function configurarEventos() {
         await carregarAdministradores();
     });
     $("fecharRemocao").addEventListener("click", () => $("modalRemocao").close());
-   // ==========================================
-// EVENTO DE ABERTURA DO MODAL DE ADMINISTRADOR
-// ==========================================
+    // ==========================================
+    // EVENTO DE ABERTURA DO MODAL DE ADMINISTRADOR
+    // ==========================================
 
-$("listaAdministradores").addEventListener("click", evento => {
-    const botao = evento.target.closest("button[data-id]");
+    $("listaAdministradores").addEventListener("click", evento => {
+        const botao = evento.target.closest("button[data-id]");
 
-    if (!botao || !/^\d+$/.test(botao.dataset.id)) {
-        return;
-    }
-
-    const id = Number(botao.dataset.id);
-
-    if (!Number.isSafeInteger(id) || id <= 0) {
-        return;
-    }
-
-    abrirConfirmacaoAdministrador(
-        id,
-        botao.dataset.nome
-    );
-});
-
-// ==========================================
-// EVENTOS DO MODAL DE EXCLUSÃO DE FORNECEDOR
-// ==========================================
-
-$("cancelarExclusaoFornecedor").addEventListener(
-    "click",
-    () => {
-        if (!exclusaoFornecedorEmAndamento) {
-            $("modalExclusaoFornecedor").close();
-        }
-    }
-);
-
-$("confirmarExclusaoFornecedor").addEventListener(
-    "click",
-    confirmarExclusaoFornecedor
-);
-
-$("modalExclusaoFornecedor").addEventListener(
-    "cancel",
-    evento => {
-        if (exclusaoFornecedorEmAndamento) {
-            evento.preventDefault();
-        }
-    }
-);
-
-$("modalExclusaoFornecedor").addEventListener(
-    "close",
-    () => {
-        if (!exclusaoFornecedorEmAndamento) {
-            fornecedorPendenteExclusao = null;
-        }
-    }
-);
-
-
-// ==========================================
-// EVENTOS DO MODAL DE EXCLUSÃO DE ADMINISTRADOR
-// ==========================================
-
-$("cancelarExclusao").addEventListener(
-    "click",
-    () => {
-        if (!exclusaoAdministradorEmAndamento) {
-            $("modalConfirmacaoExclusao").close();
-        }
-    }
-);
-
-$("confirmarExclusao").addEventListener(
-    "click",
-    confirmarExclusaoAdministrador
-);
-
-$("modalConfirmacaoExclusao").addEventListener(
-    "cancel",
-    evento => {
-        if (exclusaoAdministradorEmAndamento) {
-            evento.preventDefault();
-        }
-    }
-);
-
-$("modalConfirmacaoExclusao").addEventListener(
-    "close",
-    () => {
-        if (exclusaoAdministradorEmAndamento) {
+        if (!botao || !/^\d+$/.test(botao.dataset.id)) {
             return;
         }
 
-        administradorPendenteExclusao = null;
+        const id = Number(botao.dataset.id);
 
-        if (!$("modalRemocao").open) {
-            $("modalRemocao").showModal();
+        if (!Number.isSafeInteger(id) || id <= 0) {
+            return;
         }
-    }
-);
+
+        abrirConfirmacaoAdministrador(
+            id,
+            botao.dataset.nome
+        );
+    });
+
+    // ==========================================
+    // EVENTOS DO MODAL DE EXCLUSÃO DE FORNECEDOR
+    // ==========================================
+
+    $("cancelarExclusaoFornecedor").addEventListener(
+        "click",
+        () => {
+            if (!exclusaoFornecedorEmAndamento) {
+                $("modalExclusaoFornecedor").close();
+            }
+        }
+    );
+
+    $("confirmarExclusaoFornecedor").addEventListener(
+        "click",
+        confirmarExclusaoFornecedor
+    );
+
+    $("modalExclusaoFornecedor").addEventListener(
+        "cancel",
+        evento => {
+            if (exclusaoFornecedorEmAndamento) {
+                evento.preventDefault();
+            }
+        }
+    );
+
+    $("modalExclusaoFornecedor").addEventListener(
+        "close",
+        () => {
+            if (!exclusaoFornecedorEmAndamento) {
+                fornecedorPendenteExclusao = null;
+            }
+        }
+    );
+
+
+    // ==========================================
+    // EVENTOS DO MODAL DE EXCLUSÃO DE ADMINISTRADOR
+    // ==========================================
+
+    $("cancelarExclusao").addEventListener(
+        "click",
+        () => {
+            if (!exclusaoAdministradorEmAndamento) {
+                $("modalConfirmacaoExclusao").close();
+            }
+        }
+    );
+
+    $("confirmarExclusao").addEventListener(
+        "click",
+        confirmarExclusaoAdministrador
+    );
+
+    $("modalConfirmacaoExclusao").addEventListener(
+        "cancel",
+        evento => {
+            if (exclusaoAdministradorEmAndamento) {
+                evento.preventDefault();
+            }
+        }
+    );
+
+    $("modalConfirmacaoExclusao").addEventListener(
+        "close",
+        () => {
+            if (exclusaoAdministradorEmAndamento) {
+                return;
+            }
+
+            administradorPendenteExclusao = null;
+
+            if (!$("modalRemocao").open) {
+                $("modalRemocao").showModal();
+            }
+        }
+    );
 
     $("formUsuario").addEventListener("submit", async evento => {
         evento.preventDefault();

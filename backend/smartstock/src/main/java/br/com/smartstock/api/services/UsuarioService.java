@@ -9,8 +9,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import br.com.smartstock.api.entities.MovimentacaoEstoque;
 import br.com.smartstock.api.entities.Usuario;
 import br.com.smartstock.api.enums.TipoUsuario;
+import br.com.smartstock.api.repositories.MovimentacaoEstoqueRepository;
 import br.com.smartstock.api.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
 
@@ -19,6 +21,9 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository repository;
+    
+    @Autowired
+    private MovimentacaoEstoqueRepository movimentacaoRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -80,16 +85,39 @@ public class UsuarioService {
         return null;
     }
 
-    public void deletar(Long id) {
-        Usuario usuario = repository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado."));
 
-        if(usuario.getTipoUsuario() == TipoUsuario.CEO) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "O CEO não pode ser excluído.");
-        }
 
-        repository.deleteById(id);
+@Transactional
+public void deletar(Long id) {
+
+    Usuario usuario = repository.findById(id)
+        .orElseThrow(() -> new ResponseStatusException(
+            HttpStatus.NOT_FOUND,
+            "Usuário não encontrado."
+        ));
+
+    if (usuario.getTipoUsuario() == TipoUsuario.CEO) {
+        throw new ResponseStatusException(
+            HttpStatus.FORBIDDEN,
+            "O CEO não pode ser excluído."
+        );
     }
+
+    List<MovimentacaoEstoque> movimentacoes =
+        movimentacaoRepository.findByResponsavel_Id(id);
+
+    for (MovimentacaoEstoque movimentacao : movimentacoes) {
+        movimentacao.setResponsavel(null);
+    }
+
+    movimentacaoRepository.saveAll(movimentacoes);
+    movimentacaoRepository.flush();
+
+    repository.delete(usuario);
+    repository.flush();
+}
+
+
     
     public boolean cadastroCeoDisponivel() {
       return !repository.existsByTipoUsuario(TipoUsuario.CEO);

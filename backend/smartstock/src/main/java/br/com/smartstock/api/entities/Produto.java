@@ -1,7 +1,7 @@
 package br.com.smartstock.api.entities;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDate;
 
 import br.com.smartstock.api.enums.Categoria;
 import jakarta.persistence.Column;
@@ -42,7 +42,7 @@ public class Produto {
 	private BigDecimal precoVenda;
 	
 	@NotNull(message = "A data de validade deve ser obrigatória.")
-	private Date dataVencimento;
+	private LocalDate dataVencimento;
 	
 	@NotNull(message = "A quantidade é obrigatória.")
 	@PositiveOrZero(message = "A quantidade não pode ser negativa.")
@@ -66,7 +66,7 @@ public class Produto {
 	
 	public Produto() {}
 	
-	public Produto(String nome, String codigoBarras, BigDecimal precoVenda, Date dataVencimento, Integer unidade) {
+	public Produto(String nome, String codigoBarras, BigDecimal precoVenda, LocalDate dataVencimento, Integer unidade) {
 		this.nome = nome;
 		this.codigoBarras = codigoBarras;
 		this.dataVencimento = dataVencimento;
@@ -107,11 +107,11 @@ public class Produto {
 		this.codigoBarras = codigoBarras;
 	}
 
-	public Date getDataVencimento() {
+	public LocalDate getDataVencimento() {
 		return dataVencimento;
 	}
 
-	public void setDataVencimento(Date dataVencimento) {
+	public void setDataVencimento(LocalDate dataVencimento) {
 		this.dataVencimento = dataVencimento;
 	}
 

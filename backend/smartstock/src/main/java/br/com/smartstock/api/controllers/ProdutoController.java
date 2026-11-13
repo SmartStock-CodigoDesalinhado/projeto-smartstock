@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.smartstock.api.entities.Produto;
+import br.com.smartstock.api.enums.Categoria;
 import br.com.smartstock.api.services.ProdutoService;
 import jakarta.validation.Valid;
 
@@ -26,10 +29,28 @@ public class ProdutoController {
 	@Autowired
 	private ProdutoService service;
 	
+
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<String> tratarErroCadastro(
+			IllegalArgumentException erro) {
+
+		return ResponseEntity
+				.badRequest()
+				.body(erro.getMessage());
+	}
+
+	
 	@GetMapping
 	public ResponseEntity<List<Produto>> listar() {
         return ResponseEntity.ok(service.listarTodos());
     }
+	
+
+	@GetMapping("/categorias")
+	public Categoria[] listarCategorias() {
+		return Categoria.values();
+	}
+
 	
 	 @GetMapping("/{id}")
 	    public ResponseEntity<Produto> buscar(@PathVariable Long id) {
@@ -71,5 +92,16 @@ public class ProdutoController {
 
 	     return ResponseEntity.noContent().build();
 	 }
+	 
+
+@ExceptionHandler(DataIntegrityViolationException.class)
+public ResponseEntity<String> tratarExclusaoVinculada(
+        DataIntegrityViolationException erro) {
+
+    return ResponseEntity
+            .status(HttpStatus.CONFLICT)
+            .body("Não é possível excluir o produto porque existem registros vinculados.");
+}
+
 
 }

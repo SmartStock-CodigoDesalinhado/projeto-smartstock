@@ -16,7 +16,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -28,7 +27,6 @@ public class Fornecedor {
 	private Long id;
 
 	@NotBlank(message = "O nome é obrigatório")
-	@Pattern(regexp = "^[\\p{L} ]+$", message = "O nome deve conter apenas letras e espaços.")
 	@Column(name = "nome_fornecedor")
 	private String nomeFornecedor;
 
@@ -50,6 +48,9 @@ public class Fornecedor {
 	@NotBlank
 	@Column(unique = true)
 	private String cnpj;
+	
+	@Column(name = "ativo", nullable = false)
+	private Boolean ativo = true;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "fornecedor")
@@ -58,13 +59,13 @@ public class Fornecedor {
 	public Fornecedor() {
 	}
 
-	public Fornecedor(String nomeFornecedor, String emailFornecedor, String telefoneComercial,
-			String logradouroComercio, String cnpj) {
+	public Fornecedor(String nomeFornecedor, String emailFornecedor, String telefoneComercial, String logradouroComercio, String cnpj, Boolean ativo) {
 		this.nomeFornecedor = nomeFornecedor;
 		this.emailFornecedor = emailFornecedor;
 		this.telefoneComercial = telefoneComercial;
 		this.logradouroComercio = logradouroComercio;
 		this.cnpj = cnpj;
+		this.ativo = ativo;
 	}
 
 	public Long getId() {
@@ -114,5 +115,23 @@ public class Fornecedor {
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
 	}
+
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
+
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
+	}
+	
+	
 
 }

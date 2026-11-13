@@ -31,7 +31,7 @@
         </div>
     </header>
     <nav class="app-nav" aria-label="Menu principal">
-        <a href="dashboard.html">⌂ &nbsp; Dashboard</a>
+        <a href="dashboard.html">⌂ &nbsp; Home</a>
         <a href="produtos.html">⬡ &nbsp; Produtos</a>
         <a class="active" aria-current="page" href="fornecedores.html">♟ &nbsp; Fornecedores</a>
         <a href="estoque.html">◇ &nbsp; Estoque</a>
@@ -149,106 +149,73 @@
      MODAL DE CONFIRMAÇÃO DE EXCLUSÃO DE FORNECEDOR
      ========================================== -->
 
-<dialog
-    id="modalExclusaoFornecedor"
-    class="dialog forn-confirm-dialog"
-    aria-labelledby="tituloExclusaoFornecedor"
-    aria-describedby="mensagemExclusaoFornecedor"
->
-    <div class="forn-confirm-content">
+    <dialog id="modalExclusaoFornecedor" class="dialog forn-confirm-dialog" aria-labelledby="tituloExclusaoFornecedor"
+        aria-describedby="mensagemExclusaoFornecedor">
+        <div class="forn-confirm-content">
 
-        <div class="forn-confirm-icon" aria-hidden="true">⚠</div>
+            <div class="forn-confirm-icon" aria-hidden="true">⚠</div>
 
-        <h2 id="tituloExclusaoFornecedor">
-            Excluir fornecedor?
-        </h2>
+            <h2 id="tituloExclusaoFornecedor">
+                Excluir fornecedor?
+            </h2>
 
-        <p id="mensagemExclusaoFornecedor"></p>
+            <p id="mensagemExclusaoFornecedor"></p>
 
-        <p class="forn-confirm-warning">
-            Esta ação não poderá ser desfeita.
-        </p>
+            <p class="forn-confirm-warning">
+                O fornecedor será excluído permanentemente.
+                Está ação não poderá ser desfeita.
+            </p>
 
-        <p
-            id="erroExclusaoFornecedor"
-            class="forn-confirm-error"
-            role="alert"
-            hidden
-        ></p>
+            <p id="erroExclusaoFornecedor" class="forn-confirm-error" role="alert" hidden></p>
 
-        <div class="forn-confirm-actions">
-            <button
-                type="button"
-                class="outline-btn"
-                id="cancelarExclusaoFornecedor"
-            >
-                Cancelar
-            </button>
+            <div class="forn-confirm-actions">
+                <button type="button" class="outline-btn" id="cancelarExclusaoFornecedor">
+                    Cancelar
+                </button>
 
-            <button
-                type="button"
-                class="forn-danger-btn"
-                id="confirmarExclusaoFornecedor"
-            >
-                Excluir permanentemente
-            </button>
+                <button type="button" class="forn-danger-btn" id="confirmarExclusaoFornecedor">
+                    Excluir fornecedor
+                </button>
+            </div>
+
         </div>
-
-    </div>
-</dialog>
+    </dialog>
 
 
-<!-- ==========================================
+    <!-- ==========================================
      MODAL DE CONFIRMAÇÃO DE EXCLUSÃO DE ADMINISTRADOR
      ========================================== -->
 
-<dialog
-    id="modalConfirmacaoExclusao"
-    class="dialog forn-confirm-dialog"
-    aria-labelledby="tituloConfirmacaoExclusao"
-    aria-describedby="mensagemConfirmacaoExclusao"
->
-    <div class="forn-confirm-content">
+    <dialog id="modalConfirmacaoExclusao" class="dialog forn-confirm-dialog" aria-labelledby="tituloConfirmacaoExclusao"
+        aria-describedby="mensagemConfirmacaoExclusao">
+        <div class="forn-confirm-content">
 
-        <div class="forn-confirm-icon" aria-hidden="true">⚠</div>
+            <div class="forn-confirm-icon" aria-hidden="true">⚠</div>
 
-        <h2 id="tituloConfirmacaoExclusao">
-            Excluir administrador?
-        </h2>
+            <h2 id="tituloConfirmacaoExclusao">
+                Excluir administrador?
+            </h2>
 
-        <p id="mensagemConfirmacaoExclusao"></p>
+            <p id="mensagemConfirmacaoExclusao"></p>
 
-        <p class="forn-confirm-warning">
-            Esta ação não poderá ser desfeita.
-        </p>
+            <p class="forn-confirm-warning">
+                Esta ação não poderá ser desfeita.
+            </p>
 
-        <p
-            id="erroConfirmacaoExclusao"
-            class="forn-confirm-error"
-            role="alert"
-            hidden
-        ></p>
+            <p id="erroConfirmacaoExclusao" class="forn-confirm-error" role="alert" hidden></p>
 
-        <div class="forn-confirm-actions">
-            <button
-                type="button"
-                class="outline-btn"
-                id="cancelarExclusao"
-            >
-                Cancelar
-            </button>
+            <div class="forn-confirm-actions">
+                <button type="button" class="outline-btn" id="cancelarExclusao">
+                    Cancelar
+                </button>
 
-            <button
-                type="button"
-                class="forn-danger-btn"
-                id="confirmarExclusao"
-            >
-                Excluir permanentemente
-            </button>
+                <button type="button" class="forn-danger-btn" id="confirmarExclusao">
+                    Excluir permanentemente
+                </button>
+            </div>
+
         </div>
-
-    </div>
-</dialog>
+    </dialog>
 
 </body>
 
